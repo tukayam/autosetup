@@ -1,0 +1,25 @@
+C:\Users\Tuba\Desktop\Roslyn presentation\Projects\UnitTestGeneratingAnalyzer\UnderTest\TestClassGeneratorSamples\bin\Debug\TestClassGeneratorSamples.dll
+C:\Users\Tuba\Desktop\Roslyn presentation\Projects\UnitTestGeneratingAnalyzer\UnderTest\TestClassGeneratorSamples\bin\Debug\TestClassGeneratorSamples.pdb
+C:\Users\Tuba\Desktop\Roslyn presentation\Projects\UnitTestGeneratingAnalyzer\UnderTest\TestClassGeneratorSamples\obj\Debug\TestClassGeneratorSamples.dll
+C:\Users\Tuba\Desktop\Roslyn presentation\Projects\UnitTestGeneratingAnalyzer\UnderTest\TestClassGeneratorSamples\obj\Debug\TestClassGeneratorSamples.pdb
+D:\Projects\UnitTestGenerator\UnderTest\TestClassGeneratorSamples\bin\Debug\TestClassGeneratorSamples.dll
+D:\Projects\UnitTestGenerator\UnderTest\TestClassGeneratorSamples\bin\Debug\TestClassGeneratorSamples.pdb
+D:\Projects\UnitTestGenerator\UnderTest\TestClassGeneratorSamples\bin\Debug\nunit.framework.dll
+D:\Projects\UnitTestGenerator\UnderTest\TestClassGeneratorSamples\bin\Debug\Rhino.Mocks.dll
+D:\Projects\UnitTestGenerator\UnderTest\TestClassGeneratorSamples\bin\Debug\nunit.framework.xml
+D:\Projects\UnitTestGenerator\UnderTest\TestClassGeneratorSamples\bin\Debug\Rhino.Mocks.xml
+D:\Projects\UnitTestGenerator\UnderTest\TestClassGeneratorSamples\obj\Debug\TestClassGeneratorSamples.dll
+D:\Projects\UnitTestGenerator\UnderTest\TestClassGeneratorSamples\obj\Debug\TestClassGeneratorSamples.pdb
+C:\Users\tuba\Projects\UnitTestGenerator\UnderTest\TestClassGeneratorSamples\bin\Debug\TestClassGeneratorSamples.dll
+C:\Users\tuba\Projects\UnitTestGenerator\UnderTest\TestClassGeneratorSamples\bin\Debug\TestClassGeneratorSamples.pdb
+C:\Users\tuba\Projects\UnitTestGenerator\UnderTest\TestClassGeneratorSamples\bin\Debug\nunit.framework.dll
+C:\Users\tuba\Projects\UnitTestGenerator\UnderTest\TestClassGeneratorSamples\bin\Debug\Rhino.Mocks.dll
+C:\Users\tuba\Projects\UnitTestGenerator\UnderTest\TestClassGeneratorSamples\bin\Debug\nunit.framework.xml
+C:\Users\tuba\Projects\UnitTestGenerator\UnderTest\TestClassGeneratorSamples\bin\Debug\Rhino.Mocks.xml
+C:\Users\tuba\Projects\UnitTestGenerator\UnderTest\TestClassGeneratorSamples\obj\Debug\TestClassGeneratorSamples.dll
+C:\Users\tuba\Projects\UnitTestGenerator\UnderTest\TestClassGeneratorSamples\obj\Debug\TestClassGeneratorSamples.pdb
+C:\Users\tuba\Projects\TestSetupGenerator\TestSamples\bin\Debug\TestClassGeneratorSamples.dll
+C:\Users\tuba\Projects\TestSetupGenerator\TestSamples\bin\Debug\TestClassGeneratorSamples.pdb
+C:\Users\tuba\Projects\TestSetupGenerator\TestSamples\obj\Debug\TestClassGeneratorSamples.csprojResolveAssemblyReference.cache
+C:\Users\tuba\Projects\TestSetupGenerator\TestSamples\obj\Debug\TestClassGeneratorSamples.dll
+C:\Users\tuba\Projects\TestSetupGenerator\TestSamples\obj\Debug\TestClassGeneratorSamples.pdb

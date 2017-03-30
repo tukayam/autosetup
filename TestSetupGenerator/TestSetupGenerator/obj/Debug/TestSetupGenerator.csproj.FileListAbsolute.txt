@@ -1,0 +1,10 @@
+C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\bin\Debug\Diagnostic.nuspec
+C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\bin\Debug\tools\install.ps1
+C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\bin\Debug\tools\uninstall.ps1
+C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\bin\Debug\TestSetupGenerator.dll
+C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\bin\Debug\TestSetupGenerator.pdb
+C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.Resources.resources
+C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.csproj.GenerateResource.Cache
+C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.dll
+C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.pdb
+C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.csprojResolveAssemblyReference.cache
