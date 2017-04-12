@@ -7,3 +7,4 @@ C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\
 C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.csproj.GenerateResource.Cache
 C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.dll
 C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.pdb
+C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.csprojResolveAssemblyReference.cache

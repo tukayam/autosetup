@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CodeActions;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
 using TestSetupGenerator.SyntaxFinders;
@@ -113,7 +114,7 @@ namespace TestSetupGenerator
                 foreach (var parameter in constructorParam)
                 {
                     var parameterType = parameter.Type;
-                    var fieldName = string.Format("_{0}", parameterType.ToString().ToLowerInvariant());
+                    var fieldName = GetParameterFieldName(parameter);
                     var fieldDec = generator.FieldDeclaration(fieldName
                                                             , parameterType
                                                             , Accessibility.Private);
@@ -124,6 +125,15 @@ namespace TestSetupGenerator
             return fieldDeclarations;
         }
 
+        private string GetParameterFieldName(ParameterSyntax parameter)
+        {
+            var parameterType = parameter.Type;
+            var parameterTypeName = parameterType.ToString();
+            var isInterface = parameterTypeName.Substring(0, 1) == "I" &&
+                              parameterTypeName.Substring(1, 2).ToLower() != parameterTypeName.Substring(1, 2);
+            parameterTypeName = isInterface ? parameterTypeName.Replace("I", string.Empty) : parameterTypeName;
+            return string.Format("_{0}", parameterTypeName.Substring(0,1).ToLowerInvariant()+parameterTypeName.Substring(1));
+        }
 
         private SyntaxNode SetupMethod(string className, ClassDeclarationSyntax classDec, SyntaxGenerator generator)
         {
@@ -140,14 +150,14 @@ namespace TestSetupGenerator
                 foreach (var parameter in constructorParam)
                 {
                     var parameterType = parameter.Type;
-                    var fieldName = string.Format("_{0}", parameterType.ToString().ToLowerInvariant());
+                    var fieldName = GetParameterFieldName(parameter);
                     var fieldDec = generator.FieldDeclaration(fieldName
                                                             , parameterType
                                                             , Accessibility.Private);
                     fieldDeclarations.Add(fieldDec);
 
                     var fieldIdentifier = generator.IdentifierName(fieldName);
-                    var mocksRepositoryIdentifier = generator.IdentifierName("MocksRepository");
+                    var mocksRepositoryIdentifier = generator.IdentifierName("MockRepository");
                     var parameterTypeIdentifier = generator.IdentifierName(parameterType.ToString());
 
                     var memberAccessExpression = generator.MemberAccessExpression(mocksRepositoryIdentifier, generator.GenericName("GenerateStub", parameterTypeIdentifier));
