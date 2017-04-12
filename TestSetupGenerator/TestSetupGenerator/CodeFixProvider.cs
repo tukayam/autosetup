@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
+using TestSetupGenerator.SyntaxFinders;
 
 namespace TestSetupGenerator
 {
@@ -53,7 +54,17 @@ namespace TestSetupGenerator
         private async Task<Document> CreateSetupMethod(Document document, ClassDeclarationSyntax classDecl, CancellationToken cancellationToken)
         {
             var generator = SyntaxGenerator.GetGenerator(document);
-            var setupMethodDeclaration = SetupMethod(generator);
+
+            var classUnderTestName = classDecl.Identifier.Text.Replace("Tests", string.Empty);
+            var classUnderTestDeclarationSyntax = await new ClassUnderTestFinder().GetAsync(document.Project.Solution, classUnderTestName);
+            var setupMethodDeclaration = SetupMethod(classUnderTestName, classUnderTestDeclarationSyntax, generator);
+
+            //var testClassDocumentSyntaxRoot = await document.GetSyntaxRootAsync();
+            //List<UsingDirectiveSyntax> usingDirectives = UsingDirectives(testClassDocumentSyntaxRoot, generator);
+            IEnumerable<SyntaxNode> fieldDeclarations = FieldDeclarations(classUnderTestDeclarationSyntax, generator);
+
+
+            //var setupMethodDeclaration = SetupMethod(generator);
 
             var root = await document.GetSyntaxRootAsync(cancellationToken);
             var existingSetupMethod = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
@@ -66,7 +77,13 @@ namespace TestSetupGenerator
             }
             else
             {
-                var newClassDecl = classDecl.AddMembers(setupMethodDeclaration as MemberDeclarationSyntax);
+                var newClassDecl = classDecl;
+
+                foreach (var fieldDeclaration in fieldDeclarations)
+                {
+                    newClassDecl = newClassDecl.AddMembers(fieldDeclaration as MemberDeclarationSyntax);
+                }
+                newClassDecl = newClassDecl.AddMembers(setupMethodDeclaration as MemberDeclarationSyntax);
                 newRoot = root.ReplaceNode(classDecl, newClassDecl);
             }
 
@@ -74,18 +91,39 @@ namespace TestSetupGenerator
             return newDocument;
         }
 
-        private SyntaxNode SetupMethod(SyntaxGenerator generator)
+        private static List<UsingDirectiveSyntax> UsingDirectives(SyntaxNode docSyntaxRoot, SyntaxGenerator generator)
         {
-            var setupMethodDeclaration = generator.MethodDeclaration("Setup", null,
-            null, null,
-            Accessibility.Public,
-            DeclarationModifiers.None,
-            null);
-            var setupAttribute = generator.Attribute("SetUp");
-
-            var setupMethodWithSetupAttribute = generator.InsertAttributes(setupMethodDeclaration, 0, setupAttribute);
-            return setupMethodWithSetupAttribute;
+            var usingDirectives = docSyntaxRoot.ChildNodes().OfType<UsingDirectiveSyntax>().ToList();
+            usingDirectives.Add(generator.NamespaceImportDeclaration("Rhino.Mocks") as UsingDirectiveSyntax);
+            return usingDirectives;
         }
+
+        private IEnumerable<SyntaxNode> FieldDeclarations(ClassDeclarationSyntax classDec, SyntaxGenerator generator)
+        {
+            var fieldDeclarations = new List<SyntaxNode>();
+
+            var constructorWithParameters =
+                classDec.DescendantNodes()
+                    .OfType<ConstructorDeclarationSyntax>()
+                    .FirstOrDefault(
+                        x => x.ParameterList.Parameters.Any());
+            if (constructorWithParameters != null)
+            {
+                var constructorParam = constructorWithParameters.ParameterList.Parameters;
+                foreach (var parameter in constructorParam)
+                {
+                    var parameterType = parameter.Type;
+                    var fieldName = string.Format("_{0}", parameterType.ToString().ToLowerInvariant());
+                    var fieldDec = generator.FieldDeclaration(fieldName
+                                                            , parameterType
+                                                            , Accessibility.Private);
+                    fieldDeclarations.Add(fieldDec);
+
+                }
+            }
+            return fieldDeclarations;
+        }
+
 
         private SyntaxNode SetupMethod(string className, ClassDeclarationSyntax classDec, SyntaxGenerator generator)
         {
