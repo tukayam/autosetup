@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.FindSymbols;
 
 namespace TestSetupGenerator.SyntaxFinders
 {
@@ -12,11 +11,14 @@ namespace TestSetupGenerator.SyntaxFinders
         {
             foreach (var project in solution.Projects)
             {
-                var symbols = await SymbolFinder.FindDeclarationsAsync(project, className, true);
-                var syntaxDec = symbols.Select(_ => _.DeclaringSyntaxReferences).OfType<ClassDeclarationSyntax>().FirstOrDefault();
-
-                if (syntaxDec != null)
-                    return syntaxDec;
+                foreach (var document in project.Documents)
+                {
+                    var root =await document.GetSyntaxRootAsync();
+                    var syntaxDec = root.DescendantNodes().OfType<ClassDeclarationSyntax>().Where(_ => _.Identifier.Text == className).FirstOrDefault();
+                    
+                    if (syntaxDec != null)
+                        return syntaxDec;
+                }
             }
 
             return null;
