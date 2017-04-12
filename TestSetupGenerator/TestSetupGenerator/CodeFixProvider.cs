@@ -63,21 +63,19 @@ namespace TestSetupGenerator
             //var testClassDocumentSyntaxRoot = await document.GetSyntaxRootAsync();
             //List<UsingDirectiveSyntax> usingDirectives = UsingDirectives(testClassDocumentSyntaxRoot, generator);
             IEnumerable<SyntaxNode> fieldDeclarations = FieldDeclarations(classUnderTestDeclarationSyntax, generator);
-
-
-            //var setupMethodDeclaration = SetupMethod(generator);
+            
 
             var root = await document.GetSyntaxRootAsync(cancellationToken);
-            var existingSetupMethod = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
-                                                            .FirstOrDefault(_ => _.Identifier.Text == "Setup");
+            //var existingSetupMethod = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
+            //                                                .FirstOrDefault(_ => _.Identifier.Text == "Setup");
 
             SyntaxNode newRoot;
-            if (existingSetupMethod != null)
-            {
-                newRoot = root.ReplaceNode(existingSetupMethod, setupMethodDeclaration);
-            }
-            else
-            {
+            //if (existingSetupMethod != null)
+            //{
+            //    newRoot = root.ReplaceNode(existingSetupMethod, setupMethodDeclaration);
+            //}
+            //else
+            //{
                 var newClassDecl = classDecl;
 
                 foreach (var fieldDeclaration in fieldDeclarations)
@@ -86,7 +84,7 @@ namespace TestSetupGenerator
                 }
                 newClassDecl = newClassDecl.AddMembers(setupMethodDeclaration as MemberDeclarationSyntax);
                 newRoot = root.ReplaceNode(classDecl, newClassDecl);
-            }
+            //}
 
             var newDocument = document.WithSyntaxRoot(newRoot);
             return newDocument;
@@ -122,6 +120,11 @@ namespace TestSetupGenerator
 
                 }
             }
+
+            var targetFieldDec = generator.FieldDeclaration("_target"
+                                                           , generator.IdentifierName(classDec.Identifier.Text)
+                                                           , Accessibility.Private);
+            fieldDeclarations.Add(targetFieldDec);
             return fieldDeclarations;
         }
 
