@@ -56,36 +56,33 @@ namespace TestSetupGenerator
         {
             var generator = SyntaxGenerator.GetGenerator(document);
 
-            var classUnderTestName = classDecl.Identifier.Text.Replace("Tests", string.Empty);
+            var classUnderTestName = classDecl.Identifier.Text.Replace("Tests", string.Empty).Replace("UnitTests", string.Empty);
             var classUnderTestDeclarationSyntax = await new ClassUnderTestFinder().GetAsync(document.Project.Solution, classUnderTestName);
             var setupMethodDeclaration = SetupMethod(classUnderTestName, classUnderTestDeclarationSyntax, generator);
 
             //var testClassDocumentSyntaxRoot = await document.GetSyntaxRootAsync();
             //List<UsingDirectiveSyntax> usingDirectives = UsingDirectives(testClassDocumentSyntaxRoot, generator);
             IEnumerable<SyntaxNode> fieldDeclarations = FieldDeclarations(classUnderTestDeclarationSyntax, generator);
-            
+
 
             var root = await document.GetSyntaxRootAsync(cancellationToken);
             //var existingSetupMethod = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
             //                                                .FirstOrDefault(_ => _.Identifier.Text == "Setup");
 
-            SyntaxNode newRoot;
-            //if (existingSetupMethod != null)
-            //{
-            //    newRoot = root.ReplaceNode(existingSetupMethod, setupMethodDeclaration);
-            //}
-            //else
-            //{
-                var newClassDecl = classDecl;
 
-                foreach (var fieldDeclaration in fieldDeclarations)
-                {
-                    newClassDecl = newClassDecl.AddMembers(fieldDeclaration as MemberDeclarationSyntax);
-                }
-                newClassDecl = newClassDecl.AddMembers(setupMethodDeclaration as MemberDeclarationSyntax);
-                newRoot = root.ReplaceNode(classDecl, newClassDecl);
-            //}
+            var newClassDecl = classDecl;
+            var oldMembers = classDecl.Members;
+            var newMembers = oldMembers;
 
+            var index = 0;
+            foreach (var fieldDeclaration in fieldDeclarations)
+            {
+                newMembers = newMembers.Insert(index++, fieldDeclaration as MemberDeclarationSyntax);
+            }
+            newMembers = newMembers.Insert(index, setupMethodDeclaration as MemberDeclarationSyntax);
+
+            newClassDecl = newClassDecl.WithMembers(newMembers).NormalizeWhitespace();
+            var newRoot = root.ReplaceNode(classDecl, newClassDecl);
             var newDocument = document.WithSyntaxRoot(newRoot);
             return newDocument;
         }
@@ -135,7 +132,7 @@ namespace TestSetupGenerator
             var isInterface = parameterTypeName.Substring(0, 1) == "I" &&
                               parameterTypeName.Substring(1, 2).ToLower() != parameterTypeName.Substring(1, 2);
             parameterTypeName = isInterface ? parameterTypeName.Replace("I", string.Empty) : parameterTypeName;
-            return string.Format("_{0}", parameterTypeName.Substring(0,1).ToLowerInvariant()+parameterTypeName.Substring(1));
+            return string.Format("_{0}", parameterTypeName.Substring(0, 1).ToLowerInvariant() + parameterTypeName.Substring(1));
         }
 
         private SyntaxNode SetupMethod(string className, ClassDeclarationSyntax classDec, SyntaxGenerator generator)

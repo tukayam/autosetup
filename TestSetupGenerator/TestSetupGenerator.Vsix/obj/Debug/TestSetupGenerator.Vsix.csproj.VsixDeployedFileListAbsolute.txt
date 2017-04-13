@@ -10,3 +10,9 @@ C:\Users\tuba\AppData\Local\Microsoft\VisualStudio\14.0Roslyn\Extensions\tuba\Te
 C:\Users\tuba\AppData\Local\Microsoft\VisualStudio\14.0Roslyn\Extensions\tuba\TestSetupGenerator\3.0\\tools\install.ps1
 C:\Users\tuba\AppData\Local\Microsoft\VisualStudio\14.0Roslyn\Extensions\tuba\TestSetupGenerator\3.0\\tools\uninstall.ps1
 C:\Users\tuba\AppData\Local\Microsoft\VisualStudio\14.0Roslyn\Extensions\tuba\TestSetupGenerator\3.0\\TestSetupGenerator.pdb
+C:\Users\tuba\AppData\Local\Microsoft\VisualStudio\14.0Roslyn\Extensions\tuba\TestSetupGenerator\5.0\\TestSetupGenerator.dll
+C:\Users\tuba\AppData\Local\Microsoft\VisualStudio\14.0Roslyn\Extensions\tuba\TestSetupGenerator\5.0\\extension.vsixmanifest
+C:\Users\tuba\AppData\Local\Microsoft\VisualStudio\14.0Roslyn\Extensions\tuba\TestSetupGenerator\5.0\\Diagnostic.nuspec
+C:\Users\tuba\AppData\Local\Microsoft\VisualStudio\14.0Roslyn\Extensions\tuba\TestSetupGenerator\5.0\\tools\install.ps1
+C:\Users\tuba\AppData\Local\Microsoft\VisualStudio\14.0Roslyn\Extensions\tuba\TestSetupGenerator\5.0\\tools\uninstall.ps1
+C:\Users\tuba\AppData\Local\Microsoft\VisualStudio\14.0Roslyn\Extensions\tuba\TestSetupGenerator\5.0\\TestSetupGenerator.pdb

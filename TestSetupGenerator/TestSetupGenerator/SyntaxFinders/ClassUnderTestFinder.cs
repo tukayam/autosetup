@@ -14,7 +14,7 @@ namespace TestSetupGenerator.SyntaxFinders
                 foreach (var document in project.Documents)
                 {
                     var root =await document.GetSyntaxRootAsync();
-                    var syntaxDec = root.DescendantNodes().OfType<ClassDeclarationSyntax>().Where(_ => _.Identifier.Text == className).FirstOrDefault();
+                    var syntaxDec = root.DescendantNodes().OfType<ClassDeclarationSyntax>().FirstOrDefault(_ => _.Identifier.Text == className);
                     
                     if (syntaxDec != null)
                         return syntaxDec;
