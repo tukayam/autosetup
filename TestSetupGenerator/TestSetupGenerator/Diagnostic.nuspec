@@ -2,10 +2,10 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>TestSetupGenerator</id>
-    <version>1.0.0.4</version>
+    <version>5.4.0</version>
     <title>TestSetupGenerator</title>
-    <authors>tuba</authors>
-    <owners>tuba</owners>
+    <authors>Tuba Kaya</authors>
+    <owners>Promo SET bv</owners>
     <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
     <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
     <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>

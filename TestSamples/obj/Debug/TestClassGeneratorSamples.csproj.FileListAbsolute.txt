@@ -23,3 +23,8 @@ C:\Users\tuba\Projects\TestSetupGenerator\TestSamples\bin\Debug\TestClassGenerat
 C:\Users\tuba\Projects\TestSetupGenerator\TestSamples\obj\Debug\TestClassGeneratorSamples.dll
 C:\Users\tuba\Projects\TestSetupGenerator\TestSamples\obj\Debug\TestClassGeneratorSamples.pdb
 C:\Users\tuba\Projects\TestSetupGenerator\TestSamples\obj\Debug\TestClassGeneratorSamples.csprojResolveAssemblyReference.cache
+D:\Projects\TestSetupGenerator\TestSamples\bin\Debug\TestClassGeneratorSamples.dll
+D:\Projects\TestSetupGenerator\TestSamples\bin\Debug\TestClassGeneratorSamples.pdb
+D:\Projects\TestSetupGenerator\TestSamples\obj\Debug\TestClassGeneratorSamples.csprojResolveAssemblyReference.cache
+D:\Projects\TestSetupGenerator\TestSamples\obj\Debug\TestClassGeneratorSamples.dll
+D:\Projects\TestSetupGenerator\TestSamples\obj\Debug\TestClassGeneratorSamples.pdb

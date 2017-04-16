@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CodeActions;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
 using TestSetupGenerator.SyntaxFinders;
@@ -60,34 +59,56 @@ namespace TestSetupGenerator
             var classUnderTestDeclarationSyntax = await new ClassUnderTestFinder().GetAsync(document.Project.Solution, classUnderTestName);
             var setupMethodDeclaration = SetupMethod(classUnderTestName, classUnderTestDeclarationSyntax, generator);
 
-            //var testClassDocumentSyntaxRoot = await document.GetSyntaxRootAsync();
-            //List<UsingDirectiveSyntax> usingDirectives = UsingDirectives(testClassDocumentSyntaxRoot, generator);
-            IEnumerable<SyntaxNode> fieldDeclarations = FieldDeclarations(classUnderTestDeclarationSyntax, generator);
-            
-
             var root = await document.GetSyntaxRootAsync(cancellationToken);
-            //var existingSetupMethod = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
-            //                                                .FirstOrDefault(_ => _.Identifier.Text == "Setup");
+            var members = classDecl.Members;
+            members = GetNewClassWithSetupMethod(setupMethodDeclaration, root, members);
+            members = GetNewClassWithFieldDeclarations(generator, classUnderTestDeclarationSyntax, members);
 
-            SyntaxNode newRoot;
-            //if (existingSetupMethod != null)
-            //{
-            //    newRoot = root.ReplaceNode(existingSetupMethod, setupMethodDeclaration);
-            //}
-            //else
-            //{
-                var newClassDecl = classDecl;
+            var testClassDocumentSyntaxRoot = await document.GetSyntaxRootAsync();
+            List<UsingDirectiveSyntax> usingDirectives = UsingDirectives(testClassDocumentSyntaxRoot, generator);
 
-                foreach (var fieldDeclaration in fieldDeclarations)
-                {
-                    newClassDecl = newClassDecl.AddMembers(fieldDeclaration as MemberDeclarationSyntax);
-                }
-                newClassDecl = newClassDecl.AddMembers(setupMethodDeclaration as MemberDeclarationSyntax);
-                newRoot = root.ReplaceNode(classDecl, newClassDecl);
-            //}
-
+            var newClass = classDecl.WithMembers(members);
+            var newRoot = root.ReplaceNode(classDecl, newClass);
             var newDocument = document.WithSyntaxRoot(newRoot);
             return newDocument;
+        }
+
+        private static SyntaxList<MemberDeclarationSyntax> GetNewClassWithSetupMethod(MemberDeclarationSyntax setupMethodDeclaration, SyntaxNode root, SyntaxList<MemberDeclarationSyntax> members)
+        {
+            var existingSetupMethod = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
+                                                                        .FirstOrDefault(_ => _.AttributeLists.SelectMany(x => x.Attributes).Any(x => x.Name.ToFullString() == "SetUp"));
+
+            if (existingSetupMethod != null)
+            {
+                members = members.Replace(existingSetupMethod, setupMethodDeclaration);
+            }
+            else
+            {
+                members = members.Insert(0, setupMethodDeclaration as MemberDeclarationSyntax);
+            }
+
+            return members;
+        }
+
+        private SyntaxList<MemberDeclarationSyntax> GetNewClassWithFieldDeclarations(SyntaxGenerator generator, ClassDeclarationSyntax classUnderTestDeclarationSyntax, SyntaxList<MemberDeclarationSyntax> members)
+        {
+            // Replace add field declarations
+            IEnumerable<SyntaxNode> fieldDeclarations = FieldDeclarations(classUnderTestDeclarationSyntax, generator);
+
+            var existingFieldDeclarationVariables = members.OfType<FieldDeclarationSyntax>().SelectMany(_ => _.Declaration.Variables).Select(_ => _.Identifier.Text);
+
+            var index = 0;
+            //foreach field replace or add
+            foreach (FieldDeclarationSyntax fieldDeclaration in fieldDeclarations)
+            {
+                var fieldDeclarationText = fieldDeclaration.Declaration.Variables.Select(_ => _.Identifier.Text);
+                if (!existingFieldDeclarationVariables.Any(_ => fieldDeclarationText.Contains(_)))
+                {
+                    members = members.Insert(index++,fieldDeclaration as MemberDeclarationSyntax);
+                }
+            }
+
+            return members;
         }
 
         private static List<UsingDirectiveSyntax> UsingDirectives(SyntaxNode docSyntaxRoot, SyntaxGenerator generator)
@@ -135,10 +156,10 @@ namespace TestSetupGenerator
             var isInterface = parameterTypeName.Substring(0, 1) == "I" &&
                               parameterTypeName.Substring(1, 2).ToLower() != parameterTypeName.Substring(1, 2);
             parameterTypeName = isInterface ? parameterTypeName.Replace("I", string.Empty) : parameterTypeName;
-            return string.Format("_{0}", parameterTypeName.Substring(0,1).ToLowerInvariant()+parameterTypeName.Substring(1));
+            return string.Format("_{0}", parameterTypeName.Substring(0, 1).ToLowerInvariant() + parameterTypeName.Substring(1));
         }
 
-        private SyntaxNode SetupMethod(string className, ClassDeclarationSyntax classDec, SyntaxGenerator generator)
+        private MemberDeclarationSyntax SetupMethod(string className, ClassDeclarationSyntax classDec, SyntaxGenerator generator)
         {
             var fieldDeclarations = new List<SyntaxNode>();
             var expressionStatements = new List<SyntaxNode>();
@@ -190,7 +211,7 @@ namespace TestSetupGenerator
             var setupAttribute = generator.Attribute("SetUp");
 
             var setupMethodWithSetupAttribute = generator.InsertAttributes(setupMethodDeclaration, 0, setupAttribute);
-            return setupMethodWithSetupAttribute;
+            return setupMethodWithSetupAttribute as MemberDeclarationSyntax;
         }
     }
 }
