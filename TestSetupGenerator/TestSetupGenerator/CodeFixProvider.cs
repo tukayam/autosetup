@@ -55,8 +55,16 @@ namespace TestSetupGenerator
         {
             var generator = SyntaxGenerator.GetGenerator(document);
 
+            var testProjectName = document.Project.Name;
             var classUnderTestName = classDecl.Identifier.Text.Replace("Tests", string.Empty);
-            var classUnderTestDeclarationSyntax = await new ClassUnderTestFinder().GetAsync(document.Project.Solution, classUnderTestName);
+            var classUnderTestDeclarationSyntax = await new ClassUnderTestFinder().GetAsync(testProjectName, document.Project.Solution, classUnderTestName);
+
+            if (classUnderTestDeclarationSyntax == null)
+            {
+                // todo: show message "Class under test could not be found. Looked for class with name {0}"
+                return document;
+            }
+
             var setupMethodDeclaration = SetupMethod(classUnderTestName, classUnderTestDeclarationSyntax, generator);
 
             var root = await document.GetSyntaxRootAsync(cancellationToken);
@@ -64,13 +72,38 @@ namespace TestSetupGenerator
             members = GetNewClassWithSetupMethod(setupMethodDeclaration, root, members);
             members = GetNewClassWithFieldDeclarations(generator, classUnderTestDeclarationSyntax, members);
 
-            var testClassDocumentSyntaxRoot = await document.GetSyntaxRootAsync();
-            List<UsingDirectiveSyntax> usingDirectives = UsingDirectives(testClassDocumentSyntaxRoot, generator);
-
             var newClass = classDecl.WithMembers(members);
             var newRoot = root.ReplaceNode(classDecl, newClass);
+            newRoot = await AddUsingDirectives(document, generator, newRoot);
             var newDocument = document.WithSyntaxRoot(newRoot);
             return newDocument;
+        }
+
+        private async Task<SyntaxNode> AddUsingDirectives(Document document, SyntaxGenerator generator, SyntaxNode newRoot)
+        {
+            var testClassDocumentSyntaxRoot = await document.GetSyntaxRootAsync();
+            List<UsingDirectiveSyntax> usingDirectives = UsingDirectives(testClassDocumentSyntaxRoot, generator);
+            var existingUsingDirectives = newRoot.DescendantNodes().OfType<UsingDirectiveSyntax>();
+
+            var firstUsingDirectiveInFile = existingUsingDirectives.FirstOrDefault();
+            var nodeToInsertAfter = firstUsingDirectiveInFile ?? newRoot.DescendantNodes().First();
+
+            foreach (var usingDirective in usingDirectives)
+            {
+                if (!existingUsingDirectives.Any(_ => _.Name == usingDirective.Name))
+                {
+                    if (firstUsingDirectiveInFile != null)
+                    {
+                        newRoot = newRoot.InsertNodesAfter(firstUsingDirectiveInFile, usingDirectives);
+                    }
+                    //else
+                    //{
+                    //    newRoot = newRoot.InsertNodesBefore(nodeToInsertAfter, usingDirectives);
+                    //}
+                }
+            }
+
+            return newRoot;
         }
 
         private static SyntaxList<MemberDeclarationSyntax> GetNewClassWithSetupMethod(MemberDeclarationSyntax setupMethodDeclaration, SyntaxNode root, SyntaxList<MemberDeclarationSyntax> members)
@@ -104,7 +137,7 @@ namespace TestSetupGenerator
                 var fieldDeclarationText = fieldDeclaration.Declaration.Variables.Select(_ => _.Identifier.Text);
                 if (!existingFieldDeclarationVariables.Any(_ => fieldDeclarationText.Contains(_)))
                 {
-                    members = members.Insert(index++,fieldDeclaration as MemberDeclarationSyntax);
+                    members = members.Insert(index++, fieldDeclaration as MemberDeclarationSyntax);
                 }
             }
 
@@ -113,9 +146,8 @@ namespace TestSetupGenerator
 
         private static List<UsingDirectiveSyntax> UsingDirectives(SyntaxNode docSyntaxRoot, SyntaxGenerator generator)
         {
-            var usingDirectives = docSyntaxRoot.ChildNodes().OfType<UsingDirectiveSyntax>().ToList();
-            usingDirectives.Add(generator.NamespaceImportDeclaration("Rhino.Mocks") as UsingDirectiveSyntax);
-            return usingDirectives;
+            //todo: add other usings for class under test
+            return new List<UsingDirectiveSyntax>() { generator.NamespaceImportDeclaration("Rhino.Mocks") as UsingDirectiveSyntax };
         }
 
         private IEnumerable<SyntaxNode> FieldDeclarations(ClassDeclarationSyntax classDec, SyntaxGenerator generator)
