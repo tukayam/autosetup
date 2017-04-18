@@ -1,3 +1,13 @@
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\bin\Debug\Diagnostic.nuspec
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\bin\Debug\tools\install.ps1
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\bin\Debug\tools\uninstall.ps1
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\bin\Debug\TestSetupGenerator.dll
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\bin\Debug\TestSetupGenerator.pdb
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.Resources.resources
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.csproj.GenerateResource.Cache
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.dll
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.pdb
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.csprojResolveAssemblyReference.cache
 C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\bin\Debug\Diagnostic.nuspec
 C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\bin\Debug\tools\install.ps1
 C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\bin\Debug\tools\uninstall.ps1
@@ -7,4 +17,3 @@ C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\
 C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.csproj.GenerateResource.Cache
 C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.dll
 C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.pdb
-C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator\obj\Debug\TestSetupGenerator.csprojResolveAssemblyReference.cache

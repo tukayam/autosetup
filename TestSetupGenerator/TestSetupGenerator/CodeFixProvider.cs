@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CodeActions;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
 using TestSetupGenerator.SyntaxFinders;
@@ -65,50 +64,105 @@ namespace TestSetupGenerator
             {
                 var generator = SyntaxGenerator.GetGenerator(document);
 
-                var classUnderTestName = classDecl.Identifier.Text.Replace("Tests", string.Empty)
-                    .Replace("UnitTests", string.Empty);
-                var classUnderTestDeclarationSyntax =
-                    await new ClassUnderTestFinder().GetAsync(document.Project.Solution, classUnderTestName);
+                var testProjectName = document.Project.Name;
+                var classUnderTestName = classDecl.Identifier.Text.Replace("Tests", string.Empty);
+                var classUnderTestDeclarationSyntax = await new ClassUnderTestFinder().GetAsync(testProjectName,
+                    document.Project.Solution, classUnderTestName);
+
+                if (classUnderTestDeclarationSyntax == null)
+                {
+                    // todo: show message "Class under test could not be found. Looked for class with name {0}"
+                    return document;
+                }
+
                 var setupMethodDeclaration = SetupMethod(classUnderTestName, classUnderTestDeclarationSyntax, generator);
 
-                //var testClassDocumentSyntaxRoot = await document.GetSyntaxRootAsync();
-                //List<UsingDirectiveSyntax> usingDirectives = UsingDirectives(testClassDocumentSyntaxRoot, generator);
-                IEnumerable<SyntaxNode> fieldDeclarations = FieldDeclarations(classUnderTestDeclarationSyntax, generator);
-
-
                 var root = await document.GetSyntaxRootAsync(cancellationToken);
-                //var existingSetupMethod = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
-                //                                                .FirstOrDefault(_ => _.Identifier.Text == "Setup");
+                var members = classDecl.Members;
+                members = GetNewClassWithSetupMethod(setupMethodDeclaration, root, members);
+                members = GetNewClassWithFieldDeclarations(generator, classUnderTestDeclarationSyntax, members);
 
-
-                var newClassDecl = classDecl;
-                var oldMembers = classDecl.Members;
-                var newMembers = oldMembers;
-
-                var index = 0;
-                foreach (var fieldDeclaration in fieldDeclarations)
-                {
-                    newMembers = newMembers.Insert(index++, fieldDeclaration as MemberDeclarationSyntax);
-                }
-                newMembers = newMembers.Insert(index, setupMethodDeclaration as MemberDeclarationSyntax);
-
-                newClassDecl = newClassDecl.WithMembers(newMembers).NormalizeWhitespace();
-                var newRoot = root.ReplaceNode(classDecl, newClassDecl);
+                var newClass = classDecl.WithMembers(members);
+                var newRoot = root.ReplaceNode(classDecl, newClass);
+                newRoot = await AddUsingDirectives(document, generator, newRoot);
                 var newDocument = document.WithSyntaxRoot(newRoot);
                 return newDocument;
             }
             catch
             {
+                return document;
+            }
+        }
+
+        private async Task<SyntaxNode> AddUsingDirectives(Document document, SyntaxGenerator generator, SyntaxNode newRoot)
+        {
+            var testClassDocumentSyntaxRoot = await document.GetSyntaxRootAsync();
+            List<UsingDirectiveSyntax> usingDirectives = UsingDirectives(testClassDocumentSyntaxRoot, generator);
+            var existingUsingDirectives = newRoot.DescendantNodes().OfType<UsingDirectiveSyntax>();
+
+            var firstUsingDirectiveInFile = existingUsingDirectives.FirstOrDefault();
+            var nodeToInsertAfter = firstUsingDirectiveInFile ?? newRoot.DescendantNodes().First();
+
+            foreach (var usingDirective in usingDirectives)
+            {
+                if (!existingUsingDirectives.Any(_ => _.Name == usingDirective.Name))
+                {
+                    if (firstUsingDirectiveInFile != null)
+                    {
+                        newRoot = newRoot.InsertNodesAfter(firstUsingDirectiveInFile, usingDirectives);
+                    }
+                    //else
+                    //{
+                    //    newRoot = newRoot.InsertNodesBefore(nodeToInsertAfter, usingDirectives);
+                    //}
+                }
             }
 
-            return document;
+            return newRoot;
+        }
+
+        private static SyntaxList<MemberDeclarationSyntax> GetNewClassWithSetupMethod(MemberDeclarationSyntax setupMethodDeclaration, SyntaxNode root, SyntaxList<MemberDeclarationSyntax> members)
+        {
+            var existingSetupMethod = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
+                                                                        .FirstOrDefault(_ => _.AttributeLists.SelectMany(x => x.Attributes).Any(x => x.Name.ToFullString() == "SetUp"));
+
+            if (existingSetupMethod != null)
+            {
+                members = members.Replace(existingSetupMethod, setupMethodDeclaration);
+            }
+            else
+            {
+                members = members.Insert(0, setupMethodDeclaration as MemberDeclarationSyntax);
+            }
+
+            return members;
+        }
+
+        private SyntaxList<MemberDeclarationSyntax> GetNewClassWithFieldDeclarations(SyntaxGenerator generator, ClassDeclarationSyntax classUnderTestDeclarationSyntax, SyntaxList<MemberDeclarationSyntax> members)
+        {
+            // Replace add field declarations
+            IEnumerable<SyntaxNode> fieldDeclarations = FieldDeclarations(classUnderTestDeclarationSyntax, generator);
+
+            var existingFieldDeclarationVariables = members.OfType<FieldDeclarationSyntax>().SelectMany(_ => _.Declaration.Variables).Select(_ => _.Identifier.Text);
+
+            var index = 0;
+            //foreach field replace or add
+            foreach (FieldDeclarationSyntax fieldDeclaration in fieldDeclarations)
+            {
+                var fieldDeclarationText = fieldDeclaration.Declaration.Variables.Select(_ => _.Identifier.Text);
+                if (!existingFieldDeclarationVariables.Any(_ => fieldDeclarationText.Contains(_)))
+                {
+                    members = members.Insert(index++, fieldDeclaration as MemberDeclarationSyntax);
+                }
+            }
+
+            return members;
         }
 
         private static List<UsingDirectiveSyntax> UsingDirectives(SyntaxNode docSyntaxRoot, SyntaxGenerator generator)
         {
-            var usingDirectives = docSyntaxRoot.ChildNodes().OfType<UsingDirectiveSyntax>().ToList();
-            usingDirectives.Add(generator.NamespaceImportDeclaration("Rhino.Mocks") as UsingDirectiveSyntax);
-            return usingDirectives;
+            //todo: add other usings for class under test
+            return new List<UsingDirectiveSyntax>() { generator.NamespaceImportDeclaration("Rhino.Mocks") as UsingDirectiveSyntax };
         }
 
         private IEnumerable<SyntaxNode> FieldDeclarations(ClassDeclarationSyntax classDec, SyntaxGenerator generator)
@@ -152,7 +206,7 @@ namespace TestSetupGenerator
             return string.Format("_{0}", parameterTypeName.Substring(0, 1).ToLowerInvariant() + parameterTypeName.Substring(1));
         }
 
-        private SyntaxNode SetupMethod(string className, ClassDeclarationSyntax classDec, SyntaxGenerator generator)
+        private MemberDeclarationSyntax SetupMethod(string className, ClassDeclarationSyntax classDec, SyntaxGenerator generator)
         {
             var fieldDeclarations = new List<SyntaxNode>();
             var expressionStatements = new List<SyntaxNode>();
@@ -204,7 +258,7 @@ namespace TestSetupGenerator
             var setupAttribute = generator.Attribute("SetUp");
 
             var setupMethodWithSetupAttribute = generator.InsertAttributes(setupMethodDeclaration, 0, setupAttribute);
-            return setupMethodWithSetupAttribute;
+            return setupMethodWithSetupAttribute as MemberDeclarationSyntax;
         }
     }
 }

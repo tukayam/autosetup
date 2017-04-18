@@ -23,7 +23,7 @@ namespace TestSetupGenerator.Test.SyntaxFindersTests
         [Test]
         public void FindsClassDeclarationSyntax_When_ThereIsOneClassWithThatNameInSolution()
         {
-            var actual = _target.GetAsync(_solution, "ClassWithOneDependency").Result;
+            var actual = _target.GetAsync("",_solution, "ClassWithOneDependency").Result;
 
             Assert.AreEqual("ClassWithOneDependency", actual.Identifier.Text);
         }

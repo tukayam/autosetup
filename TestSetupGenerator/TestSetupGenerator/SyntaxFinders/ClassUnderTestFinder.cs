@@ -7,17 +7,23 @@ namespace TestSetupGenerator.SyntaxFinders
 {
     public class ClassUnderTestFinder
     {
-        public async Task<ClassDeclarationSyntax> GetAsync(Solution solution, string className)
+        public async Task<ClassDeclarationSyntax> GetAsync(string testProjectName, Solution solution, string className)
         {
-            foreach (var project in solution.Projects)
+            var projectNameUnderTest = testProjectName.Replace(".UnitTests", string.Empty).Replace(".Tests", string.Empty);
+            var project = solution.Projects.FirstOrDefault(_ => _.Name == projectNameUnderTest);
+            if (project == null)
             {
-                foreach (var document in project.Documents)
+                return null;
+            }
+
+            foreach (var document in project.Documents)
+            {
+                var root = await document.GetSyntaxRootAsync();
+                var syntaxDec = root.DescendantNodes().OfType<ClassDeclarationSyntax>().Where(_ => _.Identifier.Text == className).FirstOrDefault();
+
+                if (syntaxDec != null)
                 {
-                    var root =await document.GetSyntaxRootAsync();
-                    var syntaxDec = root.DescendantNodes().OfType<ClassDeclarationSyntax>().FirstOrDefault(_ => _.Identifier.Text == className);
-                    
-                    if (syntaxDec != null)
-                        return syntaxDec;
+                    return syntaxDec;
                 }
             }
 

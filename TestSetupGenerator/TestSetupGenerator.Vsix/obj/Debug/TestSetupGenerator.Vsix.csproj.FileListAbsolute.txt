@@ -1,3 +1,14 @@
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator.Vsix\bin\Debug\Diagnostic.nuspec
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator.Vsix\bin\Debug\tools\install.ps1
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator.Vsix\bin\Debug\tools\uninstall.ps1
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator.Vsix\bin\Debug\TestSetupGenerator.Vsix.vsix
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator.Vsix\bin\Debug\extension.vsixmanifest
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator.Vsix\bin\Debug\TestSetupGenerator.dll
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator.Vsix\bin\Debug\TestSetupGenerator.pdb
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator.Vsix\obj\Debug\TestSetupGenerator.Vsix.csprojResolveAssemblyReference.cache
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator.Vsix\obj\Debug\TestSetupGenerator.Vsix.dll
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator.Vsix\obj\Debug\TestSetupGenerator.Vsix.pdb
+D:\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator.Vsix\obj\Debug\extension.vsixmanifest
 C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator.Vsix\bin\Debug\Diagnostic.nuspec
 C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator.Vsix\bin\Debug\tools\install.ps1
 C:\Users\tuba\Projects\TestSetupGenerator\TestSetupGenerator\TestSetupGenerator.Vsix\bin\Debug\tools\uninstall.ps1
