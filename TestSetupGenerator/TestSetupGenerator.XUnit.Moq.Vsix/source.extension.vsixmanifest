@@ -12,8 +12,8 @@
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
   </Dependencies>
   <Assets>
-    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="TestSetupGenerator.NUnit.Rhino" Path="|TestSetupGenerator.NUnit.Rhino|" />
-    <Asset Type="Microsoft.VisualStudio.Analyzer" d:Source="Project" d:ProjectName="TestSetupGenerator.NUnit.Rhino" Path="|TestSetupGenerator.NUnit.Rhino|" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="TestSetupGeneratorXUnit.Moq" Path="|TestSetupGeneratorXUnit.Moq|" />
+    <Asset Type="Microsoft.VisualStudio.Analyzer" d:Source="Project" d:ProjectName="TestSetupGeneratorXUnit.Moq" Path="|TestSetupGeneratorXUnit.Moq|" />
   </Assets>
   <Prerequisites>
     <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,16.0)" DisplayName="Visual Studio core editor" />
