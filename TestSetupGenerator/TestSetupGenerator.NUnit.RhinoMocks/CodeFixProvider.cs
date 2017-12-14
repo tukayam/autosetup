@@ -5,13 +5,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CodeActions;
+using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
-using TestSetupGenerator.SyntaxFinders;
+using TestSetupGenerator.NUnit.Rhino.SyntaxFinders;
 
-namespace TestSetupGenerator
+namespace TestSetupGenerator.NUnit.Rhino
 {
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(TestSetupGeneratorCodeFixProvider)), Shared]
     public class TestSetupGeneratorCodeFixProvider : CodeFixProvider
@@ -162,7 +162,7 @@ namespace TestSetupGenerator
         private static List<UsingDirectiveSyntax> UsingDirectives(SyntaxNode docSyntaxRoot, SyntaxGenerator generator)
         {
             //todo: add other usings for class under test
-            return new List<UsingDirectiveSyntax>() { generator.NamespaceImportDeclaration("Moq") as UsingDirectiveSyntax };
+            return new List<UsingDirectiveSyntax>() { generator.NamespaceImportDeclaration("Rhino.Mocks") as UsingDirectiveSyntax };
         }
 
         private IEnumerable<SyntaxNode> FieldDeclarations(ClassDeclarationSyntax classDec, SyntaxGenerator generator)
@@ -202,10 +202,7 @@ namespace TestSetupGenerator
             var parameterTypeName = parameterType.ToString();
             var isInterface = parameterTypeName.Substring(0, 1) == "I" &&
                               parameterTypeName.Substring(1, 2).ToLower() != parameterTypeName.Substring(1, 2);
-            parameterTypeName = isInterface ? parameterTypeName.Remove(0,1) : parameterTypeName;
-           var isGeneric= parameterTypeName.Contains("<");
-            parameterTypeName =
-                isGeneric ? parameterTypeName.Remove(parameterTypeName.IndexOf('<')) : parameterTypeName;
+            parameterTypeName = isInterface ? parameterTypeName.Replace("I", string.Empty) : parameterTypeName;
             return string.Format("_{0}", parameterTypeName.Substring(0, 1).ToLowerInvariant() + parameterTypeName.Substring(1));
         }
 
@@ -231,14 +228,14 @@ namespace TestSetupGenerator
                     fieldDeclarations.Add(fieldDec);
 
                     var fieldIdentifier = generator.IdentifierName(fieldName);
-                    
+                    var mocksRepositoryIdentifier = generator.IdentifierName("MockRepository");
                     var parameterTypeIdentifier = generator.IdentifierName(parameterType.ToString());
-                    var mocksRepositoryIdentifier = generator.GenericName("Mock", parameterTypeIdentifier);
 
-                    var fieldInitializationExpression = generator.ObjectCreationExpression(mocksRepositoryIdentifier);
-                    var expressionStatementFieldInstantiation = generator.AssignmentStatement(fieldIdentifier, fieldInitializationExpression);
+                    var memberAccessExpression = generator.MemberAccessExpression(mocksRepositoryIdentifier, generator.GenericName("GenerateStub", parameterTypeIdentifier));
+                    var invocationExpression = generator.InvocationExpression(memberAccessExpression);
 
-                    expressionStatements.Add(expressionStatementFieldInstantiation);
+                    var expressionStatementSettingField = generator.AssignmentStatement(fieldIdentifier, invocationExpression);
+                    expressionStatements.Add(expressionStatementSettingField);
                 }
             }
 
@@ -247,7 +244,7 @@ namespace TestSetupGenerator
             var setupBody = new List<SyntaxNode>();
             setupBody.AddRange(expressionStatements);
 
-            var targetObjectCreationExpression = generator.ObjectCreationExpression(generator.IdentifierName(className), constructorParameters.Select(x =>generator.MemberAccessExpression(generator.IdentifierName(x),"Object" )));
+            var targetObjectCreationExpression = generator.ObjectCreationExpression(generator.IdentifierName(className), constructorParameters.Select(x => generator.IdentifierName(x)));
 
             var expressionStatementTargetInstantiation = generator.AssignmentStatement(generator.IdentifierName("_target"), targetObjectCreationExpression);
             setupBody.Add(expressionStatementTargetInstantiation);

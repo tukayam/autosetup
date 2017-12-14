@@ -5,14 +5,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CodeActions;
-using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
-using TestSetupGenerator.SyntaxFinders;
+using TestSetupGeneratorXUnit.Moq.SyntaxFinders;
 
-namespace TestSetupGenerator
+namespace TestSetupGeneratorXUnit.Moq
 {
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(TestSetupGeneratorCodeFixProvider)), Shared]
     public class TestSetupGeneratorCodeFixProvider : CodeFixProvider
@@ -49,7 +48,7 @@ namespace TestSetupGenerator
                     context.RegisterCodeFix(
                         CodeAction.Create(
                             title: title,
-                            createChangedDocument: c => CreateSetupMethod(context.Document, declaration, c),
+                            createChangedDocument: c => CreateConstructor(context.Document, declaration, c),
                             equivalenceKey: title),
                         diagnostic);
                 }
@@ -59,7 +58,7 @@ namespace TestSetupGenerator
                 }
             }
         }
-        private async Task<Document> CreateSetupMethod(Document document, ClassDeclarationSyntax classDecl, CancellationToken cancellationToken)
+        private async Task<Document> CreateConstructor(Document document, ClassDeclarationSyntax classDecl, CancellationToken cancellationToken)
         {
             try
             {
@@ -203,8 +202,8 @@ namespace TestSetupGenerator
             var parameterTypeName = parameterType.ToString();
             var isInterface = parameterTypeName.Substring(0, 1) == "I" &&
                               parameterTypeName.Substring(1, 2).ToLower() != parameterTypeName.Substring(1, 2);
-            parameterTypeName = isInterface ? parameterTypeName.Remove(0,1) : parameterTypeName;
-           var isGeneric= parameterTypeName.Contains("<");
+            parameterTypeName = isInterface ? parameterTypeName.Remove(0, 1) : parameterTypeName;
+            var isGeneric = parameterTypeName.Contains("<");
             parameterTypeName =
                 isGeneric ? parameterTypeName.Remove(parameterTypeName.IndexOf('<')) : parameterTypeName;
             return string.Format("_{0}", parameterTypeName.Substring(0, 1).ToLowerInvariant() + parameterTypeName.Substring(1));
@@ -224,19 +223,18 @@ namespace TestSetupGenerator
                 var constructorParam = constructorWithParameters.ParameterList.Parameters;
                 foreach (var parameter in constructorParam)
                 {
-                    var parameterType = SyntaxFactory.GenericName(
-                        SyntaxFactory.Identifier("Mock"),
-                        SyntaxFactory.TypeArgumentList(SyntaxFactory.SeparatedList(new []{ parameter.Type})));
+                    var parameterType = parameter.Type;
+                    var parameterTypeIdentifier = generator.IdentifierName(parameterType.ToString());
+                    var mocksRepositoryIdentifier = generator.GenericName("Mock", parameterTypeIdentifier);
+
                     var fieldName = GetParameterFieldName(parameter);
                     var fieldDec = generator.FieldDeclaration(fieldName
-                                                            , parameterType
+                                                            , mocksRepositoryIdentifier
                                                             , Accessibility.Private);
                     fieldDeclarations.Add(fieldDec);
 
                     var fieldIdentifier = generator.IdentifierName(fieldName);
-                    
-                    var parameterTypeIdentifier = generator.IdentifierName(parameterType.ToString());
-                    var mocksRepositoryIdentifier = generator.GenericName("Mock", parameterTypeIdentifier);
+
 
                     var fieldInitializationExpression = generator.ObjectCreationExpression(mocksRepositoryIdentifier);
                     var expressionStatementFieldInstantiation = generator.AssignmentStatement(fieldIdentifier, fieldInitializationExpression);
@@ -250,21 +248,17 @@ namespace TestSetupGenerator
             var setupBody = new List<SyntaxNode>();
             setupBody.AddRange(expressionStatements);
 
-            var targetObjectCreationExpression = generator.ObjectCreationExpression(generator.IdentifierName(className), constructorParameters.Select(x =>generator.MemberAccessExpression(generator.IdentifierName(x),"Object" )));
+            var targetObjectCreationExpression = generator.ObjectCreationExpression(generator.IdentifierName(className), constructorParameters.Select(x => generator.MemberAccessExpression(generator.IdentifierName(x), "Object")));
 
             var expressionStatementTargetInstantiation = generator.AssignmentStatement(generator.IdentifierName("_target"), targetObjectCreationExpression);
             setupBody.Add(expressionStatementTargetInstantiation);
 
             // Generate the Clone method declaration
-            var setupMethodDeclaration = generator.MethodDeclaration("Setup", null,
-              null, null,
-              Accessibility.Public,
-              DeclarationModifiers.None,
+            var constructorDeclaration = generator.ConstructorDeclaration(null,
+              null,
               setupBody);
-            var setupAttribute = generator.Attribute("SetUp");
-
-            var setupMethodWithSetupAttribute = generator.InsertAttributes(setupMethodDeclaration, 0, setupAttribute);
-            return setupMethodWithSetupAttribute as MemberDeclarationSyntax;
+           
+            return constructorDeclaration as MemberDeclarationSyntax;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace TestSetupGenerator.SyntaxFinders
+namespace TestSetupGenerator.NUnit.Rhino.SyntaxFinders
 {
     public class ClassUnderTestFinder
     {

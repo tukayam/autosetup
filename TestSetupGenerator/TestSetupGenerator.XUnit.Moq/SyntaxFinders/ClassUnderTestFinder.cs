@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace TestSetupGenerator.SyntaxFinders
+namespace TestSetupGeneratorXUnit.Moq.SyntaxFinders
 {
     public class ClassUnderTestFinder
     {

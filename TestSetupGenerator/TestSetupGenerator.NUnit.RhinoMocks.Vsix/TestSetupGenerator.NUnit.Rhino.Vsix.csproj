@@ -59,7 +59,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TestSetupGenerator\TestSetupGenerator.NUnit.Rhino.csproj">
+    <ProjectReference Include="..\TestSetupGenerator.NUnit.RhinoMocks\TestSetupGenerator.NUnit.Rhino.csproj">
       <Project>{CAD27EA5-ABF8-421E-81DD-04C423AE92E1}</Project>
       <Name>TestSetupGenerator.NUnit.Rhino</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
