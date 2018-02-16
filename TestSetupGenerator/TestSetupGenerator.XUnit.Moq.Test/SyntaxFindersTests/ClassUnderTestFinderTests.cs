@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using NUnit.Framework;
-using TestSetupGenerator.SyntaxFinders;
 using TestSetupGenerator.Test.Helpers;
+using TestSetupGeneratorXUnit.Moq.SyntaxFinders;
 
 namespace TestSetupGenerator.Test.SyntaxFindersTests
 {

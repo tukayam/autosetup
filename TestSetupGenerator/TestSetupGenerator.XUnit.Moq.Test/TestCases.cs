@@ -9,7 +9,7 @@ namespace TestSetupGenerator.Test
         {
             yield return new TestCaseData(ClassWithoutSetup, ClassWithSetup);
             yield return new TestCaseData(ClassWithSetup, ClassWithSetup);
-            yield return new TestCaseData(ClassWithFilledInSetup, ClassWithSetup);
+            yield return new TestCaseData(ClassWithFilledInSetup, ClassWithFilledInSetup);
         }
 
         const string ClassWithoutSetup = @"
@@ -39,8 +39,7 @@ namespace TestSetupGenerator.Test
     {
         class TypeNameTests
         {   
-            [SetUp]
-            public void Setup()
+            public TypeNameTests()
             {
             }
         }
@@ -58,8 +57,7 @@ namespace TestSetupGenerator.Test
     {
         class TypeNameTests
         {   
-            [SetUp]
-            public void Setup()
+            public TypeNameTests()
             {
                 var x=1;
             }

@@ -5,16 +5,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using NUnit.Framework;
 using TestHelper;
+using TestSetupGeneratorXUnit.Moq;
 
 namespace TestSetupGenerator.Test
 {
     [TestFixture]
     public class UnitTest : CodeFixVerifier
     {
-
         //No diagnostics expected to show up
         [TestMethod]
-        public void TestMethod1()
+        public void NoDiagnosticsShown_When_EmptyCodeDocument()
         {
             var test = @"";
 
@@ -23,7 +23,7 @@ namespace TestSetupGenerator.Test
 
         //Diagnostic and CodeFix both triggered and checked for
         [TestCaseSource(typeof(TestCases))]
-        public void TestMethod2(string test, string fixtest)
+        public void DiagnosticAndCodeFixBothCorrect(string test, string fixtest)
         {
             var expected = new DiagnosticResult
             {
@@ -36,7 +36,7 @@ namespace TestSetupGenerator.Test
                         }
             };
 
-            //VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic(test, expected);
             VerifyCSharpFix(test, fixtest);
         }
 

@@ -7,7 +7,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{58EED500-2009-41E9-8F9A-6B0DB1C46352}</ProjectGuid>
+    <ProjectGuid>{B4B9879E-9E4A-4AAD-AFE0-A3907A0C6D8B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TestSetupGenerator.Test</RootNamespace>
@@ -123,13 +123,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TestSetupGenerator\TestSetupGenerator.NUnit.Rhino.csproj">
-      <Project>{CAD27EA5-ABF8-421E-81DD-04C423AE92E1}</Project>
-      <Name>TestSetupGenerator.NUnit.Rhino</Name>
-    </ProjectReference>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+    <ProjectReference Include="..\TestSetupGenerator.XUnit.Moq\TestSetupGeneratorXUnit.Moq.csproj">
+      <Project>{8182194a-629b-4163-8806-1f2baa0a0605}</Project>
+      <Name>TestSetupGeneratorXUnit.Moq</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
