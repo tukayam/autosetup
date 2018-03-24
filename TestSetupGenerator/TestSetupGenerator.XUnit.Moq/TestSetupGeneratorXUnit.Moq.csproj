@@ -7,11 +7,11 @@
     <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
     <Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <ProjectGuid>{CAD27EA5-ABF8-421E-81DD-04C423AE92E1}</ProjectGuid>
+    <ProjectGuid>{8182194A-629B-4163-8806-1F2BAA0A0605}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestSetupGenerator</RootNamespace>
-    <AssemblyName>TestSetupGenerator</AssemblyName>
+    <RootNamespace>TestSetupGeneratorXUnit.Moq</RootNamespace>
+    <AssemblyName>TestSetupGeneratorXUnit.Moq</AssemblyName>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>

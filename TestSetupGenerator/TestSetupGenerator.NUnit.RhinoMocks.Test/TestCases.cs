@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using NUnit.Framework;
 
-namespace TestSetupGenerator.Test
+namespace TestSetupGenerator.NUnit.Rhino.Test
 {
     class TestCases : IEnumerable
     {

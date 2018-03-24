@@ -1,9 +1,9 @@
 ﻿using Microsoft.CodeAnalysis;
 using NUnit.Framework;
-using TestSetupGenerator.SyntaxFinders;
-using TestSetupGenerator.Test.Helpers;
+using TestSetupGenerator.NUnit.Rhino.SyntaxFinders;
+using TestSetupGenerator.NUnit.Rhino.Test.Helpers;
 
-namespace TestSetupGenerator.Test.SyntaxFindersTests
+namespace TestSetupGenerator.NUnit.Rhino.Test.SyntaxFindersTests
 {
     [TestFixture]
     class ClassUnderTestFinderTests

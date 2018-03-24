@@ -10,8 +10,8 @@
     <ProjectGuid>{58EED500-2009-41E9-8F9A-6B0DB1C46352}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestSetupGenerator.Test</RootNamespace>
-    <AssemblyName>TestSetupGenerator.Test</AssemblyName>
+    <RootNamespace>TestSetupGenerator.NUnit.Rhino.Test</RootNamespace>
+    <AssemblyName>TestSetupGenerator.NUnit.Rhino.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -123,9 +123,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TestSetupGenerator\TestSetupGenerator.csproj">
+    <ProjectReference Include="..\TestSetupGenerator.NUnit.RhinoMocks\TestSetupGenerator.NUnit.Rhino.csproj">
       <Project>{CAD27EA5-ABF8-421E-81DD-04C423AE92E1}</Project>
-      <Name>TestSetupGenerator</Name>
+      <Name>TestSetupGenerator.NUnit.Rhino</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
