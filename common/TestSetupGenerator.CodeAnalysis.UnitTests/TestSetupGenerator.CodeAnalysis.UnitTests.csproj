@@ -181,10 +181,12 @@
   <ItemGroup>
     <Compile Include="CodeAnalyzers\ConstructorParametersExtractorTests.cs" />
     <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_MockRepositoryGenerateStub.cs" />
+    <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_TargetObjectAssignmentExpression.cs" />
     <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests.cs" />
     <Compile Include="CodeGenerators\MethodGeneratorTests_GenerateMethodWithAttribute.cs" />
     <Compile Include="Helpers\ClassDeclarationProvider.cs" />
     <Compile Include="Helpers\DocumentProvider.cs" />
+    <Compile Include="Helpers\FieldDeclarationsProvider.cs" />
     <Compile Include="Helpers\TextFileReader.cs" />
     <Compile Include="Helpers\TypeSyntaxProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -207,6 +209,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="files\Class_WithConstructorWithTwoParameters.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="files\Class_WithUnitTestsForClassWithParameters.txt" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

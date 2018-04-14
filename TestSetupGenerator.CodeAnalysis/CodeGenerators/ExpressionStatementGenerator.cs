@@ -1,4 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
 
 namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
@@ -15,6 +18,14 @@ namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
             var invocationExpression = generator.InvocationExpression(memberAccessExpression);
 
             return generator.AssignmentStatement(fieldIdentifier, invocationExpression);
+        }
+
+        public SyntaxNode TargetObjectAssignmentExpression(IEnumerable<SyntaxNode> fieldDeclarations, string className, SyntaxGenerator generator)
+        {
+            var constructorParameters = fieldDeclarations.SelectMany(x => x.DescendantNodes().OfType<VariableDeclaratorSyntax>().Select(y => y.Identifier.Text));
+            var targetObjectCreationExpression = generator.ObjectCreationExpression(generator.IdentifierName(className), constructorParameters.Select(generator.IdentifierName));
+
+            return generator.AssignmentStatement(generator.IdentifierName("_target"), targetObjectCreationExpression);
         }
     }
 }
