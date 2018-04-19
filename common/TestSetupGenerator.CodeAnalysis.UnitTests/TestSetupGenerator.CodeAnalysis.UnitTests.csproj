@@ -183,6 +183,7 @@
     <Compile Include="CodeAnalyzers\ClassUnderTestNameFinderTests.cs" />
     <Compile Include="CodeAnalyzers\ConstructorParametersExtractorTests.cs" />
     <Compile Include="CodeGenerators\ConstructorGeneratorTests.cs" />
+    <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_MoqStub.cs" />
     <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_MockRepositoryGenerateStub.cs" />
     <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_TargetObjectAssignmentExpression.cs" />
     <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests_ReplaceFieldDeclarations.cs" />

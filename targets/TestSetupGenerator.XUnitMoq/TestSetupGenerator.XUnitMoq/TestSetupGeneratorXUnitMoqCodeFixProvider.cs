@@ -66,12 +66,12 @@ namespace TestSetupGenerator.XUnitMoq
                 var generator = SyntaxGenerator.GetGenerator(document);
 
                 var testProjectName = document.Project.Name;
-                var classUnderTestName = classDecl.Identifier.Text.Replace("Tests", string.Empty);
+                var testClassName = classDecl.Identifier.Text;
+                var classUnderTestName = new ClassUnderTestNameFinder().GetClassUnderTestName(testClassName);
                 var classUnderTest = await new ClassUnderTestFinder().GetAsync(document.Project.Solution, testProjectName, classUnderTestName);
 
                 if (classUnderTest == null)
                 {
-                    // todo: show message "Class under test could not be found. Looked for class with name {0}"
                     return document;
                 }
 

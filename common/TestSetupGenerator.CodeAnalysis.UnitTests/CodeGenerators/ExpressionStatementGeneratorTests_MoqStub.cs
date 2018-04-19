@@ -1,15 +1,14 @@
 ﻿using Microsoft.CodeAnalysis;
 using TestSetupGenerator.CodeAnalysis.CodeGenerators;
-using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers;
 using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Xunit;
 
 namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeGenerators
 {
-    public class ExpressionStatementGeneratorTests_MockRepositoryGenerateStub
+    public class ExpressionStatementGeneratorTests_MoqStub
     {
         private ExpressionStatementGenerator _target;
-        public ExpressionStatementGeneratorTests_MockRepositoryGenerateStub()
+        public ExpressionStatementGeneratorTests_MoqStub()
         {
             _target = new ExpressionStatementGenerator();
         }
@@ -22,10 +21,10 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeGenerators
             var syntaxGenerator = new SyntaxGeneratorProvider().GetSyntaxGenerator();
 
             var actual =
-                _target.RhinoMocksStubAssignmentExpression(parameterType, fieldName, syntaxGenerator);
+                _target.MoqStubAssignmentExpression(parameterType, fieldName, syntaxGenerator);
             var asText = actual.NormalizeWhitespace().ToFullString();
 
-            var expected = "_someType = (MockRepository.GenerateStub<ISomeType>())";
+            var expected = "_someType = (new Mock<ISomeType>())";
             Assert.Equal(expected,asText);
         }
     }

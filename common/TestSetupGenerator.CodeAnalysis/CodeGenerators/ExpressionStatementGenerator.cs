@@ -8,7 +8,7 @@ namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
 {
     public class ExpressionStatementGenerator
     {
-        public SyntaxNode MockRepositoryGenerateStubAssignmentExpression(string parameterType, string fieldName, SyntaxGenerator generator)
+        public SyntaxNode RhinoMocksStubAssignmentExpression(string parameterType, string fieldName, SyntaxGenerator generator)
         {
             var fieldIdentifier = generator.IdentifierName(fieldName);
             var mocksRepositoryIdentifier = generator.IdentifierName("MockRepository");
@@ -18,6 +18,16 @@ namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
             var invocationExpression = generator.InvocationExpression(memberAccessExpression);
 
             return generator.AssignmentStatement(fieldIdentifier, invocationExpression);
+        }
+
+        public SyntaxNode MoqStubAssignmentExpression(string parameterType, string fieldName, SyntaxGenerator generator)
+        {
+            var parameterTypeIdentifier = generator.IdentifierName(parameterType);
+            var mocksRepositoryIdentifier = generator.GenericName("Mock", parameterTypeIdentifier);
+            var fieldIdentifier = generator.IdentifierName(fieldName);
+
+            var fieldInitializationExpression = generator.ObjectCreationExpression(mocksRepositoryIdentifier);
+            return generator.AssignmentStatement(fieldIdentifier, fieldInitializationExpression);
         }
 
         public SyntaxNode TargetObjectAssignmentExpression(IEnumerable<SyntaxNode> fieldDeclarations, string className, SyntaxGenerator generator)

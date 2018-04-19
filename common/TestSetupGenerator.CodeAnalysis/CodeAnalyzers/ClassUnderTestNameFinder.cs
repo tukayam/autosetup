@@ -11,14 +11,14 @@ namespace TestSetupGenerator.CodeAnalysis.CodeAnalyzers
                 return null;
             }
 
-            var keys = new List<string>() { "UnitTest", "Test" };
+            var keys = new List<string> { "UnitTest", "Test" };
 
             foreach (var key in keys)
             {
-                var indexUnitTest = testClassName.IndexOf(key);
-                if (indexUnitTest > -1)
+                var indexKey = testClassName.IndexOf(key);
+                if (indexKey > -1)
                 {
-                    return testClassName.Substring(0, testClassName.Length - indexUnitTest);
+                    return testClassName.Substring(0, indexKey);
                 }
             }
 
