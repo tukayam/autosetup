@@ -1,5 +1,5 @@
 ﻿using TestSetupGenerator.CodeAnalysis.CodeGenerators;
-using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers;
+using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Xunit;
 
 namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeGenerators

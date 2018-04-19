@@ -179,25 +179,33 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeAnalyzers\ClassUnderTestFinderTests.cs" />
+    <Compile Include="CodeAnalyzers\ClassUnderTestNameFinderTests.cs" />
     <Compile Include="CodeAnalyzers\ConstructorParametersExtractorTests.cs" />
+    <Compile Include="CodeGenerators\ConstructorGeneratorTests.cs" />
     <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_MockRepositoryGenerateStub.cs" />
     <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_TargetObjectAssignmentExpression.cs" />
-    <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests.cs" />
+    <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests_ReplaceFieldDeclarations.cs" />
+    <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests_GetFieldDeclarations.cs" />
     <Compile Include="CodeGenerators\MethodGeneratorTests_GenerateMethodWithAttribute.cs" />
-    <Compile Include="Helpers\ClassDeclarationProvider.cs" />
-    <Compile Include="Helpers\DocumentProvider.cs" />
-    <Compile Include="Helpers\FieldDeclarationsProvider.cs" />
-    <Compile Include="Helpers\TextFileReader.cs" />
-    <Compile Include="Helpers\TypeSyntaxProvider.cs" />
+    <Compile Include="CodeGenerators\UsingDirectorsGeneratorTests.cs" />
+    <EmbeddedResource Include="files\ConstructorGenerator_DocumentWithTwoClasses.txt" />
+    <Compile Include="Helpers\RoslynStubProviders\ClassDeclarationProvider.cs" />
+    <Compile Include="Helpers\RoslynStubProviders\DocumentProvider.cs" />
+    <Compile Include="Helpers\ExtensionMethods\StringExtensions.cs" />
+    <Compile Include="Helpers\IO\TextFileReader.cs" />
+    <Compile Include="Helpers\RoslynStubProviders\FieldDeclarationsProvider.cs" />
+    <Compile Include="Helpers\RoslynStubProviders\SyntaxNodeProvider.cs" />
+    <Compile Include="Helpers\RoslynStubProviders\TypeSyntaxProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Helpers\SyntaxGeneratorProvider.cs" />
+    <Compile Include="Helpers\RoslynStubProviders\SyntaxGeneratorProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\TestSetupGenerator.CodeAnalysis\TestSetupGenerator.CodeAnalysis.csproj">
+    <ProjectReference Include="..\TestSetupGenerator.CodeAnalysis\TestSetupGenerator.CodeAnalysis.csproj">
       <Project>{326c76bf-c1a4-47ff-93a6-3e805139c0b5}</Project>
       <Name>TestSetupGenerator.CodeAnalysis</Name>
     </ProjectReference>
@@ -212,6 +220,15 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="files\Class_WithUnitTestsForClassWithParameters.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="files\ClassUnderTest_And_TestClass.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="files\ClassUnderTestFinderTests_WithMultipleClasses.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="files\ConstructorGenerator_DocumentWithOneClassAndVariables.txt" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

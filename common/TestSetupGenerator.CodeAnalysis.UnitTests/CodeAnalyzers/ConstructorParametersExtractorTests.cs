@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
 using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers;
+using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Xunit;
 
 namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeAnalyzers
