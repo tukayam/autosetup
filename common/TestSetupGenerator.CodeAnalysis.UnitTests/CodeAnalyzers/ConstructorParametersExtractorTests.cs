@@ -1,6 +1,6 @@
 ﻿using System.Linq;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
-using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers;
 using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Xunit;
 
@@ -18,7 +18,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeAnalyzers
         public void ReturnsAllConstructorParameters()
         {
             var textFilePath = "files.Class_WithConstructorWithTwoParameters.txt";
-            var classDeclarationSyntax = ClassDeclarationProvider.GetClassDeclaration(textFilePath, "TestClass");
+            var classDeclarationSyntax = SyntaxNodeProvider.GetSyntaxNodeFromFile<ClassDeclarationSyntax>(textFilePath, "TestClass");
 
             var actual = _target.GetParametersOfConstructor(classDeclarationSyntax).ToList();
 

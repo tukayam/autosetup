@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using TestSetupGenerator.CodeAnalysis.CodeGenerators;
-using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers;
 using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Xunit;
 
@@ -21,8 +20,8 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeGenerators
             var filePath = "files.ClassUnderTest_And_TestClass.txt";
             var classUnderTestName = "ClassUnderTest";
             var testClassName = "TestClass";
-            var classUnderTestDeclarationSyntax = ClassDeclarationProvider.GetClassDeclaration(filePath, classUnderTestName);
-            var testClassDeclarationSyntax = ClassDeclarationProvider.GetClassDeclaration(filePath, testClassName);
+            var classUnderTestDeclarationSyntax = SyntaxNodeProvider.GetSyntaxNodeFromFile<ClassDeclarationSyntax>(filePath, classUnderTestName);
+            var testClassDeclarationSyntax = SyntaxNodeProvider.GetSyntaxNodeFromFile<ClassDeclarationSyntax>(filePath, testClassName);
             var membersInTestClass = testClassDeclarationSyntax.Members;
             var syntaxGenerator = new SyntaxGeneratorProvider().GetSyntaxGenerator();
 

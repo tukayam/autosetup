@@ -1,4 +1,5 @@
-﻿using TestSetupGenerator.CodeAnalysis.CodeGenerators;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using TestSetupGenerator.CodeAnalysis.CodeGenerators;
 using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Xunit;
 
@@ -16,7 +17,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeGenerators
         public void Returns_TargetWithAllDependencies()
         {
             var filePath = "files.Class_WithUnitTestsForClassWithParameters.txt";
-            var fieldDeclarations = FieldDeclarationsProvider.GetFieldDeclarations(filePath);
+            var fieldDeclarations = SyntaxNodeProvider.GetAllSyntaxNodesFromFile<FieldDeclarationSyntax>(filePath);
             var syntaxGenerator = new SyntaxGeneratorProvider().GetSyntaxGenerator();
 
             var actual = _target.TargetObjectAssignmentExpression(fieldDeclarations, "ClassUnderTest", syntaxGenerator);

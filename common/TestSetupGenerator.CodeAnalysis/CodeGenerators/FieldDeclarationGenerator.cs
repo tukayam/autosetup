@@ -3,11 +3,19 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
+using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
 
 namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
 {
     public class FieldDeclarationGenerator
     {
+        private readonly FieldNameGenerator _fieldNameGenerator;
+
+        public FieldDeclarationGenerator()
+        {
+            _fieldNameGenerator = new FieldNameGenerator();
+        }
+
         public IEnumerable<SyntaxNode> GetFieldDeclarations(ClassDeclarationSyntax classUnderTestDeclarationSyntax, SyntaxGenerator syntaxGenerator)
         {
             var constructorWithParameters =
@@ -17,29 +25,29 @@ namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
                         x => x.ParameterList.Parameters.Any());
             if (constructorWithParameters != null)
             {
-                var constructorParameterTypes = constructorWithParameters.ParameterList.Parameters.Select(_ => _.Type);
-                return GetFieldDeclarations(constructorParameterTypes, syntaxGenerator);
+                var constructorParameters = constructorWithParameters.ParameterList.Parameters;
+                return GetFieldDeclarations(constructorParameters, syntaxGenerator);
             }
 
             return new List<SyntaxNode>();
         }
 
-        public IEnumerable<SyntaxNode> GetFieldDeclarations(IEnumerable<TypeSyntax> parameterTypes, SyntaxGenerator syntaxGenerator)
+        public IEnumerable<SyntaxNode> GetFieldDeclarations(IEnumerable<ParameterSyntax> parameters, SyntaxGenerator syntaxGenerator)
         {
             var fieldDeclarations = new List<SyntaxNode>();
 
-            foreach (var parameterType in parameterTypes)
+            foreach (var parameter in parameters)
             {
-                var fieldName = GetParameterFieldName(parameterType);
+                var fieldName = _fieldNameGenerator.GetFromParameter(parameter);
                 var fieldDec = syntaxGenerator.FieldDeclaration(fieldName
-                    , parameterType
+                    , parameter.Type
                     , Accessibility.Private);
                 fieldDeclarations.Add(fieldDec);
             }
 
             return fieldDeclarations;
         }
-        
+
         public IEnumerable<SyntaxNode> ReplaceFieldDeclarations(ClassDeclarationSyntax classUnderTestDeclarationSyntax, SyntaxList<MemberDeclarationSyntax> members, SyntaxGenerator generator)
         {
             IEnumerable<SyntaxNode> fieldDeclarations = GetFieldDeclarations(classUnderTestDeclarationSyntax, generator);
@@ -59,15 +67,6 @@ namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
             }
 
             return members;
-        }
-
-        private string GetParameterFieldName(TypeSyntax parameterType)
-        {
-            var parameterTypeName = parameterType.ToString();
-            var isInterface = parameterTypeName.Substring(0, 1) == "I" &&
-                              parameterTypeName.Substring(1, 2).ToLower() != parameterTypeName.Substring(1, 2);
-            parameterTypeName = isInterface ? parameterTypeName.Replace("I", string.Empty) : parameterTypeName;
-            return string.Format("_{0}", parameterTypeName.Substring(0, 1).ToLowerInvariant() + parameterTypeName.Substring(1));
         }
     }
 }

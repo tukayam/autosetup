@@ -75,7 +75,7 @@ namespace TestSetupGenerator.XUnitMoq
                     return document;
                 }
 
-                var setupMethodDeclaration = Constructor(classUnderTestName, classUnderTest.ClassDeclarationSyntax, generator);
+                var setupMethodDeclaration = new XUnitSetupGenerator().Constructor(classUnderTestName, classUnderTest.ClassDeclarationSyntax, generator);
 
                 var root = await document.GetSyntaxRootAsync(cancellationToken);
                 var members = classDecl.Members;
@@ -207,58 +207,6 @@ namespace TestSetupGenerator.XUnitMoq
             parameterTypeName =
                 isGeneric ? parameterTypeName.Remove(parameterTypeName.IndexOf('<')) : parameterTypeName;
             return string.Format("_{0}", parameterTypeName.Substring(0, 1).ToLowerInvariant() + parameterTypeName.Substring(1));
-        }
-
-        private MemberDeclarationSyntax Constructor(string className, ClassDeclarationSyntax classDec, SyntaxGenerator generator)
-        {
-            var fieldDeclarations = new List<SyntaxNode>();
-            var expressionStatements = new List<SyntaxNode>();
-            var constructorWithParameters =
-                classDec.DescendantNodes()
-                    .OfType<ConstructorDeclarationSyntax>()
-                    .FirstOrDefault(
-                        x => x.ParameterList.Parameters.Any());
-            if (constructorWithParameters != null)
-            {
-                var constructorParam = constructorWithParameters.ParameterList.Parameters;
-                foreach (var parameter in constructorParam)
-                {
-                    var parameterType = parameter.Type;
-                    var parameterTypeIdentifier = generator.IdentifierName(parameterType.ToString());
-                    var mocksRepositoryIdentifier = generator.GenericName("Mock", parameterTypeIdentifier);
-
-                    var fieldName = GetParameterFieldName(parameter);
-                    var fieldDec = generator.FieldDeclaration(fieldName
-                                                            , mocksRepositoryIdentifier
-                                                            , Accessibility.Private);
-                    fieldDeclarations.Add(fieldDec);
-
-                    var fieldIdentifier = generator.IdentifierName(fieldName);
-
-
-                    var fieldInitializationExpression = generator.ObjectCreationExpression(mocksRepositoryIdentifier);
-                    var expressionStatementFieldInstantiation = generator.AssignmentStatement(fieldIdentifier, fieldInitializationExpression);
-
-                    expressionStatements.Add(expressionStatementFieldInstantiation);
-                }
-            }
-
-            var constructorParameters = fieldDeclarations.SelectMany(x => x.DescendantNodes().OfType<VariableDeclaratorSyntax>().Select(y => y.Identifier.Text));
-
-            var setupBody = new List<SyntaxNode>();
-            setupBody.AddRange(expressionStatements);
-
-            var targetObjectCreationExpression = generator.ObjectCreationExpression(generator.IdentifierName(className), constructorParameters.Select(x => generator.MemberAccessExpression(generator.IdentifierName(x), "Object")));
-
-            var expressionStatementTargetInstantiation = generator.AssignmentStatement(generator.IdentifierName("_target"), targetObjectCreationExpression);
-            setupBody.Add(expressionStatementTargetInstantiation);
-
-            // Generate the Clone method declaration
-            var constructorDeclaration = generator.ConstructorDeclaration(null,
-              null,
-              setupBody);
-
-            return constructorDeclaration as MemberDeclarationSyntax;
         }
     }
 }
