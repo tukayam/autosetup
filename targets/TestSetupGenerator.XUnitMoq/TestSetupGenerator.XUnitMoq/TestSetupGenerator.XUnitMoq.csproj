@@ -3,32 +3,32 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <IncludeBuildOutput>false</IncludeBuildOutput>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
   
   <PropertyGroup>
-    <PackageId>TestSetupGenerator.XUnitMoq</PackageId>
+    <PackageId>TestSetupGenerator</PackageId>
     <PackageVersion>1.0.0.0</PackageVersion>
-    <Authors>Tuba</Authors>
+    <Authors>Tuba Kaya</Authors>
     <PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl>
     <PackageProjectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</PackageProjectUrl>
     <PackageIconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</PackageIconUrl>
-    <RepositoryUrl>http://REPOSITORY_URL_HERE_OR_DELETE_THIS_LINE</RepositoryUrl>
+    <RepositoryUrl></RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>TestSetupGenerator.XUnitMoq</Description>
+    <Description>Generates mocks and constructor for class under test.</Description>
     <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
-    <Copyright>Copyright</Copyright>
-    <PackageTags>TestSetupGenerator.XUnitMoq, analyzers</PackageTags>
+    <Copyright>Copyright 2018</Copyright>
+    <PackageTags>TestSetupGenerator, analyzers</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
+    <Company></Company>
+    <Product>TestSetupGenerator</Product>
+    <Version>1.0.1</Version>
   </PropertyGroup>
   
   <ItemGroup>
     <Compile Remove="bin\**" />
-    <Compile Remove="tools\**" />
     <EmbeddedResource Remove="bin\**" />
-    <EmbeddedResource Remove="tools\**" />
     <None Remove="bin\**" />
-    <None Remove="tools\**" />
   </ItemGroup>
   
   <ItemGroup>
