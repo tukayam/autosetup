@@ -14,6 +14,7 @@ namespace TestSetupGenerator.XUnitMoq
         private readonly ExpressionStatementGenerator _expressionStatementGenerator;
         private readonly FieldNameGenerator _fieldNameGenerator;
         private readonly FieldDeclarationGenerator _fieldDeclarationGenerator;
+        private readonly ConstructorGenerator _constructorGenerator;
 
         public XUnitSetupGenerator()
         {
@@ -21,11 +22,12 @@ namespace TestSetupGenerator.XUnitMoq
             _expressionStatementGenerator = new ExpressionStatementGenerator();
             _fieldNameGenerator = new FieldNameGenerator();
             _fieldDeclarationGenerator = new FieldDeclarationGenerator();
+            _constructorGenerator = new ConstructorGenerator();
         }
 
-        public MemberDeclarationSyntax Constructor(string className, ClassDeclarationSyntax classDec, SyntaxGenerator generator)
+        public MemberDeclarationSyntax Constructor(string testClassName, ClassDeclarationSyntax classUnderTestDec, SyntaxGenerator generator)
         {
-            var constructorParameters = _constructorParametersExtractor.GetParametersOfConstructor(classDec).ToList();
+            var constructorParameters = _constructorParametersExtractor.GetParametersOfConstructor(classUnderTestDec).ToList();
             var expressionStatements = new List<SyntaxNode>();
 
             foreach (var parameter in constructorParameters)
@@ -39,22 +41,14 @@ namespace TestSetupGenerator.XUnitMoq
             }
 
             var fieldDeclarations = _fieldDeclarationGenerator.GetFieldDeclarations(constructorParameters, generator);
-            var targetObjectCreationParameters = fieldDeclarations.SelectMany(x => x.DescendantNodes().OfType<VariableDeclaratorSyntax>().Select(y => y.Identifier.Text));
+            var classUnderTestName = classUnderTestDec.Identifier.Text;
+            var expressionStatementTargetInstantiation = _expressionStatementGenerator.TargetObjectAssignmentExpression(fieldDeclarations, classUnderTestName, generator);
 
             var setupBody = new List<SyntaxNode>();
             setupBody.AddRange(expressionStatements);
-
-            var targetObjectCreationExpression = generator.ObjectCreationExpression(generator.IdentifierName(className), targetObjectCreationParameters.Select(x => generator.MemberAccessExpression(generator.IdentifierName(x), "Object")));
-
-            var expressionStatementTargetInstantiation = generator.AssignmentStatement(generator.IdentifierName("_target"), targetObjectCreationExpression);
             setupBody.Add(expressionStatementTargetInstantiation);
 
-            // Generate the Clone method declaration
-            var constructorDeclaration = generator.ConstructorDeclaration(null,
-              null,
-              setupBody);
-
-            return constructorDeclaration as MemberDeclarationSyntax;
+            return _constructorGenerator.Constructor(testClassName, setupBody, generator) as MemberDeclarationSyntax;
         }
     }
 }

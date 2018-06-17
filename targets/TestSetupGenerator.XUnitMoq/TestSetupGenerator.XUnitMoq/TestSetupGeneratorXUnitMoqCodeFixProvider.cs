@@ -75,7 +75,7 @@ namespace TestSetupGenerator.XUnitMoq
                     return document;
                 }
 
-                var setupMethodDeclaration = new XUnitSetupGenerator().Constructor(classUnderTestName, classUnderTest.ClassDeclarationSyntax, generator);
+                var setupMethodDeclaration = new XUnitSetupGenerator().Constructor(testClassName, classUnderTest.ClassDeclarationSyntax, generator);
 
                 var root = await document.GetSyntaxRootAsync(cancellationToken);
                 var members = classDecl.Members;
