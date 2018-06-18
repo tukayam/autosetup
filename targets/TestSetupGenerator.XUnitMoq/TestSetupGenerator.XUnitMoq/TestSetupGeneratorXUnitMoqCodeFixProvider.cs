@@ -40,22 +40,19 @@ namespace TestSetupGenerator.XUnitMoq
             // Find the type declaration identified by the diagnostic.
             var declaration = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf().OfType<ClassDeclarationSyntax>().First();
 
-            if (declaration.Identifier.Text.EndsWith("Tests"))
+            try
             {
-                try
-                {
-                    // Register a code action that will invoke the fix.
-                    context.RegisterCodeFix(
-                        CodeAction.Create(
-                            title: title,
-                            createChangedDocument: c => CreateConstructor(context.Document, declaration, c),
-                            equivalenceKey: title),
-                        diagnostic);
-                }
-                catch
-                {
+                // Register a code action that will invoke the fix.
+                context.RegisterCodeFix(
+                    CodeAction.Create(
+                        title: title,
+                        createChangedDocument: c => CreateConstructor(context.Document, declaration, c),
+                        equivalenceKey: title),
+                    diagnostic);
+            }
+            catch
+            {
 
-                }
             }
         }
 
