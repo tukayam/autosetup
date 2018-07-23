@@ -2,7 +2,12 @@
 
 namespace TestSetupGenerator.CodeAnalysis.CodeAnalyzers
 {
-    public class ClassUnderTestNameFinder
+    public interface IClassUnderTestNameFinder
+    {
+        string GetClassUnderTestName(string testClassName);
+    }
+
+    public class ClassUnderTestNameFinder : IClassUnderTestNameFinder
     {
         public string GetClassUnderTestName(string testClassName)
         {

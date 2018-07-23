@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
+using TestSetupGenerator.CodeAnalysis.CodeGenerators;
 using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Xunit;
 

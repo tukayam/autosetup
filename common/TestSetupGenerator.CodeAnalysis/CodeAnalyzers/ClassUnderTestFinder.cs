@@ -6,7 +6,12 @@ using TestSetupGenerator.CodeAnalysis.Models;
 
 namespace TestSetupGenerator.CodeAnalysis.CodeAnalyzers
 {
-    public class ClassUnderTestFinder
+    public interface IClassUnderTestFinder
+    {
+        Task<ClassUnderTest> GetAsync(Solution solution, string testProjectName, string className);
+    }
+
+    public class ClassUnderTestFinder : IClassUnderTestFinder
     {
         /*string testProjectName,*/
         public async Task<ClassUnderTest> GetAsync(Solution solution, string testProjectName, string className)

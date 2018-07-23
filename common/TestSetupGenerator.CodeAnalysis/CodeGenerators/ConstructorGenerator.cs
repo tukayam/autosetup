@@ -4,7 +4,12 @@ using Microsoft.CodeAnalysis.Editing;
 
 namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
 {
-    public class ConstructorGenerator
+    public interface IConstructorGenerator
+    {
+        SyntaxNode Constructor(string containingTypeName, IEnumerable<SyntaxNode> methodBodySyntaxNodes, SyntaxGenerator generator);
+    }
+
+    public class ConstructorGenerator : IConstructorGenerator
     {
         public SyntaxNode Constructor(string containingTypeName, IEnumerable<SyntaxNode> methodBodySyntaxNodes, SyntaxGenerator generator)
         {

@@ -6,7 +6,14 @@ using Microsoft.CodeAnalysis.Editing;
 
 namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
 {
-    public class ExpressionStatementGenerator
+    public interface IExpressionStatementGenerator
+    {
+        SyntaxNode RhinoMocksStubAssignmentExpression(string parameterType, string fieldName, SyntaxGenerator generator);
+        SyntaxNode MoqStubAssignmentExpression(string parameterType, string fieldName, SyntaxGenerator generator);
+        SyntaxNode TargetObjectAssignmentExpression(IEnumerable<SyntaxNode> fieldDeclarations, string className, SyntaxGenerator generator);
+    }
+
+    public class ExpressionStatementGenerator : IExpressionStatementGenerator
     {
         public SyntaxNode RhinoMocksStubAssignmentExpression(string parameterType, string fieldName, SyntaxGenerator generator)
         {

@@ -4,7 +4,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace TestSetupGenerator.CodeAnalysis.CodeAnalyzers
 {
-    public class ConstructorParametersExtractor
+    public interface IConstructorParametersExtractor
+    {
+        IEnumerable<ParameterSyntax> GetParametersOfConstructor(ClassDeclarationSyntax classDec);
+    }
+
+    public class ConstructorParametersExtractor : IConstructorParametersExtractor
     {
         public IEnumerable<ParameterSyntax> GetParametersOfConstructor(ClassDeclarationSyntax classDec)
         {
