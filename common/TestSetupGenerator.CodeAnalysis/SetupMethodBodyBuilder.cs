@@ -7,22 +7,22 @@ using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
 
 namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
 {
-    public interface ISetupMethodBodyGenerator
+    public interface ISetupMethodBodyBuilder
     {
         IEnumerable<SyntaxNode> GetSetupMethodBodyMembers(ClassDeclarationSyntax classUnderTestDec, SyntaxGenerator generator);
     }
 
-    public class SetupMethodBodyBuilder : ISetupMethodBodyGenerator
+    public class SetupMethodBodyBuilder : ISetupMethodBodyBuilder
     {
         private readonly IConstructorParametersExtractor _constructorParametersExtractor;
         private readonly IExpressionStatementGenerator _expressionStatementGenerator;
         private readonly IFieldNameGenerator _fieldNameGenerator;
-        private readonly IFieldDeclarationsGenerator _fieldDeclarationGenerator;
+        private readonly IFieldDeclarationsBuilder _fieldDeclarationGenerator;
 
         public SetupMethodBodyBuilder(IConstructorParametersExtractor constructorParametersExtractor,
                                         IExpressionStatementGenerator expeExpressionStatementGenerator,
                                         IFieldNameGenerator fieldNameGenerator,
-                                        IFieldDeclarationsGenerator fieldDeclarationsGenerator)
+                                        IFieldDeclarationsBuilder fieldDeclarationsGenerator)
         {
             _constructorParametersExtractor = constructorParametersExtractor;
             _expressionStatementGenerator = expeExpressionStatementGenerator;

@@ -15,7 +15,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeAnalyzers
         [InlineData("SomeClassTests", "SomeClass")]
         [InlineData("SomeClassUnitTests", "SomeClass")]
         [InlineData("SomeClassUnitTests_SomeMethod", "SomeClass")]
-        [InlineData("SomeClassTest", "SomeClass")]
+        [InlineData("ClassUnderTestTests", "ClassUnderTest")]
         public void ReturnsClassUnderTestName(string testClassName, string expected)
         {
             var actual = _target.GetClassUnderTestName(testClassName);

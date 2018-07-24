@@ -2,9 +2,9 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
-using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.IO;
+using TestSetupGenerator.UnitTests.Helpers.IO;
 
-namespace TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders
+namespace TestSetupGenerator.UnitTests.Helpers.RoslynStubProviders
 {
    static class DocumentProvider
     {
@@ -18,10 +18,11 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders
         internal static string VisualBasicDefaultExt = "vb";
         internal static string TestProjectName = "TestProject";
 
+
         /// <summary>
         /// Create a Document from a string through creating a project that contains it.
         /// </summary>
-        /// <param name="filePath">File path to classes in the form of a string</param>
+        /// <param name="source">Classes in the form of a string</param>
         /// <param name="language">The language the source code is in</param>
         /// <returns>A Document created from the source string</returns>
         public static Document CreateDocumentFromFile(string filePath, string language = LanguageNames.CSharp)

@@ -9,25 +9,25 @@ using TestSetupGenerator.CodeAnalysis.CodeGenerators;
 
 namespace TestSetupGenerator.XUnitMoq
 {
-    internal interface IXUnitSetupGenerator
+    public interface IXUnitSetupGenerator
     {
         Task<Document> RegenerateSetup(Document document, ClassDeclarationSyntax testClass, CancellationToken cancellationToken);
     }
 
-    class XUnitSetupGenerator : IXUnitSetupGenerator
+    public class XUnitSetupGenerator : IXUnitSetupGenerator
     {
         private readonly IClassUnderTestNameFinder _classUnderTestNameFinder;
         private readonly IClassUnderTestFinder _classUnderTestFinder;
-        private readonly IFieldDeclarationsGenerator _fieldDeclarationsGenerator;
-        private readonly ISetupMethodBodyGenerator _setupMethodBodyGenerator;
+        private readonly IFieldDeclarationsBuilder _fieldDeclarationsGenerator;
+        private readonly ISetupMethodBodyBuilder _setupMethodBodyGenerator;
         private readonly IConstructorGenerator _constructorGenerator;
         private readonly IUsingDirectivesGenerator _usingDirectivesGenerator;
         private readonly IMemberReplacer _memberReplacer;
 
         public XUnitSetupGenerator(IClassUnderTestNameFinder classUnderTestNameFinder,
                                     IClassUnderTestFinder classUnderTestFinder,
-                                    IFieldDeclarationsGenerator fieldDeclarationsGenerator,
-                                    ISetupMethodBodyGenerator setupMethodBodyGenerator,
+                                    IFieldDeclarationsBuilder fieldDeclarationsGenerator,
+                                    ISetupMethodBodyBuilder setupMethodBodyGenerator,
                                     IConstructorGenerator constructorGenerator,
                                     IUsingDirectivesGenerator usingDirectivesGenerator,
                                     IMemberReplacer memberReplacer)
@@ -65,14 +65,12 @@ namespace TestSetupGenerator.XUnitMoq
                 var namespaceForMoq = "Moq";
                 var usings = _usingDirectivesGenerator.UsingDirectives(new[] { namespaceForMoq }, generator);
 
-                var newDocument = new DocumentBuilder(_memberReplacer)
-                                    .SetDocument(document)
-                                    .SetTestClass(testClass)
+                var newDocument = await new DocumentBuilder(_memberReplacer, document,testClass)
                                     .WithSetupMethodAsync(setupMethodDeclaration)
                                     .WithFieldsAsync(fieldDeclarations)
                                     .WithUsingsAsync(usings)
                                     .Build();
-                return await newDocument;
+                return newDocument;
             }
             catch
             {

@@ -8,13 +8,13 @@ using TestSetupGenerator.CodeAnalysis.CodeGenerators;
 
 namespace TestSetupGenerator.CodeAnalysis
 {
-    public interface IFieldDeclarationsGenerator
+    public interface IFieldDeclarationsBuilder
     {
         IEnumerable<SyntaxNode> GetFieldDeclarations(ClassDeclarationSyntax classUnderTestDeclarationSyntax, SyntaxGenerator syntaxGenerator);
         IEnumerable<SyntaxNode> GetFieldDeclarationsAsGeneric(ClassDeclarationSyntax classUnderTestDeclarationSyntax, string genericSymbol, SyntaxGenerator syntaxGenerator);
     }
 
-    public class FieldDeclarationsBuilder : IFieldDeclarationsGenerator
+    public class FieldDeclarationsBuilder : IFieldDeclarationsBuilder
     {
         private readonly IConstructorParametersExtractor _constructorParametersExtractor;
         private readonly IFieldDeclarationGenerator _fieldDeclarationGenerator;

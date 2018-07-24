@@ -6,32 +6,30 @@ using TestSetupGenerator.CodeAnalysis.CodeGenerators;
 
 namespace TestSetupGenerator.CodeAnalysis
 {
-    public class DocumentBuilder
+    public interface IDocumentBuilder
+    {
+        DocumentBuilder WithSetupMethodAsync(MethodDeclarationSyntax newSetupMethod);
+        DocumentBuilder WithFieldsAsync(IEnumerable<SyntaxNode> newFields);
+        DocumentBuilder WithUsingsAsync(IEnumerable<UsingDirectiveSyntax> newUsingDirectives);
+        Task<Document> Build();
+    }
+
+    public class DocumentBuilder : IDocumentBuilder
     {
         private readonly IMemberReplacer _memberReplacer;
 
-        private Document _document;
-        private ClassDeclarationSyntax _testClass;
+        private readonly Document _document;
+        private readonly ClassDeclarationSyntax _testClass;
 
         private Document _newDocument;
         private ClassDeclarationSyntax _newtestClass;
 
-        public DocumentBuilder(IMemberReplacer memberReplacer)
+        public DocumentBuilder(IMemberReplacer memberReplacer, Document document, ClassDeclarationSyntax testClass)
         {
             _memberReplacer = memberReplacer;
-        }
-
-        public DocumentBuilder SetDocument(Document document)
-        {
             _document = document;
-            return this;
-        }
-
-        public DocumentBuilder SetTestClass(ClassDeclarationSyntax testClass)
-        {
             _testClass = testClass;
             _newtestClass = testClass;
-            return this;
         }
 
         public DocumentBuilder WithSetupMethodAsync(MethodDeclarationSyntax newSetupMethod)
@@ -42,7 +40,7 @@ namespace TestSetupGenerator.CodeAnalysis
 
         public DocumentBuilder WithFieldsAsync(IEnumerable<SyntaxNode> newFields)
         {
-            _newtestClass = _memberReplacer.InsertIfNotExists(_newtestClass, newFields) as ClassDeclarationSyntax;
+            _memberReplacer.InsertIfNotExists(_newtestClass, newFields);
             return this;
         }
 

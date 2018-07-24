@@ -13,16 +13,28 @@ namespace TestSetupGenerator.XUnitMoq
         private static Container Configure()
         {
             var container = new Container();
+            container.Options.AllowOverridingRegistrations = true;
 
-            // DataAccess
+            // CodeAnalyzers
+            container.RegisterSingleton<IClassUnderTestFinder, ClassUnderTestFinder>();
+            container.RegisterSingleton<IClassUnderTestNameFinder, ClassUnderTestNameFinder>();
             container.RegisterSingleton<IConstructorParametersExtractor, ConstructorParametersExtractor>();
-            container.RegisterSingleton<IExpressionStatementGenerator, ExpressionStatementGenerator>();
-            container.RegisterSingleton<IFieldNameGenerator, FieldNameGenerator>();
-            container.RegisterSingleton<IFieldDeclarationsGenerator, FieldDeclarationsBuilder>();
-            container.RegisterSingleton<ISetupMethodBodyGenerator, SetupMethodBodyBuilder>();
-            container.RegisterSingleton<IConstructorGenerator, ConstructorGenerator>();
+            container.RegisterSingleton<IMemberFinder, MemberFinder>();
 
-            container.RegisterSingleton<IXUnitSetupGenerator, XUnitSetupGenerator>();
+            // CodeGenerators
+            container.RegisterSingleton<IConstructorGenerator, ConstructorGenerator>();
+            container.RegisterSingleton<IExpressionStatementGenerator, ExpressionStatementGenerator>();
+            container.RegisterSingleton<IFieldDeclarationGenerator, FieldDeclarationGenerator>();
+            container.RegisterSingleton<IFieldNameGenerator, FieldNameGenerator>();
+            container.RegisterSingleton<IMethodGenerator, MethodGenerator>();
+            container.RegisterSingleton<IUsingDirectivesGenerator, UsingDirectivesGenerator>();
+
+            container.Register<IDocumentBuilder, DocumentBuilder>();
+            container.Register<IFieldDeclarationsBuilder, FieldDeclarationsBuilder>();
+            container.Register<IMemberReplacer, MemberReplacer>();
+            container.Register<ISetupMethodBodyBuilder, SetupMethodBodyBuilder>();
+            
+            container.Register<IXUnitSetupGenerator, XUnitSetupGenerator>();
 
             return container;
         }
