@@ -5,7 +5,12 @@ using Microsoft.CodeAnalysis.Editing;
 
 namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
 {
-    public class MethodGenerator
+    public interface IMethodGenerator
+    {
+        MemberDeclarationSyntax GenerateMethodWithAttribute(string methodName, string attributeName, IList<SyntaxNode> methodBodySyntaxNodes, SyntaxGenerator generator);
+    }
+
+    public class MethodGenerator : IMethodGenerator
     {
         /// <summary>
         /// Generates a method such as following 

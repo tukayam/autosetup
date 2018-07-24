@@ -1,72 +1,44 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
-using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
 
 namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
 {
-    public class FieldDeclarationGenerator
+    public interface IFieldDeclarationGenerator
     {
-        private readonly FieldNameGenerator _fieldNameGenerator;
+        SyntaxNode GetFieldDeclaration(ParameterSyntax parameter, SyntaxGenerator generator);
+        SyntaxNode GetGenericFieldDeclaration(ParameterSyntax parameter, string genericSymbol, SyntaxGenerator generator);
+    }
 
-        public FieldDeclarationGenerator()
+    public class FieldDeclarationGenerator : IFieldDeclarationGenerator
+    {
+        private readonly IFieldNameGenerator _fieldNameGenerator;
+
+        public FieldDeclarationGenerator(IFieldNameGenerator fieldNameGenerator)
         {
-            _fieldNameGenerator = new FieldNameGenerator();
+            _fieldNameGenerator = fieldNameGenerator;
         }
 
-        public IEnumerable<SyntaxNode> GetFieldDeclarations(ClassDeclarationSyntax classUnderTestDeclarationSyntax, SyntaxGenerator syntaxGenerator)
+        public SyntaxNode GetFieldDeclaration(ParameterSyntax parameter, SyntaxGenerator generator)
         {
-            var constructorWithParameters =
-                classUnderTestDeclarationSyntax.DescendantNodes()
-                    .OfType<ConstructorDeclarationSyntax>()
-                    .FirstOrDefault(
-                        x => x.ParameterList.Parameters.Any());
-            if (constructorWithParameters != null)
-            {
-                var constructorParameters = constructorWithParameters.ParameterList.Parameters;
-                return GetFieldDeclarations(constructorParameters, syntaxGenerator);
-            }
-
-            return new List<SyntaxNode>();
+            var fieldName = _fieldNameGenerator.GetFromParameter(parameter);
+            return generator.FieldDeclaration(fieldName
+                , parameter.Type
+                , Accessibility.Private
+                , DeclarationModifiers.ReadOnly);
         }
 
-        public IEnumerable<SyntaxNode> GetFieldDeclarations(IEnumerable<ParameterSyntax> parameters, SyntaxGenerator syntaxGenerator)
+        public SyntaxNode GetGenericFieldDeclaration(ParameterSyntax parameter, string genericSymbol, SyntaxGenerator generator)
         {
-            var fieldDeclarations = new List<SyntaxNode>();
+            var fieldName = _fieldNameGenerator.GetFromParameter(parameter);
 
-            foreach (var parameter in parameters)
-            {
-                var fieldName = _fieldNameGenerator.GetFromParameter(parameter);
-                var fieldDec = syntaxGenerator.FieldDeclaration(fieldName
-                    , parameter.Type
-                    , Accessibility.Private);
-                fieldDeclarations.Add(fieldDec);
-            }
+            var parameterTypeIdentifier = generator.IdentifierName(parameter.Type.ToString());
+            var type = generator.GenericName(genericSymbol, parameterTypeIdentifier);
 
-            return fieldDeclarations;
-        }
-
-        public IEnumerable<SyntaxNode> ReplaceFieldDeclarations(ClassDeclarationSyntax classUnderTestDeclarationSyntax, SyntaxList<MemberDeclarationSyntax> members, SyntaxGenerator generator)
-        {
-            IEnumerable<SyntaxNode> fieldDeclarations = GetFieldDeclarations(classUnderTestDeclarationSyntax, generator);
-
-            var existingFieldDeclarationVariables = members.OfType<FieldDeclarationSyntax>()
-                .SelectMany(_ => _.Declaration.Variables).Select(_ => _.Identifier.Text).ToList();
-
-            var index = 0;
-            //foreach field replace or add
-            foreach (FieldDeclarationSyntax fieldDeclaration in fieldDeclarations)
-            {
-                var fieldDeclarationText = fieldDeclaration.Declaration.Variables.Select(_ => _.Identifier.Text);
-                if (!existingFieldDeclarationVariables.Any(_ => fieldDeclarationText.Contains(_)))
-                {
-                    members = members.Insert(index++, fieldDeclaration);
-                }
-            }
-
-            return members;
+            return generator.FieldDeclaration(fieldName
+                , type
+                , Accessibility.Private
+                , DeclarationModifiers.ReadOnly);
         }
     }
 }

@@ -1,8 +1,13 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace TestSetupGenerator.CodeAnalysis.CodeAnalyzers
+namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
 {
-    public class FieldNameGenerator
+    public interface IFieldNameGenerator
+    {
+        string GetFromParameter(ParameterSyntax parameter);
+    }
+
+    public class FieldNameGenerator : IFieldNameGenerator
     {
         public string GetFromParameter(ParameterSyntax parameter)
         {

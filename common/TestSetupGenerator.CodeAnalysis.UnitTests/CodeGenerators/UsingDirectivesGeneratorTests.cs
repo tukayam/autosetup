@@ -7,13 +7,13 @@ using Xunit;
 
 namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeGenerators
 {
-    public class UsingDirectorsGeneratorTests
+    public class UsingDirectivesGeneratorTests
     {
-        private UsingDirectiveGenerator _target;
+        private UsingDirectivesGenerator _target;
 
-        public UsingDirectorsGeneratorTests()
+        public UsingDirectivesGeneratorTests()
         {
-            _target = new UsingDirectiveGenerator();
+            _target = new UsingDirectivesGenerator();
         }
 
         [Fact]

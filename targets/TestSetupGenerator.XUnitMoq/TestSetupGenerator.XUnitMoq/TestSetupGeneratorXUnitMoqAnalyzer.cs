@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
+using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
 
 namespace TestSetupGenerator.XUnitMoq
 {
@@ -31,9 +32,9 @@ namespace TestSetupGenerator.XUnitMoq
         {
             // TODO: Replace the following code with your own analysis, generating Diagnostic objects for any issues you find
             var namedTypeSymbol = (INamedTypeSymbol)context.Symbol;
-
+            var symbolName = namedTypeSymbol.Name;
             // Find just those named type symbols with names containing lowercase letters.
-            if (namedTypeSymbol.Name.EndsWith("Tests"))
+            if (TestClassDetector.IsTestClass(symbolName))
             {
                 // For all such symbols, produce a diagnostic.
                 var diagnostic = Diagnostic.Create(Rule, namedTypeSymbol.Locations[0], namedTypeSymbol.Name.Replace("Tests", string.Empty));
