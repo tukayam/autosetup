@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using TestSetupGenerator.UnitTests.Helpers.IO;
+using TestSetupGenerator.IntegrationTests.Helpers.IO;
 
-namespace TestSetupGenerator.UnitTests.Helpers.RoslynStubProviders
+namespace TestSetupGenerator.IntegrationTests.Helpers.RoslynStubProviders
 {
     static class SyntaxNodeProvider
     {

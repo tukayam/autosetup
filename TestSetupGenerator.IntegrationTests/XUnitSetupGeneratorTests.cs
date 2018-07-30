@@ -6,13 +6,13 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Moq;
 using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
 using TestSetupGenerator.CodeAnalysis.Models;
-using TestSetupGenerator.UnitTests.Helpers.RoslynStubProviders;
+using TestSetupGenerator.IntegrationTests.Helpers.ExtensionMethods;
+using TestSetupGenerator.IntegrationTests.Helpers.RoslynStubProviders;
 using TestSetupGenerator.XUnitMoq;
 using Xunit;
-using TestSetupGenerator.UnitTests.Helpers.ExtensionMethods;
 using Xunit.Abstractions;
 
-namespace TestSetupGenerator.UnitTests
+namespace TestSetupGenerator.IntegrationTests
 {
     public class XUnitSetupGeneratorTests
     {
@@ -26,18 +26,17 @@ namespace TestSetupGenerator.UnitTests
 
             _classUnderTestFinder = new Mock<IClassUnderTestFinder>();
 
-            var iocConfig=new IoCConfig();
+            var iocConfig = new IoCConfig();
             var container = iocConfig.Container;
             container.RegisterInstance(_classUnderTestFinder.Object);
 
             _target = iocConfig.Container.GetInstance<IXUnitSetupGenerator>();
         }
 
-        [Theory]
-        [InlineData("files.TestClass_NoSetupConstructor.txt")]
-        [InlineData("files.TestClass_WithSetupConstructor.txt")]
-        public async Task RegeneratesSetup_When_NoAdditionalLinesMustBeKept(string filePath)
+        [Fact]
+        public async Task RewritesDefaultConstructor()
         {
+            var filePath = "files.TestClass_WithSetupConstructor.txt";
             var document = DocumentProvider.CreateDocumentFromFile(filePath);
             var root = await document.GetSyntaxRootAsync();
             var testClass = root.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>().First();
