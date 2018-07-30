@@ -7,15 +7,19 @@ using Moq;
 using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
 using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace TestSetupGenerator.CodeAnalysis.UnitTests
 {
     public class DocumentBuilderTests_WithFields
     {
+        private readonly ITestOutputHelper _testOutput;
         private readonly Mock<IMemberFinder> _memberFinder;
         private DocumentBuilder _target;
-        public DocumentBuilderTests_WithFields()
+
+        public DocumentBuilderTests_WithFields(ITestOutputHelper testOutput)
         {
+            _testOutput = testOutput;
             _memberFinder = new Mock<IMemberFinder>();
         }
 
@@ -44,6 +48,44 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests
 
             Assert.Equal(2, actualFields.Count);
             Assert.True(actualFields.All(_ => newFieldDeclarations.Any(f => f.GetText().ToString() == _.GetText().ToString())));
+
+            _testOutput.WriteLine(actualRoot.GetText().ToString());
+        }
+
+        [Fact]
+        public async Task AddsFieldsInSameOrderAsTheParameters()
+        {
+            var filePath = "files.EmptyTestClass.txt";
+            var document = DocumentProvider.CreateDocumentFromFile(filePath);
+            var root = document.GetSyntaxRootAsync().Result;
+            var testClass = root.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>().First();
+
+            _target = new DocumentBuilder(_memberFinder.Object, document, testClass);
+
+            var newFieldDeclarations =
+                SyntaxNodeProvider.GetAllSyntaxNodesFromFile<FieldDeclarationSyntax>("files.SampleFieldDeclarations.txt").ToList();
+
+            _memberFinder.Setup(_ =>
+                    _.FindSimilarNode(It.IsAny<SyntaxNode>(), It.IsAny<SyntaxNode>()))
+                .Returns(default(SyntaxNode));
+
+            var actual = await _target.WithFields(newFieldDeclarations)
+                .BuildAsync(new CancellationToken());
+
+
+            var actualRoot = await actual.GetSyntaxRootAsync();
+            _testOutput.WriteLine(actualRoot.GetText().ToString());
+
+            var actualFields = actualRoot.DescendantNodes().OfType<FieldDeclarationSyntax>().ToList();
+
+            var expectedFirstField = newFieldDeclarations.First();
+            var expectedSecondField = newFieldDeclarations.Skip(1).First();
+
+            var actualFirstField = actualFields.First();
+            var actualSecondField = actualFields.Skip(1).First();
+
+            Assert.Equal(expectedFirstField.GetText().ToString(), actualFirstField.GetText().ToString());
+            Assert.Equal(expectedSecondField.GetText().ToString(), actualSecondField.GetText().ToString());
         }
 
         //[Fact]

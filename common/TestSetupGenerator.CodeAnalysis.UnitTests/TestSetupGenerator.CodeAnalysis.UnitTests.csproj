@@ -199,7 +199,6 @@
     <Compile Include="CodeGenerators\FieldNameGeneratorTests.cs" />
     <Compile Include="DocumentBuilderTests_WithFields.cs" />
     <Compile Include="DocumentBuilderTests_WithSetupMethod.cs" />
-    <Compile Include="ReplaceOrInsertMemberTests.cs" />
     <Compile Include="CodeGenerators\MethodGeneratorTests_GenerateMethodWithAttribute.cs" />
     <Compile Include="CodeGenerators\UsingDirectivesGeneratorTests.cs" />
     <EmbeddedResource Include="files\ConstructorGenerator_DocumentWithTwoClasses.txt" />

@@ -8,22 +8,14 @@ using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
 
 namespace TestSetupGenerator.CodeAnalysis
 {
-    public interface IDocumentBuilder
-    {
-        DocumentBuilder WithSetupMethod(MethodDeclarationSyntax newSetupMethod);
-        DocumentBuilder WithFields(IEnumerable<SyntaxNode> newFields);
-        DocumentBuilder WithUsings(IEnumerable<UsingDirectiveSyntax> newUsingDirectives);
-        Task<Document> BuildAsync(CancellationToken cancellationToken);
-    }
-
-    public class DocumentBuilder : IDocumentBuilder
+    public class DocumentBuilder
     {
         private readonly IMemberFinder _memberFinder;
 
         private readonly Document _document;
         private readonly ClassDeclarationSyntax _testClass;
 
-        private MethodDeclarationSyntax _newSetupMethod;
+        private MemberDeclarationSyntax _newSetupMethod;
         private IEnumerable<SyntaxNode> _newFields;
         private IEnumerable<UsingDirectiveSyntax> _newUsingDirectives;
 
@@ -34,7 +26,7 @@ namespace TestSetupGenerator.CodeAnalysis
             _testClass = testClass;
         }
 
-        public DocumentBuilder WithSetupMethod(MethodDeclarationSyntax newSetupMethod)
+        public DocumentBuilder WithSetupMethod(MemberDeclarationSyntax newSetupMethod)
         {
             _newSetupMethod = newSetupMethod;
             return this;
@@ -64,11 +56,7 @@ namespace TestSetupGenerator.CodeAnalysis
 
             if (_newFields != null)
             {
-                foreach (var syntaxNode in _newFields)
-                {
-                    var newField = (FieldDeclarationSyntax)syntaxNode;
-                    members = AddToMembers(members, newField);
-                }
+                members = AddToMembers(members, _newFields.Select(_ => _ as FieldDeclarationSyntax));
             }
 
             var newClass = _testClass.WithMembers(members);
@@ -93,6 +81,26 @@ namespace TestSetupGenerator.CodeAnalysis
             {
                 members = members.Insert(0, newMember);
             }
+
+            return members;
+        }
+
+        private SyntaxList<MemberDeclarationSyntax> AddToMembers(SyntaxList<MemberDeclarationSyntax> members, IEnumerable<MemberDeclarationSyntax> newMembers)
+        {
+            var membersToInsert = new List<MemberDeclarationSyntax>();
+            foreach (var newMember in newMembers)
+            {
+                if (_memberFinder.FindSimilarNode(newMember, _testClass) is MemberDeclarationSyntax existingMember)
+                {
+                    members = members.Replace(existingMember, newMember);
+                }
+                else
+                {
+                    membersToInsert.Add(newMember);
+                }
+            }
+
+            members = members.InsertRange(0, membersToInsert);
 
             return members;
         }

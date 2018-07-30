@@ -61,7 +61,8 @@ namespace TestSetupGenerator.XUnitMoq
                     return document;
                 }
 
-                var setupMethodDeclaration = Constructor(testClassName, classUnderTest.ClassDeclarationSyntax, generator);
+                var methodBody = _setupMethodBodyGenerator.GetSetupMethodBodyMembers(classUnderTest.ClassDeclarationSyntax, generator);
+                var newConstructorWithSetup = _constructorGenerator.Constructor(testClassName, methodBody, generator);
 
                 var constructorParameters = _constructorParametersExtractor.GetParametersOfConstructor(classUnderTest.ClassDeclarationSyntax).ToList();
                 var genericSymbolForMoq = "Mock";
@@ -71,7 +72,7 @@ namespace TestSetupGenerator.XUnitMoq
                 var usings = _usingDirectivesGenerator.UsingDirectives(new[] { namespaceForMoq }, generator);
 
                 var newDocument = await new DocumentBuilder(_memberFinder, document, testClass)
-                                    .WithSetupMethod(setupMethodDeclaration)
+                                    .WithSetupMethod(newConstructorWithSetup as MemberDeclarationSyntax)
                                     .WithFields(fieldDeclarations)
                                     .WithUsings(usings)
                                     .BuildAsync(cancellationToken);
@@ -83,10 +84,5 @@ namespace TestSetupGenerator.XUnitMoq
             }
         }
 
-        private MethodDeclarationSyntax Constructor(string testClassName, ClassDeclarationSyntax classUnderTestDec, SyntaxGenerator generator)
-        {
-            var methodBody = _setupMethodBodyGenerator.GetSetupMethodBodyMembers(classUnderTestDec, generator);
-            return _constructorGenerator.Constructor(testClassName, methodBody, generator) as MethodDeclarationSyntax;
-        }
     }
 }

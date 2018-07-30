@@ -29,9 +29,7 @@ namespace TestSetupGenerator.XUnitMoq
             container.RegisterSingleton<IMethodGenerator, MethodGenerator>();
             container.RegisterSingleton<IUsingDirectivesGenerator, UsingDirectivesGenerator>();
             
-            container.Register<IMemberReplacer, MemberReplacer>();
             container.Register<ISetupMethodBodyBuilder, SetupMethodBodyBuilder>();
-
             container.Register<IXUnitSetupGenerator, XUnitSetupGenerator>();
 
             return container;
