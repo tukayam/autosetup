@@ -13,7 +13,7 @@ namespace TestSetupGenerator.XUnitMoq
     public class TestSetupGeneratorXUnitMoqCodeFixProvider : CodeFixProvider
     {
         private const string title = "(Re-)Generate SetUp";
-        private readonly IXUnitSetupGenerator _xUnitSetupGenerator = IoCConfig.Container.GetInstance<IXUnitSetupGenerator>();
+        private readonly IXUnitSetupGenerator _xUnitSetupGenerator = new IoCConfig().Container.GetInstance<IXUnitSetupGenerator>();
 
         public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(TestSetupGeneratorXUnitMoqAnalyzer.DiagnosticId);
 

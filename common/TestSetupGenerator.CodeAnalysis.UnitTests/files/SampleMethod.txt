@@ -1,6 +1,6 @@
 ﻿public class SomeClass
 {
-	public void SomeMethod()
+	public void SampleMethod()
 	{
 		var x = "some text";
 	}

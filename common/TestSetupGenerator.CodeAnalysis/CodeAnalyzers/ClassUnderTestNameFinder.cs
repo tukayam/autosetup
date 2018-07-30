@@ -16,7 +16,7 @@ namespace TestSetupGenerator.CodeAnalysis.CodeAnalyzers
                 return null;
             }
 
-            var keys = new List<string> { "UnitTest", "Test" };
+            var keys = new List<string> { "UnitTests", "Tests" };
 
             foreach (var key in keys)
             {

@@ -7,22 +7,30 @@ namespace TestSetupGenerator.XUnitMoq
 {
     public class IoCConfig
     {
-        private static Container _container;
-        public static Container Container => _container ?? (_container = Configure());
+        private Container _container;
+        public Container Container => _container ?? (_container = Configure());
 
-        private static Container Configure()
+        private Container Configure()
         {
             var container = new Container();
+            container.Options.AllowOverridingRegistrations = true;
 
-            // DataAccess
+            // CodeAnalyzers
+            container.RegisterSingleton<IClassUnderTestFinder, ClassUnderTestFinder>();
+            container.RegisterSingleton<IClassUnderTestNameFinder, ClassUnderTestNameFinder>();
             container.RegisterSingleton<IConstructorParametersExtractor, ConstructorParametersExtractor>();
-            container.RegisterSingleton<IExpressionStatementGenerator, ExpressionStatementGenerator>();
-            container.RegisterSingleton<IFieldNameGenerator, FieldNameGenerator>();
-            container.RegisterSingleton<IFieldDeclarationsGenerator, FieldDeclarationsBuilder>();
-            container.RegisterSingleton<ISetupMethodBodyGenerator, SetupMethodBodyBuilder>();
-            container.RegisterSingleton<IConstructorGenerator, ConstructorGenerator>();
+            container.RegisterSingleton<IMemberFinder, MemberFinder>();
 
-            container.RegisterSingleton<IXUnitSetupGenerator, XUnitSetupGenerator>();
+            // CodeGenerators
+            container.RegisterSingleton<IConstructorGenerator, ConstructorGenerator>();
+            container.RegisterSingleton<IExpressionStatementGenerator, ExpressionStatementGenerator>();
+            container.RegisterSingleton<IFieldDeclarationGenerator, FieldDeclarationGenerator>();
+            container.RegisterSingleton<IFieldNameGenerator, FieldNameGenerator>();
+            container.RegisterSingleton<IMethodGenerator, MethodGenerator>();
+            container.RegisterSingleton<IUsingDirectivesGenerator, UsingDirectivesGenerator>();
+            
+            container.Register<ISetupMethodBodyBuilder, SetupMethodBodyBuilder>();
+            container.Register<IXUnitSetupGenerator, XUnitSetupGenerator>();
 
             return container;
         }

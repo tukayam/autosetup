@@ -1,0 +1,5 @@
+﻿public class TestClass
+{
+	private readonly Mock<ISomeType> _someTypeWithDifferentName;
+	private readonly Mock<ISomeOtherType> _someOtherType;
+}

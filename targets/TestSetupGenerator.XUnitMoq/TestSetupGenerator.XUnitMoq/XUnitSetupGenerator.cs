@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -9,36 +10,39 @@ using TestSetupGenerator.CodeAnalysis.CodeGenerators;
 
 namespace TestSetupGenerator.XUnitMoq
 {
-    internal interface IXUnitSetupGenerator
+    public interface IXUnitSetupGenerator
     {
         Task<Document> RegenerateSetup(Document document, ClassDeclarationSyntax testClass, CancellationToken cancellationToken);
     }
 
-    class XUnitSetupGenerator : IXUnitSetupGenerator
+    public class XUnitSetupGenerator : IXUnitSetupGenerator
     {
         private readonly IClassUnderTestNameFinder _classUnderTestNameFinder;
         private readonly IClassUnderTestFinder _classUnderTestFinder;
-        private readonly IFieldDeclarationsGenerator _fieldDeclarationsGenerator;
-        private readonly ISetupMethodBodyGenerator _setupMethodBodyGenerator;
+        private readonly IConstructorParametersExtractor _constructorParametersExtractor;
+        private readonly IFieldDeclarationGenerator _fieldDeclarationGenerator;
+        private readonly ISetupMethodBodyBuilder _setupMethodBodyGenerator;
         private readonly IConstructorGenerator _constructorGenerator;
         private readonly IUsingDirectivesGenerator _usingDirectivesGenerator;
-        private readonly IMemberReplacer _memberReplacer;
+        private readonly IMemberFinder _memberFinder;
 
         public XUnitSetupGenerator(IClassUnderTestNameFinder classUnderTestNameFinder,
                                     IClassUnderTestFinder classUnderTestFinder,
-                                    IFieldDeclarationsGenerator fieldDeclarationsGenerator,
-                                    ISetupMethodBodyGenerator setupMethodBodyGenerator,
+                                    IConstructorParametersExtractor constructorParametersExtractor,
+                                    IFieldDeclarationGenerator fieldDeclarationGenerator,
+                                    ISetupMethodBodyBuilder setupMethodBodyGenerator,
                                     IConstructorGenerator constructorGenerator,
                                     IUsingDirectivesGenerator usingDirectivesGenerator,
-                                    IMemberReplacer memberReplacer)
+                                    IMemberFinder memberFinder)
         {
             _classUnderTestNameFinder = classUnderTestNameFinder;
             _classUnderTestFinder = classUnderTestFinder;
-            _fieldDeclarationsGenerator = fieldDeclarationsGenerator;
+            _constructorParametersExtractor = constructorParametersExtractor;
+            _fieldDeclarationGenerator = fieldDeclarationGenerator;
             _setupMethodBodyGenerator = setupMethodBodyGenerator;
             _constructorGenerator = constructorGenerator;
             _usingDirectivesGenerator = usingDirectivesGenerator;
-            _memberReplacer = memberReplacer;
+            _memberFinder = memberFinder;
         }
 
         public async Task<Document> RegenerateSetup(Document document, ClassDeclarationSyntax testClass, CancellationToken cancellationToken)
@@ -57,22 +61,23 @@ namespace TestSetupGenerator.XUnitMoq
                     return document;
                 }
 
-                var setupMethodDeclaration = Constructor(testClassName, classUnderTest.ClassDeclarationSyntax, generator);
+                var methodBody = _setupMethodBodyGenerator.GetSetupMethodBodyMembers(classUnderTest.ClassDeclarationSyntax, generator);
+                var newConstructorWithSetup = _constructorGenerator.Constructor(testClassName, methodBody, generator);
 
+                var constructorParameters = _constructorParametersExtractor.GetParametersOfConstructor(classUnderTest.ClassDeclarationSyntax).ToList();
                 var genericSymbolForMoq = "Mock";
-                var fieldDeclarations = _fieldDeclarationsGenerator.GetFieldDeclarationsAsGeneric(classUnderTest.ClassDeclarationSyntax, genericSymbolForMoq, generator);
+                var fieldDeclarations = constructorParameters.Select(_ => _fieldDeclarationGenerator.GetGenericFieldDeclaration(_, genericSymbolForMoq, generator)).ToList();
+                fieldDeclarations.Add(_fieldDeclarationGenerator.GetTargetFieldDeclaration(classUnderTestName, generator));
 
                 var namespaceForMoq = "Moq";
                 var usings = _usingDirectivesGenerator.UsingDirectives(new[] { namespaceForMoq }, generator);
 
-                var newDocument = new DocumentBuilder(_memberReplacer)
-                                    .SetDocument(document)
-                                    .SetTestClass(testClass)
-                                    .WithSetupMethodAsync(setupMethodDeclaration)
-                                    .WithFieldsAsync(fieldDeclarations)
-                                    .WithUsingsAsync(usings)
-                                    .Build();
-                return await newDocument;
+                var newDocument = await new DocumentBuilder(_memberFinder, document, testClass)
+                                    .WithSetupMethod(newConstructorWithSetup as MemberDeclarationSyntax)
+                                    .WithFields(fieldDeclarations)
+                                    .WithUsings(usings)
+                                    .BuildAsync(cancellationToken);
+                return newDocument;
             }
             catch
             {
@@ -80,10 +85,5 @@ namespace TestSetupGenerator.XUnitMoq
             }
         }
 
-        private MethodDeclarationSyntax Constructor(string testClassName, ClassDeclarationSyntax classUnderTestDec, SyntaxGenerator generator)
-        {
-            var methodBody = _setupMethodBodyGenerator.GetSetupMethodBodyMembers(classUnderTestDec, generator);
-            return _constructorGenerator.Constructor(testClassName, methodBody, generator) as MethodDeclarationSyntax;
-        }
     }
 }

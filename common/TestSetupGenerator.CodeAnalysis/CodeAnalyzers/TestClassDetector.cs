@@ -4,7 +4,7 @@
     {
         public static bool IsTestClass(string className)
         {
-            return className.Contains("Test");
+            return className.EndsWith("Tests");
         }
     }
 }

@@ -193,11 +193,13 @@
     <Compile Include="CodeGenerators\ConstructorGeneratorTests.cs" />
     <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_MoqStub.cs" />
     <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_MockRepositoryGenerateStub.cs" />
-    <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_TargetObjectAssignmentExpression.cs" />
+    <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_MoqTargetObjectAssignmentExpression.cs" />
+    <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests_GetTargetFieldDeclaration.cs" />
     <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests_GetFieldDeclaration.cs" />
     <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests_GetGenericFieldDeclarations.cs" />
     <Compile Include="CodeGenerators\FieldNameGeneratorTests.cs" />
-    <Compile Include="MemberReplacerTests\ReplaceOrInsertMemberTests.cs" />
+    <Compile Include="DocumentBuilderTests_WithFields.cs" />
+    <Compile Include="DocumentBuilderTests_WithSetupMethod.cs" />
     <Compile Include="CodeGenerators\MethodGeneratorTests_GenerateMethodWithAttribute.cs" />
     <Compile Include="CodeGenerators\UsingDirectivesGeneratorTests.cs" />
     <EmbeddedResource Include="files\ConstructorGenerator_DocumentWithTwoClasses.txt" />
@@ -242,25 +244,31 @@
     <EmbeddedResource Include="files\FieldNameGenerator_MultipleParameters.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MemberReplacerTests\files\SampleMethod.txt" />
+    <EmbeddedResource Include="files\EmptyTestClass.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MemberReplacerTests\files\EmptyTestClass.txt" />
+    <EmbeddedResource Include="files\TestClassWithSampleMethod.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MemberReplacerTests\files\TestClassWithSampleMethod.txt" />
+    <EmbeddedResource Include="files\TestClassWithConstructor.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MemberReplacerTests\files\TestClassWithConstructor.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="MemberReplacerTests\files\Constructor.txt" />
+    <EmbeddedResource Include="files\Constructor.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CodeAnalyzers\files\Class_WithConstructorWithTwoParameters.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CodeAnalyzers\files\Class_WithSampleMethod.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="files\SampleMethod.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="files\SampleFieldDeclarations.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="files\TestClassWithSampleFields.txt" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
