@@ -2,14 +2,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Moq;
 using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
 using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Xunit;
 
-namespace TestSetupGenerator.CodeAnalysis.UnitTests.DocumentBuilderTests
+namespace TestSetupGenerator.CodeAnalysis.UnitTests
 {
     public class DocumentBuilderTests_WithFields
     {
@@ -23,7 +22,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.DocumentBuilderTests
         [Fact]
         public async Task AddsNewFieldsToEmptyTestClass()
         {
-            var filePath = "DocumentBuilderTests.files.EmptyTestClass.txt";
+            var filePath = "files.EmptyTestClass.txt";
             var document = DocumentProvider.CreateDocumentFromFile(filePath);
             var root = document.GetSyntaxRootAsync().Result;
             var testClass = root.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>().First();
@@ -31,7 +30,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.DocumentBuilderTests
             _target = new DocumentBuilder(_memberFinder.Object, document, testClass);
 
             var newFieldDeclarations =
-                SyntaxNodeProvider.GetAllSyntaxNodesFromFile<FieldDeclarationSyntax>("DocumentBuilderTests.files.SampleFieldDeclarations.txt").ToList();
+                SyntaxNodeProvider.GetAllSyntaxNodesFromFile<FieldDeclarationSyntax>("files.SampleFieldDeclarations.txt").ToList();
 
             _memberFinder.Setup(_ =>
                     _.FindSimilarNode(It.IsAny<SyntaxNode>(), It.IsAny<SyntaxNode>()))

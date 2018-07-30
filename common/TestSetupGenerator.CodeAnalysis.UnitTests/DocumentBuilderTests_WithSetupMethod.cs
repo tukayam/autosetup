@@ -8,7 +8,7 @@ using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
 using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Xunit;
 
-namespace TestSetupGenerator.CodeAnalysis.UnitTests.DocumentBuilderTests
+namespace TestSetupGenerator.CodeAnalysis.UnitTests
 {
     public class DocumentBuilderTests_WithSetupMethod
     {
@@ -22,7 +22,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.DocumentBuilderTests
         [Fact]
         public async Task AddsNewSetupMethodToClass()
         {
-            var filePath = "DocumentBuilderTests.files.EmptyTestClass.txt";
+            var filePath = "files.EmptyTestClass.txt";
             var document = DocumentProvider.CreateDocumentFromFile(filePath);
             var root = document.GetSyntaxRootAsync().Result;
             var testClass = root.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>().First();
@@ -31,7 +31,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.DocumentBuilderTests
 
             var newSetupMethod =
                 SyntaxNodeProvider.GetSyntaxNodeFromFile<MethodDeclarationSyntax>(
-                    "DocumentBuilderTests.files.SampleMethod.txt", "SampleMethod");
+                    "files.SampleMethod.txt", "SampleMethod");
 
             _memberFinder.Setup(_ =>
                     _.FindSimilarNode(It.Is<SyntaxNode>(s => s == newSetupMethod),
@@ -49,7 +49,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.DocumentBuilderTests
         [Fact]
         public async Task ReplacesSetupMethodInClass()
         {
-            var filePath = "DocumentBuilderTests.files.TestClassWithSampleMethod.txt";
+            var filePath = "files.TestClassWithSampleMethod.txt";
             var document = DocumentProvider.CreateDocumentFromFile(filePath);
             var root = document.GetSyntaxRootAsync().Result;
             var testClass = root.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>().First();
@@ -58,7 +58,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.DocumentBuilderTests
 
             var newSetupMethod =
                 SyntaxNodeProvider.GetSyntaxNodeFromFile<MethodDeclarationSyntax>(
-                    "DocumentBuilderTests.files.SampleMethod.txt", "SampleMethod");
+                    "files.SampleMethod.txt", "SampleMethod");
 
             var existingSetupMethod = root.DescendantNodes().OfType<MethodDeclarationSyntax>().First();
             _memberFinder.Setup(_ =>
@@ -79,7 +79,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.DocumentBuilderTests
         [Fact]
         public async Task DoesNotReplaceSetupMethod_When_WithSetupMethodIsNotCalled()
         {
-            var filePath = "DocumentBuilderTests.files.EmptyTestClass.txt";
+            var filePath = "files.EmptyTestClass.txt";
             var document = DocumentProvider.CreateDocumentFromFile(filePath);
             var root = document.GetSyntaxRootAsync().Result;
             var testClass = root.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>().First();

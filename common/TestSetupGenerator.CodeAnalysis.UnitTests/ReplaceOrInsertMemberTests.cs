@@ -3,11 +3,10 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Moq;
 using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
-using TestSetupGenerator.CodeAnalysis.CodeGenerators;
 using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Xunit;
 
-namespace TestSetupGenerator.CodeAnalysis.UnitTests.MemberReplacerTests
+namespace TestSetupGenerator.CodeAnalysis.UnitTests
 {
     public class ReplaceOrInsertMemberTests
     {
@@ -20,14 +19,14 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.MemberReplacerTests
         }
 
         [Theory]
-        [InlineData("MemberReplacerTests.files.EmptyTestClass.txt")]
+        [InlineData("files.EmptyTestClass.txt")]
         public void Inserts_Method_When_NoSimilarMemberExists(string filePath)
         {
             var testClassName = "TestClass";
             var testClassDeclarationSyntax = SyntaxNodeProvider.GetSyntaxNodeFromFile<ClassDeclarationSyntax>(filePath, testClassName);
 
-            var filePathSampleMember = "MemberReplacerTests.files.SampleMethod.txt";
-            var sampleMethodName = "SomeMethod";
+            var filePathSampleMember = "files.SampleMethod.txt";
+            var sampleMethodName = "SampleMethod";
             var sampleMethod = SyntaxNodeProvider.GetSyntaxNodeFromFile<MethodDeclarationSyntax>(filePathSampleMember, sampleMethodName);
 
             _memberFinder.Setup(_ => _.FindSimilarNode(It.IsAny<SyntaxNode>(), It.IsAny<SyntaxNode>()))
@@ -40,14 +39,14 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.MemberReplacerTests
         }
         
         [Theory]
-        [InlineData("MemberReplacerTests.files.TestClassWithSampleMethod.txt")]
+        [InlineData("files.TestClassWithSampleMethod.txt")]
         public void ReplacesSampleMethod_When_ItAlreadyExists(string filePath)
         {
             var testClassName = "TestClass";
             var testClassDeclarationSyntax = SyntaxNodeProvider.GetSyntaxNodeFromFile<ClassDeclarationSyntax>(filePath, testClassName);
 
-            var filePathSampleMember = "MemberReplacerTests.files.SampleMethod.txt";
-            var sampleMethodName = "SomeMethod";
+            var filePathSampleMember = "files.SampleMethod.txt";
+            var sampleMethodName = "SampleMethod";
             var sampleMethod = SyntaxNodeProvider.GetSyntaxNodeFromFile<MethodDeclarationSyntax>(filePathSampleMember, sampleMethodName);
 
             var sampleMethodInTestClass= testClassDeclarationSyntax.DescendantNodes().OfType<MethodDeclarationSyntax>().First();
@@ -62,13 +61,13 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.MemberReplacerTests
 
 
         [Theory]
-        [InlineData("MemberReplacerTests.files.EmptyTestClass.txt")]
+        [InlineData("files.EmptyTestClass.txt")]
         public void Inserts_Constructor(string filePath)
         {
             var testClassName = "TestClass";
             var testClassDeclarationSyntax = SyntaxNodeProvider.GetSyntaxNodeFromFile<ClassDeclarationSyntax>(filePath, testClassName);
 
-            var filePathSampleMember = "MemberReplacerTests.files.Constructor.txt";
+            var filePathSampleMember = "files.Constructor.txt";
             var constructor = SyntaxNodeProvider.GetSyntaxNodeFromFile<ConstructorDeclarationSyntax>(filePathSampleMember, "TestClass");
 
             _memberFinder.Setup(_ => _.FindSimilarNode(It.IsAny<SyntaxNode>(), It.IsAny<SyntaxNode>()))
@@ -82,13 +81,13 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.MemberReplacerTests
         }
 
         [Theory]
-        [InlineData("MemberReplacerTests.files.TestClassWithConstructor.txt")]
+        [InlineData("files.TestClassWithConstructor.txt")]
         public void Replaces_Constructor(string filePath)
         {
             var testClassName = "TestClass";
             var testClassDeclarationSyntax = SyntaxNodeProvider.GetSyntaxNodeFromFile<ClassDeclarationSyntax>(filePath, testClassName);
 
-            var filePathSampleMember = "MemberReplacerTests.files.Constructor.txt";
+            var filePathSampleMember = "files.Constructor.txt";
             var constructor = SyntaxNodeProvider.GetSyntaxNodeFromFile<ConstructorDeclarationSyntax>(filePathSampleMember, "TestClass");
 
             var constructorInTestClass = testClassDeclarationSyntax.DescendantNodes()

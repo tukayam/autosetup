@@ -1,7 +1,0 @@
-﻿public class SomeClass
-{
-	public void SomeMethod()
-	{
-		var x = "some text";
-	}
-}
