@@ -66,7 +66,8 @@ namespace TestSetupGenerator.XUnitMoq
 
                 var constructorParameters = _constructorParametersExtractor.GetParametersOfConstructor(classUnderTest.ClassDeclarationSyntax).ToList();
                 var genericSymbolForMoq = "Mock";
-                var fieldDeclarations = constructorParameters.Select(_ => _fieldDeclarationGenerator.GetGenericFieldDeclaration(_, genericSymbolForMoq, generator));
+                var fieldDeclarations = constructorParameters.Select(_ => _fieldDeclarationGenerator.GetGenericFieldDeclaration(_, genericSymbolForMoq, generator)).ToList();
+                fieldDeclarations.Add(_fieldDeclarationGenerator.GetTargetFieldDeclaration(classUnderTestName, generator));
 
                 var namespaceForMoq = "Moq";
                 var usings = _usingDirectivesGenerator.UsingDirectives(new[] { namespaceForMoq }, generator);

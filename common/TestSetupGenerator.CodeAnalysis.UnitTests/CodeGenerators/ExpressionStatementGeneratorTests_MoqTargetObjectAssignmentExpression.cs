@@ -4,10 +4,10 @@ using Xunit;
 
 namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeGenerators
 {
-    public class ExpressionStatementGeneratorTests_TargetObjectAssignmentExpression
+    public class ExpressionStatementGeneratorTests_MoqTargetObjectAssignmentExpression
     {
         private ExpressionStatementGenerator _target;
-        public ExpressionStatementGeneratorTests_TargetObjectAssignmentExpression()
+        public ExpressionStatementGeneratorTests_MoqTargetObjectAssignmentExpression()
         {
             _target = new ExpressionStatementGenerator();
         }
@@ -18,10 +18,10 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeGenerators
             var fieldDeclarationNames = new[] { "_someType" , "_someOtherType" };
             var syntaxGenerator = new SyntaxGeneratorProvider().GetSyntaxGenerator();
 
-            var actual = _target.TargetObjectAssignmentExpression(fieldDeclarationNames, "ClassUnderTest", syntaxGenerator);
+            var actual = _target.MoqTargetObjectAssignmentExpression(fieldDeclarationNames, "ClassUnderTest", syntaxGenerator);
 
             var asText = actual.GetText().ToString();
-            Assert.Equal("_target=(newClassUnderTest(_someType,_someOtherType))", asText);
+            Assert.Equal("_target=(newClassUnderTest(_someType.Object,_someOtherType.Object))", asText);
         }
     }
 }

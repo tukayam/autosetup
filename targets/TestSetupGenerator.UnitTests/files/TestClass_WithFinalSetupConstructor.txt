@@ -6,8 +6,8 @@
 
 	public ClassUnderTestTests()
 	{
-		_someType = new Mock<ISomeType>();
-		_someOtherType = new Mock<ISomeOtherType>();
-		_target = new ClassUnderTest(_someType.Object, _someOtherType.Object);
+		_someType = (new Mock<ISomeType>());
+		_someOtherType = (new Mock<ISomeOtherType>());
+		_target = (new ClassUnderTest(_someType.Object, _someOtherType.Object));
 	}
 }

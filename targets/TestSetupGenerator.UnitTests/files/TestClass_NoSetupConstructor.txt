@@ -1,6 +1,6 @@
-﻿public class TestClass
+﻿public class ClassUnderTestTests
 {
-	public TestClass(ISomeType someType, ISomeOtherType someOtherType)
+	public ClassUnderTestTests(ISomeType someType, ISomeOtherType someOtherType)
 	{
 	}
 }

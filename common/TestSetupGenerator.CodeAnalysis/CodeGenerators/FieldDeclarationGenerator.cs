@@ -6,6 +6,7 @@ namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
 {
     public interface IFieldDeclarationGenerator
     {
+        SyntaxNode GetTargetFieldDeclaration(string classUnderTestName, SyntaxGenerator generator);
         SyntaxNode GetFieldDeclaration(ParameterSyntax parameter, SyntaxGenerator generator);
         SyntaxNode GetGenericFieldDeclaration(ParameterSyntax parameter, string genericSymbol, SyntaxGenerator generator);
     }
@@ -18,7 +19,15 @@ namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
         {
             _fieldNameGenerator = fieldNameGenerator;
         }
-        
+
+        public SyntaxNode GetTargetFieldDeclaration(string classUnderTestName, SyntaxGenerator generator)
+        {
+            return generator.FieldDeclaration("_target"
+                , generator.IdentifierName(classUnderTestName)
+                , Accessibility.Private
+                , DeclarationModifiers.ReadOnly);
+        }
+
         public SyntaxNode GetFieldDeclaration(ParameterSyntax parameter, SyntaxGenerator generator)
         {
             var fieldName = _fieldNameGenerator.GetFromParameter(parameter);

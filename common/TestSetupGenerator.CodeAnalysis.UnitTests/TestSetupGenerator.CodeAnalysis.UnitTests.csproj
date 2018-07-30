@@ -193,7 +193,8 @@
     <Compile Include="CodeGenerators\ConstructorGeneratorTests.cs" />
     <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_MoqStub.cs" />
     <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_MockRepositoryGenerateStub.cs" />
-    <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_TargetObjectAssignmentExpression.cs" />
+    <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_MoqTargetObjectAssignmentExpression.cs" />
+    <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests_GetTargetFieldDeclaration.cs" />
     <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests_GetFieldDeclaration.cs" />
     <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests_GetGenericFieldDeclarations.cs" />
     <Compile Include="CodeGenerators\FieldNameGeneratorTests.cs" />

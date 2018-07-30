@@ -37,7 +37,7 @@ namespace TestSetupGenerator.CodeAnalysis
 
             var fieldDeclarations = constructorParameters.Select(_ => _fieldNameGenerator.GetFromParameter(_));
             var classUnderTestName = classUnderTestDec.Identifier.Text;
-            var expressionStatementTargetInstantiation = _expressionStatementGenerator.TargetObjectAssignmentExpression(fieldDeclarations, classUnderTestName, generator);
+            var expressionStatementTargetInstantiation = _expressionStatementGenerator.MoqTargetObjectAssignmentExpression(fieldDeclarations, classUnderTestName, generator);
 
             var setupBody = new List<SyntaxNode>();
             setupBody.AddRange(expressionStatements);
