@@ -1,62 +1,115 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using TestSetupGenerator.CodeAnalysis.CodeGenerators;
+using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
 
 namespace TestSetupGenerator.CodeAnalysis
 {
     public interface IDocumentBuilder
     {
-        DocumentBuilder WithSetupMethodAsync(MethodDeclarationSyntax newSetupMethod);
-        DocumentBuilder WithFieldsAsync(IEnumerable<SyntaxNode> newFields);
-        DocumentBuilder WithUsingsAsync(IEnumerable<UsingDirectiveSyntax> newUsingDirectives);
-        Task<Document> Build();
+        DocumentBuilder WithSetupMethod(MethodDeclarationSyntax newSetupMethod);
+        DocumentBuilder WithFields(IEnumerable<SyntaxNode> newFields);
+        DocumentBuilder WithUsings(IEnumerable<UsingDirectiveSyntax> newUsingDirectives);
+        Task<Document> BuildAsync(CancellationToken cancellationToken);
     }
 
     public class DocumentBuilder : IDocumentBuilder
     {
-        private readonly IMemberReplacer _memberReplacer;
+        private readonly IMemberFinder _memberFinder;
 
         private readonly Document _document;
         private readonly ClassDeclarationSyntax _testClass;
 
-        private Document _newDocument;
-        private ClassDeclarationSyntax _newtestClass;
+        private MethodDeclarationSyntax _newSetupMethod;
+        private IEnumerable<SyntaxNode> _newFields;
+        private IEnumerable<UsingDirectiveSyntax> _newUsingDirectives;
 
-        public DocumentBuilder(IMemberReplacer memberReplacer, Document document, ClassDeclarationSyntax testClass)
+        public DocumentBuilder(IMemberFinder memberFinder, Document document, ClassDeclarationSyntax testClass)
         {
-            _memberReplacer = memberReplacer;
+            _memberFinder = memberFinder;
             _document = document;
             _testClass = testClass;
-            _newtestClass = testClass;
         }
 
-        public DocumentBuilder WithSetupMethodAsync(MethodDeclarationSyntax newSetupMethod)
+        public DocumentBuilder WithSetupMethod(MethodDeclarationSyntax newSetupMethod)
         {
-            _newtestClass = _memberReplacer.ReplaceOrInsert(_newtestClass, newSetupMethod);
+            _newSetupMethod = newSetupMethod;
             return this;
         }
 
-        public DocumentBuilder WithFieldsAsync(IEnumerable<SyntaxNode> newFields)
+        public DocumentBuilder WithFields(IEnumerable<SyntaxNode> newFields)
         {
-            _memberReplacer.InsertIfNotExists(_newtestClass, newFields);
+            _newFields = newFields;
             return this;
         }
 
-        public DocumentBuilder WithUsingsAsync(IEnumerable<UsingDirectiveSyntax> newUsingDirectives)
+        public DocumentBuilder WithUsings(IEnumerable<UsingDirectiveSyntax> newUsingDirectives)
         {
-            var docRoot = _document.GetSyntaxRootAsync().Result;
-            var newDocRoot = _memberReplacer.InsertIfNotExists(docRoot, newUsingDirectives);
-            _newDocument = _document.WithSyntaxRoot(newDocRoot);
+            _newUsingDirectives = newUsingDirectives;
             return this;
         }
 
-        public async Task<Document> Build()
+        public async Task<Document> BuildAsync(CancellationToken cancellationToken)
         {
-            var newDocumentRoot = await _newDocument.GetSyntaxRootAsync();
-            var newRoot = newDocumentRoot.ReplaceNode(_testClass, _newtestClass);
-            return _newDocument.WithSyntaxRoot(newRoot);
+            var root = await _document.GetSyntaxRootAsync(cancellationToken);
+            var members = _testClass.Members;
+
+            if (_newSetupMethod != null)
+            {
+                members = AddToMembers(members, _newSetupMethod);
+            }
+
+            if (_newFields != null)
+            {
+                foreach (var syntaxNode in _newFields)
+                {
+                    var newField = (FieldDeclarationSyntax)syntaxNode;
+                    members = AddToMembers(members, newField);
+                }
+            }
+
+            var newClass = _testClass.WithMembers(members);
+            var newRoot = root.ReplaceNode(_testClass, newClass);
+
+            if (_newUsingDirectives != null)
+            {
+                newRoot = AddUsingDirectives(newRoot);
+            }
+
+            var newDocument = _document.WithSyntaxRoot(newRoot);
+            return newDocument;
+        }
+
+        private SyntaxList<MemberDeclarationSyntax> AddToMembers(SyntaxList<MemberDeclarationSyntax> members, MemberDeclarationSyntax newMember)
+        {
+            if (_memberFinder.FindSimilarNode(newMember, _testClass) is MemberDeclarationSyntax existingMember)
+            {
+                members = members.Replace(existingMember, newMember);
+            }
+            else
+            {
+                members = members.Insert(0, newMember);
+            }
+
+            return members;
+        }
+
+        private SyntaxNode AddUsingDirectives(SyntaxNode newRoot)
+        {
+            var existingUsingDirectives = newRoot.DescendantNodes().OfType<UsingDirectiveSyntax>().ToList();
+
+            var firstUsingDirectiveInFile = existingUsingDirectives.FirstOrDefault();
+
+            var usingsToAdd = _newUsingDirectives.Where(_ => existingUsingDirectives.All(u => u.Name != _.Name));
+
+            if (firstUsingDirectiveInFile != null)
+            {
+                newRoot = newRoot.InsertNodesAfter(firstUsingDirectiveInFile, usingsToAdd);
+            }
+            return newRoot;
         }
     }
 }

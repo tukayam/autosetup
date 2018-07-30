@@ -18,7 +18,7 @@ namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
         {
             _fieldNameGenerator = fieldNameGenerator;
         }
-
+        
         public SyntaxNode GetFieldDeclaration(ParameterSyntax parameter, SyntaxGenerator generator)
         {
             var fieldName = _fieldNameGenerator.GetFromParameter(parameter);

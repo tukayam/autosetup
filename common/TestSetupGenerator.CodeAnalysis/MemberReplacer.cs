@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
 
-namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
+namespace TestSetupGenerator.CodeAnalysis
 {
     public interface IMemberReplacer
     {

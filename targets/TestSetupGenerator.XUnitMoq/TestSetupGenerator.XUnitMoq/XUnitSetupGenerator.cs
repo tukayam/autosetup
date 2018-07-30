@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -18,27 +19,30 @@ namespace TestSetupGenerator.XUnitMoq
     {
         private readonly IClassUnderTestNameFinder _classUnderTestNameFinder;
         private readonly IClassUnderTestFinder _classUnderTestFinder;
-        private readonly IFieldDeclarationsBuilder _fieldDeclarationsGenerator;
+        private readonly IConstructorParametersExtractor _constructorParametersExtractor;
+        private readonly IFieldDeclarationGenerator _fieldDeclarationGenerator;
         private readonly ISetupMethodBodyBuilder _setupMethodBodyGenerator;
         private readonly IConstructorGenerator _constructorGenerator;
         private readonly IUsingDirectivesGenerator _usingDirectivesGenerator;
-        private readonly IMemberReplacer _memberReplacer;
+        private readonly IMemberFinder _memberFinder;
 
         public XUnitSetupGenerator(IClassUnderTestNameFinder classUnderTestNameFinder,
                                     IClassUnderTestFinder classUnderTestFinder,
-                                    IFieldDeclarationsBuilder fieldDeclarationsGenerator,
+                                    IConstructorParametersExtractor constructorParametersExtractor,
+                                    IFieldDeclarationGenerator fieldDeclarationGenerator,
                                     ISetupMethodBodyBuilder setupMethodBodyGenerator,
                                     IConstructorGenerator constructorGenerator,
                                     IUsingDirectivesGenerator usingDirectivesGenerator,
-                                    IMemberReplacer memberReplacer)
+                                    IMemberFinder memberFinder)
         {
             _classUnderTestNameFinder = classUnderTestNameFinder;
             _classUnderTestFinder = classUnderTestFinder;
-            _fieldDeclarationsGenerator = fieldDeclarationsGenerator;
+            _constructorParametersExtractor = constructorParametersExtractor;
+            _fieldDeclarationGenerator = fieldDeclarationGenerator;
             _setupMethodBodyGenerator = setupMethodBodyGenerator;
             _constructorGenerator = constructorGenerator;
             _usingDirectivesGenerator = usingDirectivesGenerator;
-            _memberReplacer = memberReplacer;
+            _memberFinder = memberFinder;
         }
 
         public async Task<Document> RegenerateSetup(Document document, ClassDeclarationSyntax testClass, CancellationToken cancellationToken)
@@ -59,17 +63,18 @@ namespace TestSetupGenerator.XUnitMoq
 
                 var setupMethodDeclaration = Constructor(testClassName, classUnderTest.ClassDeclarationSyntax, generator);
 
+                var constructorParameters = _constructorParametersExtractor.GetParametersOfConstructor(classUnderTest.ClassDeclarationSyntax).ToList();
                 var genericSymbolForMoq = "Mock";
-                var fieldDeclarations = _fieldDeclarationsGenerator.GetFieldDeclarationsAsGeneric(classUnderTest.ClassDeclarationSyntax, genericSymbolForMoq, generator);
+                var fieldDeclarations = constructorParameters.Select(_ => _fieldDeclarationGenerator.GetGenericFieldDeclaration(_, genericSymbolForMoq, generator));
 
                 var namespaceForMoq = "Moq";
                 var usings = _usingDirectivesGenerator.UsingDirectives(new[] { namespaceForMoq }, generator);
 
-                var newDocument = await new DocumentBuilder(_memberReplacer, document,testClass)
-                                    .WithSetupMethodAsync(setupMethodDeclaration)
-                                    .WithFieldsAsync(fieldDeclarations)
-                                    .WithUsingsAsync(usings)
-                                    .Build();
+                var newDocument = await new DocumentBuilder(_memberFinder, document, testClass)
+                                    .WithSetupMethod(setupMethodDeclaration)
+                                    .WithFields(fieldDeclarations)
+                                    .WithUsings(usings)
+                                    .BuildAsync(cancellationToken);
                 return newDocument;
             }
             catch

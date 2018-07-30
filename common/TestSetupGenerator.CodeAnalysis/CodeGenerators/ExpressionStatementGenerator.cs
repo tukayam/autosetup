@@ -10,7 +10,7 @@ namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
     {
         SyntaxNode RhinoMocksStubAssignmentExpression(string parameterType, string fieldName, SyntaxGenerator generator);
         SyntaxNode MoqStubAssignmentExpression(string parameterType, string fieldName, SyntaxGenerator generator);
-        SyntaxNode TargetObjectAssignmentExpression(IEnumerable<SyntaxNode> fieldDeclarations, string className, SyntaxGenerator generator);
+        SyntaxNode TargetObjectAssignmentExpression(IEnumerable<string> fieldNames, string className, SyntaxGenerator generator);
     }
 
     public class ExpressionStatementGenerator : IExpressionStatementGenerator
@@ -37,10 +37,9 @@ namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
             return generator.AssignmentStatement(fieldIdentifier, fieldInitializationExpression);
         }
 
-        public SyntaxNode TargetObjectAssignmentExpression(IEnumerable<SyntaxNode> fieldDeclarations, string className, SyntaxGenerator generator)
+        public SyntaxNode TargetObjectAssignmentExpression(IEnumerable<string> fieldNames, string className, SyntaxGenerator generator)
         {
-            var constructorParameters = fieldDeclarations.SelectMany(x => x.DescendantNodes().OfType<VariableDeclaratorSyntax>().Select(y => y.Identifier.Text));
-            var targetObjectCreationExpression = generator.ObjectCreationExpression(generator.IdentifierName(className), constructorParameters.Select(generator.IdentifierName));
+            var targetObjectCreationExpression = generator.ObjectCreationExpression(generator.IdentifierName(className), fieldNames.Select(generator.IdentifierName));
 
             return generator.AssignmentStatement(generator.IdentifierName("_target"), targetObjectCreationExpression);
         }

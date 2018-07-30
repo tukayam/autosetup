@@ -7,10 +7,10 @@ namespace TestSetupGenerator.XUnitMoq
 {
     public class IoCConfig
     {
-        private static Container _container;
-        public static Container Container => _container ?? (_container = Configure());
+        private Container _container;
+        public Container Container => _container ?? (_container = Configure());
 
-        private static Container Configure()
+        private Container Configure()
         {
             var container = new Container();
             container.Options.AllowOverridingRegistrations = true;
@@ -28,12 +28,10 @@ namespace TestSetupGenerator.XUnitMoq
             container.RegisterSingleton<IFieldNameGenerator, FieldNameGenerator>();
             container.RegisterSingleton<IMethodGenerator, MethodGenerator>();
             container.RegisterSingleton<IUsingDirectivesGenerator, UsingDirectivesGenerator>();
-
-            container.Register<IDocumentBuilder, DocumentBuilder>();
-            container.Register<IFieldDeclarationsBuilder, FieldDeclarationsBuilder>();
+            
             container.Register<IMemberReplacer, MemberReplacer>();
             container.Register<ISetupMethodBodyBuilder, SetupMethodBodyBuilder>();
-            
+
             container.Register<IXUnitSetupGenerator, XUnitSetupGenerator>();
 
             return container;

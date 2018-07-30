@@ -19,7 +19,7 @@ namespace TestSetupGenerator.UnitTests
     {
         private readonly ITestOutputHelper _testOutput;
         private readonly Mock<IClassUnderTestFinder> _classUnderTestFinder;
-        private IXUnitSetupGenerator _target;
+        private readonly IXUnitSetupGenerator _target;
 
         public XUnitSetupGeneratorTests(ITestOutputHelper testOutput)
         {
@@ -27,10 +27,11 @@ namespace TestSetupGenerator.UnitTests
 
             _classUnderTestFinder = new Mock<IClassUnderTestFinder>();
 
-            var container = IoCConfig.Container;
-            
+            var iocConfig=new IoCConfig();
+            var container = iocConfig.Container;
             container.RegisterInstance(_classUnderTestFinder.Object);
-            _target = IoCConfig.Container.GetInstance<IXUnitSetupGenerator>();
+
+            _target = iocConfig.Container.GetInstance<IXUnitSetupGenerator>();
         }
 
         [Theory]

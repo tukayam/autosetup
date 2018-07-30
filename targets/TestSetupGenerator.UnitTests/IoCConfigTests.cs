@@ -3,12 +3,12 @@ using Xunit;
 
 namespace TestSetupGenerator.UnitTests
 {
-   public class IoCConfigTests
+    public class IoCConfigTests
     {
         [Fact]
         public void Valid()
         {
-            IoCConfig.Container.Verify();
+            new IoCConfig().Container.Verify();
         }
     }
 }

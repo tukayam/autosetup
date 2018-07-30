@@ -197,6 +197,7 @@
     <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests_GetFieldDeclaration.cs" />
     <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests_GetGenericFieldDeclarations.cs" />
     <Compile Include="CodeGenerators\FieldNameGeneratorTests.cs" />
+    <Compile Include="DocumentBuilderTests\DocumentBuilderTests_WithFields.cs" />
     <Compile Include="DocumentBuilderTests\DocumentBuilderTests_WithSetupMethod.cs" />
     <Compile Include="MemberReplacerTests\ReplaceOrInsertMemberTests.cs" />
     <Compile Include="CodeGenerators\MethodGeneratorTests_GenerateMethodWithAttribute.cs" />
@@ -277,6 +278,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DocumentBuilderTests\files\TestClassWithSampleMethod.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocumentBuilderTests\files\SampleFieldDeclarations.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocumentBuilderTests\files\TestClassWithSampleFields.txt" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
