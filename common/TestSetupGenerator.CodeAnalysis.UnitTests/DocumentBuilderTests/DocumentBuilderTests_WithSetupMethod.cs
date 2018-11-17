@@ -8,15 +8,18 @@ using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
 using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Xunit;
 
-namespace TestSetupGenerator.CodeAnalysis.UnitTests
+namespace TestSetupGenerator.CodeAnalysis.UnitTests.DocumentBuilderTests
 {
     public class DocumentBuilderTests_WithSetupMethod
     {
         private readonly Mock<IMemberFinder> _memberFinder;
+        private readonly Mock<IFieldFinder> _fieldFinder;
         private DocumentBuilder _target;
+
         public DocumentBuilderTests_WithSetupMethod()
         {
             _memberFinder = new Mock<IMemberFinder>();
+            _fieldFinder = new Mock<IFieldFinder>();
         }
 
         [Fact]
@@ -27,7 +30,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests
             var root = document.GetSyntaxRootAsync().Result;
             var testClass = root.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>().First();
 
-            _target = new DocumentBuilder(_memberFinder.Object, document, testClass);
+            _target = new DocumentBuilder(_memberFinder.Object, _fieldFinder.Object, document, testClass);
 
             var newSetupMethod =
                 SyntaxNodeProvider.GetSyntaxNodeFromFile<MethodDeclarationSyntax>(
@@ -54,7 +57,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests
             var root = document.GetSyntaxRootAsync().Result;
             var testClass = root.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>().First();
 
-            _target = new DocumentBuilder(_memberFinder.Object, document, testClass);
+            _target = new DocumentBuilder(_memberFinder.Object, _fieldFinder.Object, document, testClass);
 
             var newSetupMethod =
                 SyntaxNodeProvider.GetSyntaxNodeFromFile<MethodDeclarationSyntax>(
@@ -84,7 +87,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests
             var root = document.GetSyntaxRootAsync().Result;
             var testClass = root.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>().First();
 
-            _target = new DocumentBuilder(_memberFinder.Object, document, testClass);
+            _target = new DocumentBuilder(_memberFinder.Object, _fieldFinder.Object, document, testClass);
 
             var actual = await _target
                                 .BuildAsync(new CancellationToken());

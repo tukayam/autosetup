@@ -1,0 +1,9 @@
+﻿public class ClassUnderTestTests
+{
+	private readonly Mock<ISomeType> _someType;
+
+	public ClassUnderTestTests()
+	{
+		_someType = (new Mock<ISomeType>());
+	}
+}

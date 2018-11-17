@@ -18,14 +18,14 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeAnalyzers
         [InlineData("CodeAnalyzers.files.Class_WithConstructorWithTwoParameters.txt", "CodeAnalyzers.files.Class_WithSampleMethod.txt", "TestClass", false)]
         [InlineData("CodeAnalyzers.files.Class_WithSampleMethod.txt", "CodeAnalyzers.files.Class_WithSampleMethod.txt", "TestClass", false)]
         [InlineData("CodeAnalyzers.files.Class_WithSampleMethod.txt", "CodeAnalyzers.files.Class_WithSampleMethod.txt", "SampleMethod", true)]
-        public void Returns_SimilarSyntaxNode_IfExists(string filePath, string filePathCompared, string constructorOrMethodName, bool expected)
+        public void Returns_SimilarClassSyntaxNode_IfExists(string filePath, string filePathCompared, string constructorOrMethodName, bool expected)
         {
             var memberSyntax = SyntaxNodeProvider.GetSyntaxNodeFromFile<MemberDeclarationSyntax>(filePath, constructorOrMethodName);
             var classSyntax = SyntaxNodeProvider.GetSyntaxNodeFromFile<ClassDeclarationSyntax>(filePathCompared, "TestClass");
 
             var actual = _target.FindSimilarNode(memberSyntax, classSyntax);
 
-            Assert.Equal(expected, actual!=null);
+            Assert.Equal(expected, actual != null);
         }
     }
 }

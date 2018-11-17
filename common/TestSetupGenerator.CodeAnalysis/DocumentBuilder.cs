@@ -11,6 +11,7 @@ namespace TestSetupGenerator.CodeAnalysis
     public class DocumentBuilder
     {
         private readonly IMemberFinder _memberFinder;
+        private readonly IFieldFinder _fieldFinder;
 
         private readonly Document _document;
         private readonly ClassDeclarationSyntax _testClass;
@@ -19,9 +20,10 @@ namespace TestSetupGenerator.CodeAnalysis
         private IEnumerable<SyntaxNode> _newFields;
         private IEnumerable<UsingDirectiveSyntax> _newUsingDirectives;
 
-        public DocumentBuilder(IMemberFinder memberFinder, Document document, ClassDeclarationSyntax testClass)
+        public DocumentBuilder(IMemberFinder memberFinder, IFieldFinder fieldFinder, Document document, ClassDeclarationSyntax testClass)
         {
             _memberFinder = memberFinder;
+            _fieldFinder = fieldFinder;
             _document = document;
             _testClass = testClass;
         }
@@ -56,7 +58,7 @@ namespace TestSetupGenerator.CodeAnalysis
 
             if (_newFields != null)
             {
-                members = AddToMembers(members, _newFields.Select(_ => _ as FieldDeclarationSyntax));
+                members = AddToFields(members, _newFields.Select(_ => _ as FieldDeclarationSyntax));
             }
 
             var newClass = _testClass.WithMembers(members);
@@ -85,23 +87,18 @@ namespace TestSetupGenerator.CodeAnalysis
             return members;
         }
 
-        private SyntaxList<MemberDeclarationSyntax> AddToMembers(SyntaxList<MemberDeclarationSyntax> members, IEnumerable<MemberDeclarationSyntax> newMembers)
+        private SyntaxList<MemberDeclarationSyntax> AddToFields(SyntaxList<MemberDeclarationSyntax> members, IEnumerable<FieldDeclarationSyntax> newFields)
         {
             var membersToInsert = new List<MemberDeclarationSyntax>();
-            foreach (var newMember in newMembers)
+            foreach (var newMember in newFields)
             {
-                if (_memberFinder.FindSimilarNode(newMember, _testClass) is MemberDeclarationSyntax existingMember)
-                {
-                    members = members.Replace(existingMember, newMember);
-                }
-                else
+                if (_fieldFinder.FindSimilarNode(_testClass, newMember) == null)
                 {
                     membersToInsert.Add(newMember);
                 }
             }
 
             members = members.InsertRange(0, membersToInsert);
-
             return members;
         }
 

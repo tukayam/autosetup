@@ -19,6 +19,7 @@ namespace TestSetupGenerator.XUnitMoq
             container.RegisterSingleton<IClassUnderTestFinder, ClassUnderTestFinder>();
             container.RegisterSingleton<IClassUnderTestNameFinder, ClassUnderTestNameFinder>();
             container.RegisterSingleton<IConstructorParametersExtractor, ConstructorParametersExtractor>();
+            container.Register<IFieldFinder, FieldFinder>();
             container.RegisterSingleton<IMemberFinder, MemberFinder>();
 
             // CodeGenerators

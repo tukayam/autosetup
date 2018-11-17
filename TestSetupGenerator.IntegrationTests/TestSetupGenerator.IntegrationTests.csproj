@@ -173,6 +173,9 @@
       <HintPath>..\packages\System.Xml.XPath.XDocument.4.3.0\lib\net46\System.Xml.XPath.XDocument.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="TestSetupGenerator.CodeAnalysis, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TestSetupGenerator.1.0.0-testnuget-3\lib\netstandard2.0\TestSetupGenerator.CodeAnalysis.dll</HintPath>
+    </Reference>
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\packages\xunit.abstractions.2.0.1\lib\net35\xunit.abstractions.dll</HintPath>
     </Reference>
@@ -206,17 +209,13 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.7.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\common\TestSetupGenerator.CodeAnalysis\TestSetupGenerator.CodeAnalysis.csproj">
-      <Project>{326C76BF-C1A4-47FF-93A6-3E805139C0B5}</Project>
-      <Name>TestSetupGenerator.CodeAnalysis</Name>
-    </ProjectReference>
     <ProjectReference Include="..\targets\TestSetupGenerator.XUnitMoq\TestSetupGenerator.XUnitMoq\TestSetupGenerator.XUnitMoq.csproj">
       <Project>{8ce6a731-f52e-4408-8698-974983b71b45}</Project>
       <Name>TestSetupGenerator.XUnitMoq</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="files\TestClass_NoSetupConstructor.txt" />
+    <EmbeddedResource Include="files\TestClass_DifferentConstructor_WithMoreClasses.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="files\ClassUnderTest.txt" />
@@ -226,6 +225,15 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="files\TestClass_WithFinalSetupConstructor.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="files\TestClass_DifferentConstructor.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="files\TestClass_NoConstructor.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="files\TestClass_WithExistingField.txt" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
