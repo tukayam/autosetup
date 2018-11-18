@@ -1,30 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <IncludeBuildOutput>false</IncludeBuildOutput>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   
   <PropertyGroup>
-    <PackageId>TestSetupGenerator</PackageId>
-    <PackageVersion>1.0.0.0</PackageVersion>
-    <Authors>Tuba Kaya</Authors>
-    <PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl>
-    <PackageProjectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</PackageProjectUrl>
-    <PackageIconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</PackageIconUrl>
-    <RepositoryUrl></RepositoryUrl>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>Generates mocks and constructor for class under test.</Description>
-    <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
-    <Copyright>Copyright 2018</Copyright>
-    <PackageTags>TestSetupGenerator, analyzers</PackageTags>
-    <NoPackageAnalysis>true</NoPackageAnalysis>
-    <Company></Company>
-    <Product>TestSetupGenerator</Product>
-    <Version>1.0.1</Version>
+      <NuspecFile>TestSetupGenerator.XUnitMoq.nuspec</NuspecFile>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <Compile Remove="bin\**" />
     <EmbeddedResource Remove="bin\**" />
@@ -37,7 +22,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\..\common\TestSetupGenerator.CodeAnalysis\TestSetupGenerator.CodeAnalysis.csproj" />
+    <ProjectReference Include="..\..\..\common\TestSetupGenerator.CodeAnalysis\TestSetupGenerator.CodeAnalysis.csproj">
+      <Private>true</Private>
+    </ProjectReference>
   </ItemGroup>
    
   <ItemGroup>

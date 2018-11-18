@@ -6,9 +6,9 @@ namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
 {
     public interface IFieldDeclarationGenerator
     {
-        SyntaxNode GetTargetFieldDeclaration(string classUnderTestName, SyntaxGenerator generator);
-        SyntaxNode GetFieldDeclaration(ParameterSyntax parameter, SyntaxGenerator generator);
-        SyntaxNode GetGenericFieldDeclaration(ParameterSyntax parameter, string genericSymbol, SyntaxGenerator generator);
+        FieldDeclarationSyntax GetTargetFieldDeclaration(string classUnderTestName, SyntaxGenerator generator);
+        FieldDeclarationSyntax GetFieldDeclaration(ParameterSyntax parameter, SyntaxGenerator generator);
+        FieldDeclarationSyntax GetGenericFieldDeclaration(ParameterSyntax parameter, string genericSymbol, SyntaxGenerator generator);
     }
 
     public class FieldDeclarationGenerator : IFieldDeclarationGenerator
@@ -20,24 +20,24 @@ namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
             _fieldNameGenerator = fieldNameGenerator;
         }
 
-        public SyntaxNode GetTargetFieldDeclaration(string classUnderTestName, SyntaxGenerator generator)
+        public FieldDeclarationSyntax GetTargetFieldDeclaration(string classUnderTestName, SyntaxGenerator generator)
         {
             return generator.FieldDeclaration("_target"
                 , generator.IdentifierName(classUnderTestName)
                 , Accessibility.Private
-                , DeclarationModifiers.ReadOnly);
+                , DeclarationModifiers.ReadOnly) as FieldDeclarationSyntax;
         }
 
-        public SyntaxNode GetFieldDeclaration(ParameterSyntax parameter, SyntaxGenerator generator)
+        public FieldDeclarationSyntax GetFieldDeclaration(ParameterSyntax parameter, SyntaxGenerator generator)
         {
             var fieldName = _fieldNameGenerator.GetFromParameter(parameter);
             return generator.FieldDeclaration(fieldName
                 , parameter.Type
                 , Accessibility.Private
-                , DeclarationModifiers.ReadOnly);
+                , DeclarationModifiers.ReadOnly) as FieldDeclarationSyntax;
         }
 
-        public SyntaxNode GetGenericFieldDeclaration(ParameterSyntax parameter, string genericSymbol, SyntaxGenerator generator)
+        public FieldDeclarationSyntax GetGenericFieldDeclaration(ParameterSyntax parameter, string genericSymbol, SyntaxGenerator generator)
         {
             var fieldName = _fieldNameGenerator.GetFromParameter(parameter);
 
@@ -47,7 +47,7 @@ namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
             return generator.FieldDeclaration(fieldName
                 , type
                 , Accessibility.Private
-                , DeclarationModifiers.ReadOnly);
+                , DeclarationModifiers.ReadOnly) as FieldDeclarationSyntax;
         }
     }
 }

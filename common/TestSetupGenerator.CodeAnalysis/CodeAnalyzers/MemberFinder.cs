@@ -7,14 +7,14 @@ namespace TestSetupGenerator.CodeAnalysis.CodeAnalyzers
 {
     public interface IMemberFinder
     {
-        SyntaxNode FindSimilarNode(SyntaxNode node, SyntaxNode root);
+        SyntaxNode FindSimilarNode(SyntaxList<MemberDeclarationSyntax> members, SyntaxNode node);
     }
 
     public class MemberFinder : IMemberFinder
     {
-        public SyntaxNode FindSimilarNode(SyntaxNode node, SyntaxNode root)
+        public SyntaxNode FindSimilarNode(SyntaxList<MemberDeclarationSyntax> members, SyntaxNode node)
         {
-            var nodesWithSameName = root.DescendantNodes().Where(_ => CompareNodeNames(node, _)).ToList();
+            var nodesWithSameName = members.Where(_ => CompareNodeNames(node, _)).ToList();
 
             if (nodesWithSameName.Any())
             {

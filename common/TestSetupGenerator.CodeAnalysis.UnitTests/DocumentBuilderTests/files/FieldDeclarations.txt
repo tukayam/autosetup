@@ -2,4 +2,5 @@
 {
 	private readonly Mock<ISomeType> _someType;
 	private readonly Mock<ISomeOtherType> _someOtherType;
+	private readonly Mock<IFakeType> _fakeType;
 }

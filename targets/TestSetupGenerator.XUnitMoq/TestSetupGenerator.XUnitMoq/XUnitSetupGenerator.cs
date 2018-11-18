@@ -25,6 +25,7 @@ namespace TestSetupGenerator.XUnitMoq
         private readonly IConstructorGenerator _constructorGenerator;
         private readonly IUsingDirectivesGenerator _usingDirectivesGenerator;
         private readonly IMemberFinder _memberFinder;
+        private readonly IFieldFinder _fieldFinder;
 
         public XUnitSetupGenerator(IClassUnderTestNameFinder classUnderTestNameFinder,
                                     IClassUnderTestFinder classUnderTestFinder,
@@ -33,7 +34,8 @@ namespace TestSetupGenerator.XUnitMoq
                                     ISetupMethodBodyBuilder setupMethodBodyGenerator,
                                     IConstructorGenerator constructorGenerator,
                                     IUsingDirectivesGenerator usingDirectivesGenerator,
-                                    IMemberFinder memberFinder)
+                                    IMemberFinder memberFinder,
+                                    IFieldFinder fieldFinder)
         {
             _classUnderTestNameFinder = classUnderTestNameFinder;
             _classUnderTestFinder = classUnderTestFinder;
@@ -43,6 +45,7 @@ namespace TestSetupGenerator.XUnitMoq
             _constructorGenerator = constructorGenerator;
             _usingDirectivesGenerator = usingDirectivesGenerator;
             _memberFinder = memberFinder;
+            _fieldFinder = fieldFinder;
         }
 
         public async Task<Document> RegenerateSetup(Document document, ClassDeclarationSyntax testClass, CancellationToken cancellationToken)
@@ -61,8 +64,8 @@ namespace TestSetupGenerator.XUnitMoq
                     return document;
                 }
 
-                var methodBody = _setupMethodBodyGenerator.GetSetupMethodBodyMembers(classUnderTest.ClassDeclarationSyntax, generator);
-                var newConstructorWithSetup = _constructorGenerator.Constructor(testClassName, methodBody, generator);
+                var constructorBody = _setupMethodBodyGenerator.GetSetupMethodBodyMembers(classUnderTest.ClassDeclarationSyntax, generator);
+                var newConstructor = _constructorGenerator.Constructor(testClassName, constructorBody, generator);
 
                 var constructorParameters = _constructorParametersExtractor.GetParametersOfConstructor(classUnderTest.ClassDeclarationSyntax).ToList();
                 var genericSymbolForMoq = "Mock";
@@ -72,8 +75,8 @@ namespace TestSetupGenerator.XUnitMoq
                 var namespaceForMoq = "Moq";
                 var usings = _usingDirectivesGenerator.UsingDirectives(new[] { namespaceForMoq }, generator);
 
-                var newDocument = await new DocumentBuilder(_memberFinder, document, testClass)
-                                    .WithSetupMethod(newConstructorWithSetup as MemberDeclarationSyntax)
+                var newDocument = await new DocumentBuilder(_memberFinder, _fieldFinder, document, testClass)
+                                    .WithSetupMethod(newConstructor)
                                     .WithFields(fieldDeclarations)
                                     .WithUsings(usings)
                                     .BuildAsync(cancellationToken);

@@ -18,7 +18,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders
             _cacheSyntaxNodeFromFile = new ConcurrentDictionary<string, SyntaxNode>();
         }
 
-        public static IEnumerable<SyntaxNode> GetAllSyntaxNodesFromFile<T>(string filePath) where T : SyntaxNode
+        public static IEnumerable<T> GetAllSyntaxNodesFromFile<T>(string filePath) where T : SyntaxNode
         {
             if (!_cacheAllSyntaxNodesFromFile.ContainsKey(filePath))
             {
@@ -30,7 +30,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders
                 _cacheAllSyntaxNodesFromFile.TryAdd(filePath, nodes);
             }
 
-            return _cacheAllSyntaxNodesFromFile[filePath];
+            return _cacheAllSyntaxNodesFromFile[filePath].Select(_ => _ as T);
         }
 
         public static T GetSyntaxNodeFromFile<T>(string filePath, string syntaxIdentifier) where T : SyntaxNode
