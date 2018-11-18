@@ -2,5 +2,8 @@
 {
 	private readonly Mock<ISomeType> _someTypeWithDifferentName;
 	private readonly Mock<ISomeOtherType> _someOtherType;
-	private readonly Mock<IFakeType> _fakeType;
+
+	public TestClass()
+	{
+	}
 }

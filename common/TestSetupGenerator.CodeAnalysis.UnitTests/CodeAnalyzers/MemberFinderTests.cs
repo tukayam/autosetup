@@ -23,7 +23,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeAnalyzers
             var memberSyntax = SyntaxNodeProvider.GetSyntaxNodeFromFile<MemberDeclarationSyntax>(filePath, constructorOrMethodName);
             var classSyntax = SyntaxNodeProvider.GetSyntaxNodeFromFile<ClassDeclarationSyntax>(filePathCompared, "TestClass");
 
-            var actual = _target.FindSimilarNode(memberSyntax, classSyntax);
+            var actual = _target.FindSimilarNode(classSyntax.Members, memberSyntax);
 
             Assert.Equal(expected, actual != null);
         }

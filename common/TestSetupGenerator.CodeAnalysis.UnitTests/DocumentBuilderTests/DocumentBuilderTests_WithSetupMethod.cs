@@ -12,6 +12,10 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.DocumentBuilderTests
 {
     public class DocumentBuilderTests_WithSetupMethod
     {
+        private const string EmptyTestClass = "DocumentBuilderTests.files.EmptyTestClass.txt";
+        private const string Constructor = "DocumentBuilderTests.files.Constructor.txt";
+        private const string TestClassWithEmptyConstructor = "DocumentBuilderTests.files.TestClassWithEmptyConstructor.txt";
+
         private readonly Mock<IMemberFinder> _memberFinder;
         private readonly Mock<IFieldFinder> _fieldFinder;
         private DocumentBuilder _target;
@@ -25,55 +29,51 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.DocumentBuilderTests
         [Fact]
         public async Task AddsNewSetupMethodToClass()
         {
-            var filePath = "files.EmptyTestClass.txt";
-            var document = DocumentProvider.CreateDocumentFromFile(filePath);
+            var document = DocumentProvider.CreateDocumentFromFile(EmptyTestClass);
             var root = document.GetSyntaxRootAsync().Result;
             var testClass = root.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>().First();
 
             _target = new DocumentBuilder(_memberFinder.Object, _fieldFinder.Object, document, testClass);
 
             var newSetupMethod =
-                SyntaxNodeProvider.GetSyntaxNodeFromFile<MethodDeclarationSyntax>(
-                    "files.SampleMethod.txt", "SampleMethod");
+                SyntaxNodeProvider.GetSyntaxNodeFromFile<ConstructorDeclarationSyntax>(Constructor, "TestClass");
 
             _memberFinder.Setup(_ =>
-                    _.FindSimilarNode(It.Is<SyntaxNode>(s => s == newSetupMethod),
-                        It.Is<SyntaxNode>(s => s == testClass)))
+                    _.FindSimilarNode(It.IsAny<SyntaxList<MemberDeclarationSyntax>>(),
+                        It.Is<SyntaxNode>(s => s == newSetupMethod)))
                 .Returns(default(SyntaxNode));
 
             var actual = await _target.WithSetupMethod(newSetupMethod)
                                  .BuildAsync(new CancellationToken());
 
             var actualRoot = await actual.GetSyntaxRootAsync();
-            var actualSetupMethod = actualRoot.DescendantNodes().OfType<MethodDeclarationSyntax>().First();
+            var actualSetupMethod = actualRoot.DescendantNodes().OfType<ConstructorDeclarationSyntax>().First();
             Assert.Equal(newSetupMethod.GetText().ToString(), actualSetupMethod.GetText().ToString());
         }
 
         [Fact]
         public async Task ReplacesSetupMethodInClass()
         {
-            var filePath = "files.TestClassWithSampleMethod.txt";
-            var document = DocumentProvider.CreateDocumentFromFile(filePath);
+            var document = DocumentProvider.CreateDocumentFromFile(TestClassWithEmptyConstructor);
             var root = document.GetSyntaxRootAsync().Result;
             var testClass = root.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>().First();
 
             _target = new DocumentBuilder(_memberFinder.Object, _fieldFinder.Object, document, testClass);
 
             var newSetupMethod =
-                SyntaxNodeProvider.GetSyntaxNodeFromFile<MethodDeclarationSyntax>(
-                    "files.SampleMethod.txt", "SampleMethod");
+                SyntaxNodeProvider.GetSyntaxNodeFromFile<ConstructorDeclarationSyntax>(Constructor, "TestClass");
 
-            var existingSetupMethod = root.DescendantNodes().OfType<MethodDeclarationSyntax>().First();
+            var existingSetupMethod = root.DescendantNodes().OfType<ConstructorDeclarationSyntax>().First();
             _memberFinder.Setup(_ =>
-                    _.FindSimilarNode(It.Is<SyntaxNode>(s => s == newSetupMethod),
-                        It.Is<SyntaxNode>(s => s == testClass)))
+                    _.FindSimilarNode(It.IsAny<SyntaxList<MemberDeclarationSyntax>>(),
+                        It.Is<SyntaxNode>(s => s == newSetupMethod)))
                 .Returns(existingSetupMethod);
 
             var actual = await _target.WithSetupMethod(newSetupMethod)
                 .BuildAsync(new CancellationToken());
 
             var actualRoot = await actual.GetSyntaxRootAsync();
-            var actualMethods = actualRoot.DescendantNodes().OfType<MethodDeclarationSyntax>().ToList();
+            var actualMethods = actualRoot.DescendantNodes().OfType<ConstructorDeclarationSyntax>().ToList();
 
             Assert.Single(actualMethods);
             Assert.Equal(newSetupMethod.GetText().ToString(), actualMethods.First().GetText().ToString());
@@ -82,8 +82,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.DocumentBuilderTests
         [Fact]
         public async Task DoesNotReplaceSetupMethod_When_WithSetupMethodIsNotCalled()
         {
-            var filePath = "files.EmptyTestClass.txt";
-            var document = DocumentProvider.CreateDocumentFromFile(filePath);
+            var document = DocumentProvider.CreateDocumentFromFile(EmptyTestClass);
             var root = document.GetSyntaxRootAsync().Result;
             var testClass = root.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>().First();
 
@@ -93,7 +92,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.DocumentBuilderTests
                                 .BuildAsync(new CancellationToken());
 
             var actualRoot = await actual.GetSyntaxRootAsync();
-            
+
             Assert.Equal(root.GetText().ToString(), actualRoot.GetText().ToString());
         }
     }

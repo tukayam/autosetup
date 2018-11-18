@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>TestSetupGenerator</id>
-    <version>1.0.0-testnuget-3</version>
+    <version>1.0.0-fixfields-2</version>
     <title>$title$</title>
     <authors>T. Kaya</authors>
     <owners>$author$</owners>

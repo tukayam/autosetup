@@ -174,7 +174,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="TestSetupGenerator.CodeAnalysis, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TestSetupGenerator.1.0.0-testnuget-3\lib\netstandard2.0\TestSetupGenerator.CodeAnalysis.dll</HintPath>
+      <HintPath>..\packages\TestSetupGenerator.1.0.0-fixfields-2\lib\netstandard2.0\TestSetupGenerator.CodeAnalysis.dll</HintPath>
     </Reference>
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\packages\xunit.abstractions.2.0.1\lib\net35\xunit.abstractions.dll</HintPath>

@@ -200,6 +200,7 @@
     <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests_GetFieldDeclaration.cs" />
     <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests_GetGenericFieldDeclarations.cs" />
     <Compile Include="CodeGenerators\FieldNameGeneratorTests.cs" />
+    <Compile Include="DocumentBuilderTests\DocumentBuilderTests_WithSetupMethodAndFields.cs" />
     <Compile Include="DocumentBuilderTests\DocumentBuilderTests_WithFields.cs" />
     <Compile Include="DocumentBuilderTests\DocumentBuilderTests_WithSetupMethod.cs" />
     <Compile Include="CodeGenerators\MethodGeneratorTests_GenerateMethodWithAttribute.cs" />
@@ -250,7 +251,7 @@
     <EmbeddedResource Include="DocumentBuilderTests\files\EmptyTestClass.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DocumentBuilderTests\files\TestClassWithSampleMethod.txt" />
+    <EmbeddedResource Include="DocumentBuilderTests\files\TestClassWithEmptyConstructor.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DocumentBuilderTests\files\TestClassWithConstructor.txt" />
@@ -265,19 +266,25 @@
     <EmbeddedResource Include="CodeAnalyzers\files\Class_WithSampleMethod.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DocumentBuilderTests\files\SampleMethod.txt" />
+    <EmbeddedResource Include="DocumentBuilderTests\files\FieldDeclarations.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DocumentBuilderTests\files\SampleFieldDeclarations.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="DocumentBuilderTests\files\TestClassWithSampleFields.txt" />
+    <EmbeddedResource Include="DocumentBuilderTests\files\TestClassWithSomeFields.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CodeAnalyzers\files\Class_WithSampleField.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DocumentBuilderTests\files\TestClassWithSampleFieldsAfterRegenerate.txt" />
+    <EmbeddedResource Include="DocumentBuilderTests\files\TestClassWithAllFields.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocumentBuilderTests\files\TestClassWithAllFieldsAndConstructor.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocumentBuilderTests\files\Constructor.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocumentBuilderTests\files\TestClassWithConstructorAndSomeFields.txt" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

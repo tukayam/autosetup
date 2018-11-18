@@ -22,7 +22,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeAnalyzers
             var fieldSyntax = FieldDeclarationProvider.GetFieldDeclarationFromFile(filePath, fieldName);
             var classSyntax = SyntaxNodeProvider.GetSyntaxNodeFromFile<ClassDeclarationSyntax>(filePathCompared, "TestClass");
 
-            var actual = _target.FindSimilarNode(classSyntax, fieldSyntax);
+            var actual = _target.FindSimilarNode(classSyntax.Members, fieldSyntax);
 
             Assert.Equal(expected, actual != null);
         }

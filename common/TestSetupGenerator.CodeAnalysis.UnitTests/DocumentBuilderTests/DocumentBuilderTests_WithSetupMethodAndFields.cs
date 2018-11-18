@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Moq;
 using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
 using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Xunit;
@@ -12,57 +11,71 @@ using Xunit.Abstractions;
 
 namespace TestSetupGenerator.CodeAnalysis.UnitTests.DocumentBuilderTests
 {
-    public class DocumentBuilderTests_WithFields
+    public class DocumentBuilderTests_WithSetupMethodAndFields
     {
         private const string FieldDeclarations = "DocumentBuilderTests.files.FieldDeclarations.txt";
 
         private const string EmptyTestClass = "DocumentBuilderTests.files.EmptyTestClass.txt";
-        private const string TestClassWithAllFields = "DocumentBuilderTests.files.TestClassWithAllFields.txt";
         private const string TestClassWithSomeFields = "DocumentBuilderTests.files.TestClassWithSomeFields.txt";
+        private const string Constructor = "DocumentBuilderTests.files.Constructor.txt";
+        private const string TestClassWithEmptyConstructor = "DocumentBuilderTests.files.TestClassWithEmptyConstructor.txt";
+        private const string TestClassWithConstructor = "DocumentBuilderTests.files.TestClassWithConstructor.txt";
         private const string TestClassWithConstructorAndSomeFields = "DocumentBuilderTests.files.TestClassWithConstructorAndSomeFields.txt";
 
+        private const string TestClassWithConstructorAndFields = "DocumentBuilderTests.files.TestClassWithAllFields.txt";
+
         private readonly ITestOutputHelper _testOutput;
-        private readonly Mock<IMemberFinder> _memberFinder;
+        private readonly IMemberFinder _memberFinder;
         private readonly IFieldFinder _fieldFinder;
         private DocumentBuilder _target;
 
-        public DocumentBuilderTests_WithFields(ITestOutputHelper testOutput)
+        public DocumentBuilderTests_WithSetupMethodAndFields(ITestOutputHelper testOutput)
         {
             _testOutput = testOutput;
-            _memberFinder = new Mock<IMemberFinder>();
+            _memberFinder = new MemberFinder();
             _fieldFinder = new FieldFinder();
         }
 
         [Theory]
         [InlineData(EmptyTestClass)]
         [InlineData(TestClassWithSomeFields)]
+        [InlineData(TestClassWithEmptyConstructor)]
+        [InlineData(TestClassWithConstructor)]
         [InlineData(TestClassWithConstructorAndSomeFields)]
-        public async Task SetsFields(string testClassFilePath)
+        public async Task SetsConstructorAndFields(string testClassFilePath)
         {
             // Arrange
             var document = DocumentProvider.CreateDocumentFromFile(testClassFilePath);
             var root = document.GetSyntaxRootAsync().Result;
             var testClass = root.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>().First();
 
-            _target = new DocumentBuilder(_memberFinder.Object, _fieldFinder, document, testClass);
+            _target = new DocumentBuilder(_memberFinder, _fieldFinder, document, testClass);
 
             var newFieldDeclarations =
                 SyntaxNodeProvider.GetAllSyntaxNodesFromFile<FieldDeclarationSyntax>(FieldDeclarations).ToList();
 
             var expectedFieldDeclarations =
-                SyntaxNodeProvider.GetAllSyntaxNodesFromFile<FieldDeclarationSyntax>(TestClassWithAllFields).ToList();
-            var expected = GetCollectionTextAsString(expectedFieldDeclarations);
+                SyntaxNodeProvider.GetAllSyntaxNodesFromFile<FieldDeclarationSyntax>(TestClassWithConstructorAndFields).ToList();
+            var expectedFields = GetCollectionTextAsString(expectedFieldDeclarations);
+
+            var newSetupMethod =
+                SyntaxNodeProvider.GetSyntaxNodeFromFile<ConstructorDeclarationSyntax>(Constructor, "TestClass");
 
             // Act
-            var actual = await _target.WithFields(newFieldDeclarations)
-                                    .BuildAsync(new CancellationToken());
+            var actual = await _target.WithSetupMethod(newSetupMethod)
+                                        .WithFields(newFieldDeclarations)
+                                        .BuildAsync(new CancellationToken());
 
             // Assert
             var actualRoot = await actual.GetSyntaxRootAsync();
-            var actualFields = GetCollectionTextAsString(actualRoot.DescendantNodes().OfType<FieldDeclarationSyntax>());
-            _testOutput.WriteLine(actualFields);
+            _testOutput.WriteLine(actualRoot.GetText().ToString());
 
-            Assert.Equal(expected, actualFields);
+            var actualFields = GetCollectionTextAsString(actualRoot.DescendantNodes().OfType<FieldDeclarationSyntax>());
+            Assert.Equal(expectedFields, actualFields);
+
+            var actualMethods = actualRoot.DescendantNodes().OfType<ConstructorDeclarationSyntax>().ToList();
+            Assert.Single(actualMethods);
+            Assert.Equal(newSetupMethod.GetText().ToString(), actualMethods.First().GetText().ToString());
         }
 
         private string GetCollectionTextAsString(IEnumerable<SyntaxNode> fields)
