@@ -74,10 +74,6 @@
       <HintPath>..\packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Collections.Immutable, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.Immutable.1.3.1\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Composition.AttributedModel, Version=1.0.31.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Composition.AttributedModel.1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>
@@ -173,9 +169,6 @@
       <HintPath>..\packages\System.Xml.XPath.XDocument.4.3.0\lib\net46\System.Xml.XPath.XDocument.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TestSetupGenerator.CodeAnalysis, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TestSetupGenerator.1.0.0-fixfields-2\lib\netstandard2.0\TestSetupGenerator.CodeAnalysis.dll</HintPath>
-    </Reference>
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\packages\xunit.abstractions.2.0.1\lib\net35\xunit.abstractions.dll</HintPath>
     </Reference>
@@ -209,12 +202,6 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.7.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\targets\TestSetupGenerator.XUnitMoq\TestSetupGenerator.XUnitMoq\TestSetupGenerator.XUnitMoq.csproj">
-      <Project>{8ce6a731-f52e-4408-8698-974983b71b45}</Project>
-      <Name>TestSetupGenerator.XUnitMoq</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="files\TestClass_DifferentConstructor_WithMoreClasses.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -234,6 +221,16 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="files\TestClass_WithExistingField.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestSetupGenerator.CodeAnalysis\TestSetupGenerator.CodeAnalysis.csproj">
+      <Project>{326c76bf-c1a4-47ff-93a6-3e805139c0b5}</Project>
+      <Name>TestSetupGenerator.CodeAnalysis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestSetupGenerator.XUnitMoq\TestSetupGenerator.XUnitMoq.csproj">
+      <Project>{8ce6a731-f52e-4408-8698-974983b71b45}</Project>
+      <Name>TestSetupGenerator.XUnitMoq</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
