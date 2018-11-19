@@ -22,9 +22,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\..\common\TestSetupGenerator.CodeAnalysis\TestSetupGenerator.CodeAnalysis.csproj">
-      <Private>true</Private>
-    </ProjectReference>
+    <ProjectReference Include="..\TestSetupGenerator.CodeAnalysis\TestSetupGenerator.CodeAnalysis.csproj" />
   </ItemGroup>
    
   <ItemGroup>
