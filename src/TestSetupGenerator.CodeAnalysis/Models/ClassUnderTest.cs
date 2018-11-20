@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace TestSetupGenerator.CodeAnalysis.Models
+namespace AutoSetup.CodeAnalysis.Models
 {
     public class ClassUnderTest
     {

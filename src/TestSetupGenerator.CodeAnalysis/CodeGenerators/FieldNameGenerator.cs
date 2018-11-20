@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
+namespace AutoSetup.CodeAnalysis.CodeGenerators
 {
     public interface IFieldNameGenerator
     {

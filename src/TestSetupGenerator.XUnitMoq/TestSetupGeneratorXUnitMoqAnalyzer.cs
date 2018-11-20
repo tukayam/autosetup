@@ -1,9 +1,9 @@
 using System.Collections.Immutable;
+using AutoSetup.CodeAnalysis.CodeAnalyzers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
-using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
 
-namespace TestSetupGenerator.XUnitMoq
+namespace AutoSetup.XUnitMoq
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class TestSetupGeneratorXUnitMoqAnalyzer : DiagnosticAnalyzer

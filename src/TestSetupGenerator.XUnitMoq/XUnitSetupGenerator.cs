@@ -1,14 +1,14 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoSetup.CodeAnalysis;
+using AutoSetup.CodeAnalysis.CodeAnalyzers;
+using AutoSetup.CodeAnalysis.CodeGenerators;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
-using TestSetupGenerator.CodeAnalysis;
-using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
-using TestSetupGenerator.CodeAnalysis.CodeGenerators;
 
-namespace TestSetupGenerator.XUnitMoq
+namespace AutoSetup.XUnitMoq
 {
     public interface IXUnitSetupGenerator
     {

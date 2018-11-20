@@ -3,11 +3,11 @@ using System.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CodeActions;
+using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace TestSetupGenerator.XUnitMoq
+namespace AutoSetup.XUnitMoq
 {
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(TestSetupGeneratorXUnitMoqCodeFixProvider)), Shared]
     public class TestSetupGeneratorXUnitMoqCodeFixProvider : CodeFixProvider

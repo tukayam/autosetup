@@ -9,8 +9,8 @@
     <ProjectGuid>{6A2E5286-3FA5-4727-8C83-CEA6C76B53AA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestSetupGenerator.CodeAnalysis.UnitTests</RootNamespace>
-    <AssemblyName>TestSetupGenerator.CodeAnalysis.UnitTests</AssemblyName>
+    <RootNamespace>AutoSetup.CodeAnalysis.UnitTests</RootNamespace>
+    <AssemblyName>AutoSetup.CodeAnalysis.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -215,9 +215,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TestSetupGenerator.CodeAnalysis\TestSetupGenerator.CodeAnalysis.csproj">
+    <ProjectReference Include="..\TestSetupGenerator.CodeAnalysis\AutoSetup.CodeAnalysis.csproj">
       <Project>{326c76bf-c1a4-47ff-93a6-3e805139c0b5}</Project>
-      <Name>TestSetupGenerator.CodeAnalysis</Name>
+      <Name>AutoSetup.CodeAnalysis</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

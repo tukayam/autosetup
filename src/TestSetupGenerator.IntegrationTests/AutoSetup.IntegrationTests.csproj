@@ -8,8 +8,8 @@
     <ProjectGuid>{CEF214CA-D828-44F8-9131-B42D74D5687B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestSetupGenerator.IntegrationTests</RootNamespace>
-    <AssemblyName>TestSetupGenerator.IntegrationTests</AssemblyName>
+    <RootNamespace>AutoSetup.IntegrationTests</RootNamespace>
+    <AssemblyName>AutoSetup.IntegrationTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -223,13 +223,13 @@
     <EmbeddedResource Include="files\TestClass_WithExistingField.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TestSetupGenerator.CodeAnalysis\TestSetupGenerator.CodeAnalysis.csproj">
+    <ProjectReference Include="..\TestSetupGenerator.CodeAnalysis\AutoSetup.CodeAnalysis.csproj">
       <Project>{326c76bf-c1a4-47ff-93a6-3e805139c0b5}</Project>
-      <Name>TestSetupGenerator.CodeAnalysis</Name>
+      <Name>AutoSetup.CodeAnalysis</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestSetupGenerator.XUnitMoq\TestSetupGenerator.XUnitMoq.csproj">
+    <ProjectReference Include="..\TestSetupGenerator.XUnitMoq\AutoSetup.XUnitMoq.csproj">
       <Project>{8ce6a731-f52e-4408-8698-974983b71b45}</Project>
-      <Name>TestSetupGenerator.XUnitMoq</Name>
+      <Name>AutoSetup.XUnitMoq</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

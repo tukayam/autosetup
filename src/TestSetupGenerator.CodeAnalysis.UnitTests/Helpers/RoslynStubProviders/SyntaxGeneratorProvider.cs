@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.Editing;
 
-namespace TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders
+namespace AutoSetup.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders
 {
     class SyntaxGeneratorProvider
     {

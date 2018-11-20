@@ -1,11 +1,11 @@
 ﻿using System.Collections.Concurrent;
 using System.Linq;
+using AutoSetup.CodeAnalysis.UnitTests.Helpers.IO;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.IO;
 
-namespace TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders
+namespace AutoSetup.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders
 {
     static class FieldDeclarationProvider
     {

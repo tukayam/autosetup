@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Editing;
 
-namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
+namespace AutoSetup.CodeAnalysis.CodeGenerators
 {
     public interface IExpressionStatementGenerator
     {

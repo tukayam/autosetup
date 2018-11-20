@@ -1,8 +1,8 @@
-﻿using TestSetupGenerator.CodeAnalysis.CodeGenerators;
-using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
+﻿using AutoSetup.CodeAnalysis.CodeGenerators;
+using AutoSetup.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Xunit;
 
-namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeGenerators
+namespace AutoSetup.CodeAnalysis.UnitTests.CodeGenerators
 {
     public class ExpressionStatementGeneratorTests_MoqTargetObjectAssignmentExpression
     {

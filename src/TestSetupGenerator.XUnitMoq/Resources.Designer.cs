@@ -8,10 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TestSetupGenerator.XUnitMoq {
-    using System;
-    
-    
+namespace AutoSetup.XUnitMoq {
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>

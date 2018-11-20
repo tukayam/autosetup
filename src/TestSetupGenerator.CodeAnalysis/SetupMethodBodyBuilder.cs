@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AutoSetup.CodeAnalysis.CodeAnalyzers;
+using AutoSetup.CodeAnalysis.CodeGenerators;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
-using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
-using TestSetupGenerator.CodeAnalysis.CodeGenerators;
 
-namespace TestSetupGenerator.CodeAnalysis
+namespace AutoSetup.CodeAnalysis
 {
     public interface ISetupMethodBodyBuilder
     {

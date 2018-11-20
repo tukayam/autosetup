@@ -1,10 +1,10 @@
 ﻿using System.Linq;
+using AutoSetup.IntegrationTests.Helpers.IO;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
-using TestSetupGenerator.IntegrationTests.Helpers.IO;
 
-namespace TestSetupGenerator.IntegrationTests.Helpers.RoslynStubProviders
+namespace AutoSetup.IntegrationTests.Helpers.RoslynStubProviders
 {
    static class DocumentProvider
     {

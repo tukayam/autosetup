@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
 
-namespace TestSetupGenerator.CodeAnalysis.CodeGenerators
+namespace AutoSetup.CodeAnalysis.CodeGenerators
 {
     public interface IFieldDeclarationGenerator
     {

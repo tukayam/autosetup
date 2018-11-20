@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TestSetupGenerator.CodeAnalysis.CodeAnalyzers
+namespace AutoSetup.CodeAnalysis.CodeAnalyzers
 {
     public interface IClassUnderTestNameFinder
     {

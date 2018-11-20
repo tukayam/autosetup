@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace TestSetupGenerator.CodeAnalysis.CodeAnalyzers
+namespace AutoSetup.CodeAnalysis.CodeAnalyzers
 {
     public interface IFieldFinder
     {

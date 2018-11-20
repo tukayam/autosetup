@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 
-namespace TestSetupGenerator.IntegrationTests.Helpers.IO
+namespace AutoSetup.IntegrationTests.Helpers.IO
 {
     static class TextFileReader
     {

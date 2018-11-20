@@ -1,4 +1,4 @@
-﻿namespace TestSetupGenerator.CodeAnalysis.CodeAnalyzers
+﻿namespace AutoSetup.CodeAnalysis.CodeAnalyzers
 {
     public class TestClassDetector
     {

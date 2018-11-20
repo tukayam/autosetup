@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoSetup.CodeAnalysis.CodeAnalyzers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
 
-namespace TestSetupGenerator.CodeAnalysis
+namespace AutoSetup.CodeAnalysis
 {
     public class DocumentBuilder
     {

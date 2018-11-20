@@ -1,9 +1,9 @@
-﻿using SimpleInjector;
-using TestSetupGenerator.CodeAnalysis;
-using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
-using TestSetupGenerator.CodeAnalysis.CodeGenerators;
+﻿using AutoSetup.CodeAnalysis;
+using AutoSetup.CodeAnalysis.CodeAnalyzers;
+using AutoSetup.CodeAnalysis.CodeGenerators;
+using SimpleInjector;
 
-namespace TestSetupGenerator.XUnitMoq
+namespace AutoSetup.XUnitMoq
 {
     public class IoCConfig
     {

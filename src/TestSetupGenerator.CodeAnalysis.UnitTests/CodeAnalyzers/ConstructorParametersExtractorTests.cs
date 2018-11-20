@@ -1,10 +1,10 @@
 ﻿using System.Linq;
+using AutoSetup.CodeAnalysis.CodeAnalyzers;
+using AutoSetup.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
-using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Xunit;
 
-namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeAnalyzers
+namespace AutoSetup.CodeAnalysis.UnitTests.CodeAnalyzers
 {
     public class ConstructorParametersExtractorTests
     {

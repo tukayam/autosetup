@@ -1,10 +1,9 @@
-﻿using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
-using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers;
-using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.IO;
-using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
+﻿using AutoSetup.CodeAnalysis.CodeAnalyzers;
+using AutoSetup.CodeAnalysis.UnitTests.Helpers.IO;
+using AutoSetup.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Xunit;
 
-namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeAnalyzers
+namespace AutoSetup.CodeAnalysis.UnitTests.CodeAnalyzers
 {
     public class ClassUnderTestFinderTests
     {

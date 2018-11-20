@@ -1,7 +1,7 @@
-﻿using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
+﻿using AutoSetup.CodeAnalysis.CodeAnalyzers;
 using Xunit;
 
-namespace TestSetupGenerator.CodeAnalysis.UnitTests.CodeAnalyzers
+namespace AutoSetup.CodeAnalysis.UnitTests.CodeAnalyzers
 {
     public class ClassUnderTestNameFinderTests
     {

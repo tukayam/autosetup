@@ -1,14 +1,15 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoSetup.CodeAnalysis.CodeAnalyzers;
+using AutoSetup.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Moq;
-using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
-using TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.RoslynStubProviders;
 using Xunit;
 
-namespace TestSetupGenerator.CodeAnalysis.UnitTests.DocumentBuilderTests
+namespace AutoSetup.CodeAnalysis.UnitTests.DocumentBuilderTests
 {
     public class DocumentBuilderTests_WithSetupMethod
     {
@@ -75,7 +76,7 @@ namespace TestSetupGenerator.CodeAnalysis.UnitTests.DocumentBuilderTests
             var actualRoot = await actual.GetSyntaxRootAsync();
             var actualMethods = actualRoot.DescendantNodes().OfType<ConstructorDeclarationSyntax>().ToList();
 
-            Assert.Single(actualMethods);
+            Assert.Single((IEnumerable) actualMethods);
             Assert.Equal(newSetupMethod.GetText().ToString(), actualMethods.First().GetText().ToString());
         }
 

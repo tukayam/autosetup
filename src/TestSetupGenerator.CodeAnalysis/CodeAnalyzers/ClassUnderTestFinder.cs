@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using AutoSetup.CodeAnalysis.Models;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using TestSetupGenerator.CodeAnalysis.Models;
 
-namespace TestSetupGenerator.CodeAnalysis.CodeAnalyzers
+namespace AutoSetup.CodeAnalysis.CodeAnalyzers
 {
     public interface IClassUnderTestFinder
     {

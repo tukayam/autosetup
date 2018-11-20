@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 
-namespace TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.IO
+namespace AutoSetup.CodeAnalysis.UnitTests.Helpers.IO
 {
     static class TextFileReader
     {

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using AutoSetup.IntegrationTests.Helpers.IO;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using TestSetupGenerator.IntegrationTests.Helpers.IO;
 
-namespace TestSetupGenerator.IntegrationTests.Helpers.RoslynStubProviders
+namespace AutoSetup.IntegrationTests.Helpers.RoslynStubProviders
 {
     static class SyntaxNodeProvider
     {

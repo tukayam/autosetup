@@ -1,18 +1,18 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoSetup.CodeAnalysis.CodeAnalyzers;
+using AutoSetup.CodeAnalysis.Models;
+using AutoSetup.IntegrationTests.Helpers.ExtensionMethods;
+using AutoSetup.IntegrationTests.Helpers.RoslynStubProviders;
+using AutoSetup.XUnitMoq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Moq;
-using TestSetupGenerator.CodeAnalysis.CodeAnalyzers;
-using TestSetupGenerator.CodeAnalysis.Models;
-using TestSetupGenerator.IntegrationTests.Helpers.ExtensionMethods;
-using TestSetupGenerator.IntegrationTests.Helpers.RoslynStubProviders;
-using TestSetupGenerator.XUnitMoq;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace TestSetupGenerator.IntegrationTests
+namespace AutoSetup.IntegrationTests
 {
     public class XUnitSetupGeneratorTests
     {

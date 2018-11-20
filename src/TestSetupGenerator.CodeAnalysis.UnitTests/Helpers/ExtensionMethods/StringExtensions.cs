@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace TestSetupGenerator.CodeAnalysis.UnitTests.Helpers.ExtensionMethods
+namespace AutoSetup.CodeAnalysis.UnitTests.Helpers.ExtensionMethods
 {
     static class StringExtensions
     {

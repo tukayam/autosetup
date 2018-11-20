@@ -1,7 +1,7 @@
-﻿using TestSetupGenerator.XUnitMoq;
+﻿using AutoSetup.XUnitMoq;
 using Xunit;
 
-namespace TestSetupGenerator.IntegrationTests
+namespace AutoSetup.IntegrationTests
 {
     public class IoCConfigTests
     {

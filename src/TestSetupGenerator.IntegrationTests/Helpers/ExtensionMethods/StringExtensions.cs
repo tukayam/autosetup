@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace TestSetupGenerator.IntegrationTests.Helpers.ExtensionMethods
+namespace AutoSetup.IntegrationTests.Helpers.ExtensionMethods
 {
     static class StringExtensions
     {
