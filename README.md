@@ -72,11 +72,14 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 
 We use [SemVer](http://semver.org/) for versioning. 
 
+<!--
 ## Authors
 
 * **Tuba Kaya** - *Initial work* - [autosetup](https://github.com/tukaya/autosetup)
 
 See also the list of [contributors](https://github.com/tukaya/autosetup/contributors) who participated in this project.
+
+-->
 
 ## License
 
