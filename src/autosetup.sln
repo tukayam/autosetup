@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoSetup.XUnitMoq", "AutoSetup.XUnitMoq\AutoSetup.XUnitMoq.csproj", "{8CE6A731-F52E-4408-8698-974983B71B45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoSetup", "AutoSetup\AutoSetup.csproj", "{8CE6A731-F52E-4408-8698-974983B71B45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoSetup.XUnitMoq.Vsix", "AutoSetup.XUnitMoq.Vsix\AutoSetup.XUnitMoq.Vsix.csproj", "{D1A98751-00E1-4E1C-8712-5EBDCCA39322}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoSetup.Vsix", "AutoSetup.Vsix\AutoSetup.Vsix.csproj", "{D1A98751-00E1-4E1C-8712-5EBDCCA39322}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoSetup.XUnitMoq.UnitTests", "AutoSetup.XUnitMoq.UnitTests\AutoSetup.XUnitMoq.UnitTests.csproj", "{CEF214CA-D828-44F8-9131-B42D74D5687B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoSetup.UnitTests", "AutoSetup.UnitTests\AutoSetup.UnitTests.csproj", "{CEF214CA-D828-44F8-9131-B42D74D5687B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
