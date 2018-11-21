@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AutoSetup</id>
-    <version>1.0.0-rc-2</version>
+    <version>1.0.0-rc-8</version>
     <title>$title$</title>
     <authors>T. Kaya</authors>
     <owners>$author$</owners>
@@ -11,8 +11,12 @@
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System" targetFramework="" />
     </frameworkAssemblies>
+    <dependencies>
+      <dependency id="SimpleInjector" version="4.3.0" />
+    </dependencies>
   </metadata>
   <files>
+    <file src="*.dll" target="analyzers\dotnet\cs" exclude="**\Microsoft.CodeAnalysis.*;**\System.Collections.Immutable.*;**\System.Reflection.Metadata.*;**\System.Composition.*" />
     <file src="tools\*.ps1" target="tools\" />
   </files>
 </package>

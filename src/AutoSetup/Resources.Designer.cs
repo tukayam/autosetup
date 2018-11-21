@@ -9,6 +9,9 @@
 //------------------------------------------------------------------------------
 
 namespace AutoSetup {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -36,7 +39,7 @@ namespace AutoSetup {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TestSetupGenerator.XUnitMoq.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AutoSetup.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -76,7 +79,7 @@ namespace AutoSetup {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sharpy.
+        ///   Looks up a localized string similar to AutoSetup.
         /// </summary>
         internal static string AnalyzerTitle {
             get {

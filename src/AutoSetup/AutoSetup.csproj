@@ -2,14 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <IncludeBuildOutput>true</IncludeBuildOutput>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup>
     <NuspecFile>AutoSetup.nuspec</NuspecFile>
     <PackageId>AutoSetup</PackageId>
-    <Version>1.0.0-rc-2</Version>
     <Authors>T. Kaya</Authors>
     <Product>AutoSetup</Product>
     <Description>Generates setup method in a unit test class for a class under test</Description>
