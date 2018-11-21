@@ -8,7 +8,7 @@ namespace AutoSetup.UnitTests.Helpers.IO
         public static string ReadFile(string filePath)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = $"AutoSetup.XUnitMoq.UnitTests.{filePath}";
+            var resourceName = $"AutoSetup.UnitTests.{filePath}";
             using (var stream = assembly.GetManifestResourceStream(resourceName))
             using (var reader = new StreamReader(stream))
             {

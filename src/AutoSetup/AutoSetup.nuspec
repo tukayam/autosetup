@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>AutoSetup</id>
+    <version>1.0.0-rc-2</version>
+    <title>$title$</title>
+    <authors>T. Kaya</authors>
+    <owners>$author$</owners>
+    <description>Generates setup in test class</description>
+    <copyright>Copyright 2018</copyright>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System" targetFramework="" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="tools\*.ps1" target="tools\" />
+  </files>
+</package>
