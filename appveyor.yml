@@ -11,6 +11,8 @@ assembly_info:
 nuget:
   account_feed: true
   project_feed: true
+before_build:
+  - nuget restore src\
 build:
   parallel: true                  # enable MSBuild parallel builds
   project: src\autosetup.sln      # path to Visual Studio solution or project
