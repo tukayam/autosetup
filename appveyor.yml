@@ -13,9 +13,7 @@ nuget:
   project_feed: true
 before_build:
   - nuget restore src\
-build:
-  parallel: true                  # enable MSBuild parallel builds
-  project: src\autosetup.sln      # path to Visual Studio solution or project
-  publish_wap: true               # package Web Application Projects (WAP) for Web Deploy publish_nuget: true             # package projects with .nuspec files and push to artifacts
-  publish_nuget_symbols: true     # generate and publish NuGet symbol packages
-  include_nuget_references: true  # add -IncludeReferencedProjects option while packaging
+build_script:
+  - dotnet build src\autosetup\autosetup.csproj -c Release
+  - dotnet pack src\autosetup\autosetup.csproj -o ..\..\AppOutput\autosetup -c Release
+  - dotnet publish src\autosetup.vsix\autosetup.vsix.csproj --framework netcoreapp2.1  -o ..\..\AppOutput\autosetup.vsix -c Release
