@@ -11,9 +11,8 @@ assembly_info:
 nuget:
   account_feed: true
   project_feed: true
-before_build:
-  - nuget restore src\
 build_script:
+  - nuget restore src\
   - dotnet build src\autosetup\autosetup.csproj -c Release
   - dotnet pack src\autosetup\autosetup.csproj -o ..\..\AppOutput\autosetup -c Release
   - dotnet publish src\autosetup.vsix\autosetup.vsix.csproj --framework netcoreapp2.1  -o ..\..\AppOutput\autosetup.vsix -c Release
