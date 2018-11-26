@@ -15,5 +15,5 @@ build_script:
   - nuget restore src\
   - dotnet build src\autosetup\autosetup.csproj -c Release
   - dotnet pack src\autosetup\autosetup.csproj -o ..\..\AppOutput\autosetup -c Release
-  - appveyor PushArtifact AppOutput\autosetup.nupkg
+  - appveyor PushArtifact AppOutput\autosetup\autosetup*.nupkg
   - dotnet publish src\autosetup.vsix\autosetup.vsix.csproj --framework netcoreapp2.1  -o ..\..\AppOutput\autosetup.vsix -c Release
