@@ -17,10 +17,11 @@ Note: .Net Compiler Platform SDK Extension from Microsoft Marketplace is not com
 
 ### Installing
 
+* Add nuget feed source to local environment (please ask for the credentials)
 * Restore nuget packages
 * Build solution
-* Run TestSetupGenerator.XUnitMoq.Vsix to test the Visual Studio extension
-* Or, install the generated nuget package from TestSetupGenerator.XUnitMoq\bin\debug into a project where you would like to see the features in action.
+* Run AutoSetup.Vsix to test the Visual Studio extension
+* Or, install the generated nuget package autosetup.pkg into a project where you would like to see the features in action.
 
 You should be able to generate the setup method in a test class by following below steps:
 
