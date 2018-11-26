@@ -2,10 +2,10 @@
 <package >
   <metadata>
     <id>AutoSetup</id>
-    <version>1.0.0-rc-8</version>
+    <version>1.0.0-rc.1</version>
     <title>$title$</title>
-    <authors>T. Kaya</authors>
-    <owners>$author$</owners>
+    <authors>Tuba Kaya</authors>
+    <owners>Tuba Kaya</owners>
     <description>Generates setup in test class</description>
     <copyright>Copyright 2018</copyright>
     <frameworkAssemblies>
