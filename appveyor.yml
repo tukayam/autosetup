@@ -14,10 +14,10 @@ nuget:
 build_script:
   - nuget restore src\
   - dotnet build src\autosetup\autosetup.csproj -c Release
-  - dotnet pack src\autosetup\autosetup.csproj -o ..\..\AppOutput\autosetup -c Release
+  - dotnet pack src\autosetup\autosetup.csproj -o ..\..\AppOutput -c Release
   - dotnet publish src\autosetup.vsix\autosetup.vsix.csproj --framework netcoreapp2.1  -o ..\..\AppOutput\autosetup.vsix -c Release
 artifacts:
-  - path: AppOutput\autosetup\autosetup.nupkg
+  - path: AppOutput\*.nupkg
     name: autosetupnugetpackage
 after_build:
   - ps: Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
