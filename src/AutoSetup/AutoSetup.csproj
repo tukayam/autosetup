@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <IncludeBuildOutput>true</IncludeBuildOutput>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup>
-    <NuspecFile>AutoSetup.nuspec</NuspecFile>
     <PackageId>AutoSetup</PackageId>
+    <PackageVersion>1.0.0-rc.9</PackageVersion>
     <Authors>T. Kaya</Authors>
     <Product>AutoSetup</Product>
     <Description>Generates setup method in a unit test class for a class under test</Description>
@@ -17,21 +17,16 @@
     <PackageProjectUrl>https://github.com/tukaya/autosetup/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tukaya/autosetup/</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
     <PackageTags>AutoSetup, autosetup, analyzers</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="bin\**" />
-    <EmbeddedResource Remove="bin\**" />
-    <None Remove="bin\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="2.7.0" />
     <PackageReference Include="SimpleInjector" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.6.1" PrivateAssets="all" />
     <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
   </ItemGroup>
 
@@ -40,4 +35,8 @@
     <EmbeddedResource Update="Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
+    <None Include="$(OutputPath)\AutoSetup.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
 </Project>
