@@ -21,11 +21,16 @@ artifacts:
     name: autosetupnugetpackage
 after_build:
   - ps: Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-deploy:
-  provider: NuGet
-  server:                  # remove to push to NuGet.org
-  api_key:
-    secure: fHDidsWmxMYoUD8/IR+cXKIB/QyTZ9Rzw1W5d93Cf8a+UqRU65mUuIntARp1B/LD
-  skip_symbols: false
-  symbol_server:           # remove to push symbols to SymbolSource.org
-  artifact: /.*\.nupkg/
+for:
+-
+  branches:
+    only:
+      - master
+  deploy:
+    provider: NuGet
+    server:                  # remove to push to NuGet.org
+    api_key:
+      secure: fHDidsWmxMYoUD8/IR+cXKIB/QyTZ9Rzw1W5d93Cf8a+UqRU65mUuIntARp1B/LD
+    skip_symbols: false
+    symbol_server:           # remove to push symbols to SymbolSource.org
+    artifact: /.*\.nupkg/
