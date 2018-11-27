@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CEF214CA-D828-44F8-9131-B42D74D5687B}</ProjectGuid>
+    <ProjectGuid>{24E8C50D-B3FC-4EC3-A3D6-F10C6487E36B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AutoSetup.UnitTests</RootNamespace>
-    <AssemblyName>AutoSetup.UnitTests</AssemblyName>
+    <RootNamespace>AutoSetup.IntegrationTests</RootNamespace>
+    <AssemblyName>AutoSetup.IntegrationTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -180,23 +180,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeAnalyzers\ClassUnderTestFinderTests.cs" />
-    <Compile Include="CodeAnalyzers\ClassUnderTestNameFinderTests.cs" />
-    <Compile Include="CodeAnalyzers\ConstructorParametersExtractorTests.cs" />
-    <Compile Include="CodeAnalyzers\FieldFinderTests.cs" />
-    <Compile Include="CodeAnalyzers\FieldNameGeneratorTests.cs" />
-    <Compile Include="CodeAnalyzers\MemberFinderTests.cs" />
-    <Compile Include="CodeAnalyzers\TestClassDetectorTests.cs" />
-    <Compile Include="CodeGenerators\ConstructorGeneratorTests.cs" />
-    <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_MockRepositoryGenerateStub.cs" />
-    <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_MoqStub.cs" />
-    <Compile Include="CodeGenerators\ExpressionStatementGeneratorTests_MoqTargetObjectAssignmentExpression.cs" />
-    <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests_GetFieldDeclaration.cs" />
-    <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests_GetGenericFieldDeclarations.cs" />
-    <Compile Include="CodeGenerators\FieldDeclarationGeneratorTests_GetTargetFieldDeclaration.cs" />
-    <Compile Include="CodeGenerators\FieldNameGeneratorTests.cs" />
-    <Compile Include="CodeGenerators\MethodGeneratorTests_GenerateMethodWithAttribute.cs" />
-    <Compile Include="CodeGenerators\UsingDirectivesGeneratorTests.cs" />
+    <Compile Include="DocumentBuilderTests\DocumentBuilderTests_WithFields.cs" />
+    <Compile Include="DocumentBuilderTests\DocumentBuilderTests_WithSetupMethod.cs" />
+    <Compile Include="DocumentBuilderTests\DocumentBuilderTests_WithSetupMethodAndFields.cs" />
     <Compile Include="Helpers\ExtensionMethods\StringExtensions.cs" />
     <Compile Include="Helpers\IO\TextFileReader.cs" />
     <Compile Include="Helpers\RoslynStubProviders\DocumentProvider.cs" />
@@ -204,6 +190,7 @@
     <Compile Include="Helpers\RoslynStubProviders\SyntaxGeneratorProvider.cs" />
     <Compile Include="Helpers\RoslynStubProviders\SyntaxNodeProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XUnitSetupGeneratorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -242,13 +229,31 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CodeAnalyzers\files\Class_WithConstructorWithTwoParameters.txt" />
+    <EmbeddedResource Include="DocumentBuilderTests\files\Constructor.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CodeAnalyzers\files\Class_WithSampleField.txt" />
+    <EmbeddedResource Include="DocumentBuilderTests\files\EmptyTestClass.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CodeAnalyzers\files\Class_WithSampleMethod.txt" />
+    <EmbeddedResource Include="DocumentBuilderTests\files\FieldDeclarations.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocumentBuilderTests\files\TestClassWithAllFields.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocumentBuilderTests\files\TestClassWithAllFieldsAndConstructor.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocumentBuilderTests\files\TestClassWithConstructor.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocumentBuilderTests\files\TestClassWithConstructorAndSomeFields.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocumentBuilderTests\files\TestClassWithEmptyConstructor.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocumentBuilderTests\files\TestClassWithSomeFields.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="files\Class_WithConstructorWithTwoParameters.txt" />

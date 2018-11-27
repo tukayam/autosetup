@@ -1,0 +1,6 @@
+﻿public class ClassUnderTestTests
+{
+	public ClassUnderTestTests(ISomeType someType, ISomeOtherType someOtherType)
+	{
+	}
+}

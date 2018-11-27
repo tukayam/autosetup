@@ -1,0 +1,28 @@
+﻿public class TestClass
+{
+	ISomeType _someType; 
+	ISomeOtherType _someOtherType;
+
+	public TestClass()
+	{
+		
+	}
+}
+
+public interface ISomeType
+{
+}
+
+public interface ISomeOtherType
+{
+}
+
+public class ClassUnderTest
+{
+	public ClassUnderTest(ISomeType _someType, ISomeOtherType _someOtherType, INewType newType)
+	{}
+}
+
+public interface INewType
+{
+}

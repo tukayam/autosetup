@@ -1,0 +1,14 @@
+﻿public class ClassUnderTest
+{
+	public ClassUnderTest(ISomeType someType, ISomeOtherType someOtherType)
+	{
+	}
+}
+
+public interface ISomeType
+{
+}
+
+public interface ISomeOtherType
+{
+}
