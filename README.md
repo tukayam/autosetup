@@ -1,4 +1,5 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/51wn45ti1i8k4obv/branch/master?svg=true)](https://ci.appveyor.com/project/TubaKaya/autosetup/branch/master)
+[![Nuget Downloads](https://img.shields.io/nuget/dt/autosetup.svg)](https://www.nuget.org/packages/AutoSetup/)
 
 # AutoSetup
 
@@ -13,7 +14,7 @@ Package manager command:
 
 #### Steps
 
-![Alt Text](https://im.ezgif.com/tmp/ezgif-1-e5680cc98353.gif)
+![Alt Text](https://im.ezgif.com/tmp/ezgif-1-bace72b027d2.gif)
 1. *Go to test class*
 2.  Locate the cursor on test class name
 3. See lightbulb "(Re-)Generate SetUp" and click
