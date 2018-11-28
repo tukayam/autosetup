@@ -1,6 +1,8 @@
 # AutoSetup
 
-Automatically (re)generates setup method in test class with mocks for dependencies of the class under test.
+Automatically generates setup method in test class with mocks for dependencies of the class under test.
+
+<img src="https://user-images.githubusercontent.com/6681935/49150529-7651d900-f30d-11e8-99e2-88012b076682.png" width="200" height="200" />
 
 ![Locate to Test class](https://user-images.githubusercontent.com/6681935/49150529-7651d900-f30d-11e8-99e2-88012b076682.png)
 
