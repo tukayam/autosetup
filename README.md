@@ -14,7 +14,7 @@ Package manager command:
 
 #### Steps
 
-![Alt Text](https://im.ezgif.com/tmp/ezgif-1-e5680cc98353.gif)
+![Alt Text](https://im.ezgif.com/tmp/ezgif-1-bace72b027d2.gif)
 1. *Go to test class*
 2.  Locate the cursor on test class name
 3. See lightbulb "(Re-)Generate SetUp" and click
