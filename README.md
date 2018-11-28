@@ -1,11 +1,17 @@
+<br/>
+
+[![Build status](https://ci.appveyor.com/api/projects/status/51wn45ti1i8k4obv/branch/master?svg=true)](https://ci.appveyor.com/project/TubaKaya/autosetup/branch/master)
+
 # AutoSetup
 
-**AutoSetup** automatically generates mocks and setup for a class under test with the purpose of helping developers save time (re)writing these lines.
+**AutoSetup** automatically generates mocks and setup for a class under test. It finds the class under test based on naming convention. Detects dependencies and generates mocks for each dependency as well as a setup method initializing a target instance using the mocked fields.
 
 ## Usage
 ##### *Install nuget package in your test project*
 
  `Install-Package AutoSetup`
+
+![Alt Text](https://media.giphy.com/media/B1hN6C6GEXd9E2jAlu/giphy.gif)
 
 ##### *Locate to test class*<br/>
 <div align="left">
