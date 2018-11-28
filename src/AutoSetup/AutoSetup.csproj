@@ -8,10 +8,10 @@
 
   <PropertyGroup>
     <PackageId>AutoSetup</PackageId>
-    <PackageVersion>1.0.0-rc.10</PackageVersion>
-    <Authors>T. Kaya</Authors>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>Tuba Kaya</Authors>
     <Product>AutoSetup</Product>
-    <Description>Generates setup method in a unit test class for a class under test</Description>
+    <Description>Generates fields and setup method for class under test.</Description>
     <Copyright>Copyright 2018</Copyright>
     <PackageLicenseUrl>https://github.com/tukaya/autosetup/blob/master/LICENSE.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/tukaya/autosetup/</PackageProjectUrl>
@@ -19,7 +19,7 @@
     <RepositoryType>GitHub</RepositoryType>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
+    <PackageReleaseNotes>Generates fields with Moq and constructor for XUnit.</PackageReleaseNotes>
     <PackageTags>AutoSetup, autosetup, analyzers</PackageTags>
   </PropertyGroup>
 
