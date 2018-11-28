@@ -1,5 +1,3 @@
-
-
 # AutoSetup
 
 **AutoSetup** automatically generates mocks and setup for a class under test with the purpose of helping developers save time (re)writing these lines.
