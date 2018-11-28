@@ -1,8 +1,28 @@
 # AutoSetup
 
-Automatically (re)generates setup method in test class with mocks for dependencies of the class under test.
+**AutoSetup** automatically generates mocks and setup for a class under test with the purpose of helping developers save time (re)writing these lines.
 
-## Getting Started
+## Usage
+##### *Install nuget package in your test project*
+
+ `Install-Package AutoSetup`
+
+##### *Locate to test class*<br/>
+<div align="left">
+<img src="https://user-images.githubusercontent.com/6681935/49150529-7651d900-f30d-11e8-99e2-88012b076682.png" alt="Locate to Test class" height="200" />
+</div>
+
+##### *Click (Re-)Generate SetUp:*<br/>
+<div align="left">
+<img src="https://user-images.githubusercontent.com/6681935/49150214-80270c80-f30c-11e8-85b9-ff0dbc71d749.png" alt="Click Re-Generate SetUp" height="290" />
+</div>
+
+##### *See generated fields and constructor with setup*<br/>
+<div align="left">
+<img src="https://user-images.githubusercontent.com/6681935/49150247-9208af80-f30c-11e8-9656-7e99c5a27b25.png" alt="See Generated setup as constructor for XUnit with mock objects using Moq" height="295" />
+</div>
+
+## Contributing
 
 Please install prerequisites, clone the source code and follow the installment steps to get a development environment running.
 
@@ -56,7 +76,7 @@ Give an example
 
 ## Deployment
 
-Build and release pipelines are being setup. See [Issue #1](https://github.com/tukaya/autosetup/issues/1) and [Issue #5](https://github.com/tukaya/autosetup/issues/5).
+Uses AppVeyor for CI & CD pipelines. See [appveyor.yml](appveyor.yml).
 
 <!--
 ## Built With
