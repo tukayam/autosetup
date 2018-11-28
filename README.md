@@ -1,18 +1,27 @@
 
+
 # AutoSetup
 
-Automatically generates setup method in test class with mocks for dependencies of the class under test.
+Automated test setup generator.
 
-1. *Locate to Test class*
+Finds class under test from within the solution. Detects its dependencies. Generates mocks for each dependency, target instance and setup method.
+
+## Usage
+
+ *Install nuget package in your test project*
+ 
+ `Install-Package AutoSetup`
+
+*Locate to test class*
 <img src="https://user-images.githubusercontent.com/6681935/49150529-7651d900-f30d-11e8-99e2-88012b076682.png" alt="Locate to Test class" height="200" />
 
-2. *Click Re-Generate SetUp*
+*Click (Re-)Generate SetUp*
 <img src="https://user-images.githubusercontent.com/6681935/49150214-80270c80-f30c-11e8-85b9-ff0dbc71d749.png" alt="Click Re-Generate SetUp" height="290" />
 
-3. *See Generated setup as constructor for XUnit with mock objects using Moq*
+*See generated fields and constructor with setup*
 <img src="https://user-images.githubusercontent.com/6681935/49150247-9208af80-f30c-11e8-9656-7e99c5a27b25.png" alt="See Generated setup as constructor for XUnit with mock objects using Moq" height="295" />
 
-## Getting Started
+## Contributing
 
 Please install prerequisites, clone the source code and follow the installment steps to get a development environment running.
 
