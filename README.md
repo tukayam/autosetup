@@ -1,34 +1,27 @@
-<br/>
-
 [![Build status](https://ci.appveyor.com/api/projects/status/51wn45ti1i8k4obv/branch/master?svg=true)](https://ci.appveyor.com/project/TubaKaya/autosetup/branch/master)
 
 # AutoSetup
 
-**AutoSetup** automatically generates mocks and setup for a class under test. It finds the class under test based on naming convention. Detects dependencies and generates mocks for each dependency as well as a setup method initializing a target instance using the mocked fields.
+**AutoSetup** automatically generates mocks and setup for a class under test. It finds the class under test based on naming convention. Detects its dependencies and generates mocks for each dependency, as well as a setup method initializing a target instance using the mocked fields.
 
 ## Usage
-##### *Install nuget package in your test project*
 
- `Install-Package AutoSetup`
+Please first install nuget package on your test project. 
 
-##### *Locate to test class*<br/>
-<div align="left">
-<img src="https://user-images.githubusercontent.com/6681935/49150529-7651d900-f30d-11e8-99e2-88012b076682.png" alt="Locate to Test class" height="200" />
-</div>
+Package manager command:
+`Install-Package AutoSetup`
 
-##### *Click (Re-)Generate SetUp:*<br/>
-<div align="left">
-<img src="https://user-images.githubusercontent.com/6681935/49150214-80270c80-f30c-11e8-85b9-ff0dbc71d749.png" alt="Click Re-Generate SetUp" height="290" />
-</div>
+#### Steps
 
-##### *See generated fields and constructor with setup*<br/>
-<div align="left">
-<img src="https://user-images.githubusercontent.com/6681935/49150247-9208af80-f30c-11e8-9656-7e99c5a27b25.png" alt="See Generated setup as constructor for XUnit with mock objects using Moq" height="295" />
-</div>
+![Alt Text](https://im.ezgif.com/tmp/ezgif-1-e5680cc98353.gif)
+1. *Go to test class*
+2.  Locate the cursor on test class name
+3. See lightbulb "(Re-)Generate SetUp" and click
+4. See generated constructor for class under test
 
 ## Contributing
 
-Please install prerequisites, clone the source code and follow the installment steps to get a development environment running.
+Please install prerequisites, clone the source code and follow installation steps to get a development environment running.
 
 ### Prerequisites
 
@@ -41,74 +34,15 @@ Note: .Net Compiler Platform SDK Extension from Microsoft Marketplace is not com
 
 ### Installing
 
-* Add nuget feed source to local environment (please ask for the credentials)
+* Add AppVeyor nuget feed source to local environment (please ask for the credentials)
 * Restore nuget packages
 * Build solution
 * Run AutoSetup.Vsix to test the Visual Studio extension
-* Or, install the generated nuget package autosetup.pkg into a project where you would like to see the features in action.
-
-You should be able to generate the setup method in a test class by following below steps:
-
-1. Open "LibraryUnderTest.sln" under path "Example"
-2. Restore nuget packages (please notice nuget package is not published to nuget.org yet. Please make sure the generated nupkg from TestSetupGenerator.XUnitMoq project is available in your available package sources).
-3. Build solution
-4. Go to LibraryTests project and open Class1Tests.cs
-5. Locate the cursor on class name "Class1Tests"
-6. See lightbulb "Re-generate setup" and click
-7. See generated constructor for class under test (LibraryUnderTest\Class1.cs)
-<!--
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
--->
-
-## Deployment
-
-Uses AppVeyor for CI & CD pipelines. See [appveyor.yml](appveyor.yml).
-
-<!--
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
--->
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. 
-
-<!--
-## Authors
-
-* **Tuba Kaya** - *Initial work* - [autosetup](https://github.com/tukaya/autosetup)
-
-See also the list of [contributors](https://github.com/tukaya/autosetup/contributors) who participated in this project.
-
--->
+* Or, install the generated nuget package autosetup.pkg into a project.
 
 ## License
 
-This project is licensed under the Apache 2.0 License - see the [LICENSE.txt](LICENSE.txt) file for details
+This project is licensed under the [Apache 2.0 License](LICENSE.txt).
 
 <!--
 ## Acknowledgments
