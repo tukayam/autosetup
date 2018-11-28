@@ -2,6 +2,12 @@
 
 Automatically (re)generates setup method in test class with mocks for dependencies of the class under test.
 
+![Locate to Test class](https://user-images.githubusercontent.com/6681935/49150529-7651d900-f30d-11e8-99e2-88012b076682.png)
+
+![Click Re-Generate SetUp](https://user-images.githubusercontent.com/6681935/49150214-80270c80-f30c-11e8-85b9-ff0dbc71d749.png)
+
+![See Generated setup as constructor for XUnit with mock objects using Moq](https://user-images.githubusercontent.com/6681935/49150247-9208af80-f30c-11e8-9656-7e99c5a27b25.png)
+
 ## Getting Started
 
 Please install prerequisites, clone the source code and follow the installment steps to get a development environment running.
