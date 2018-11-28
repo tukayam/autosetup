@@ -12,16 +12,16 @@ Finds class under test from within the solution. Detects its dependencies. Gener
  
  `Install-Package AutoSetup`
 
-*Locate to test class*
+*Locate to test class*<br/>
 <img src="https://user-images.githubusercontent.com/6681935/49150529-7651d900-f30d-11e8-99e2-88012b076682.png" alt="Locate to Test class" height="200" />
 
-*Click (Re-)Generate SetUp*
+*Click (Re-)Generate SetUp*<br/>
 <img src="https://user-images.githubusercontent.com/6681935/49150214-80270c80-f30c-11e8-85b9-ff0dbc71d749.png" alt="Click Re-Generate SetUp" height="290" />
 
-*See generated fields and constructor with setup*
+*See generated fields and constructor with setup*<br/>
 <img src="https://user-images.githubusercontent.com/6681935/49150247-9208af80-f30c-11e8-9656-7e99c5a27b25.png" alt="See Generated setup as constructor for XUnit with mock objects using Moq" height="295" />
 
-## Contributing
+## Getting Started
 
 Please install prerequisites, clone the source code and follow the installment steps to get a development environment running.
 
