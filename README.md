@@ -9,12 +9,12 @@
 
  `Install-Package AutoSetup`
 
-##### *Locate to test class:*<br/>
+##### *Locate to test class*<br/>
 <div align="left">
 <img src="https://user-images.githubusercontent.com/6681935/49150529-7651d900-f30d-11e8-99e2-88012b076682.png" alt="Locate to Test class" height="200" />
 </div>
 
-##### *Click (Re-)Generate SetUp*<br/>
+##### *Click (Re-)Generate SetUp:*<br/>
 <div align="left">
 <img src="https://user-images.githubusercontent.com/6681935/49150214-80270c80-f30c-11e8-85b9-ff0dbc71d749.png" alt="Click Re-Generate SetUp" height="290" />
 </div>
