@@ -11,8 +11,6 @@
 
  `Install-Package AutoSetup`
 
-![Alt Text](https://media.giphy.com/media/B1hN6C6GEXd9E2jAlu/giphy.gif)
-
 ##### *Locate to test class*<br/>
 <div align="left">
 <img src="https://user-images.githubusercontent.com/6681935/49150529-7651d900-f30d-11e8-99e2-88012b076682.png" alt="Locate to Test class" height="200" />
