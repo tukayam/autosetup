@@ -1,0 +1,13 @@
+﻿public class TestClass
+{
+	ISomeType _someType; 
+	ISomeOtherType _someOtherType;
+}
+
+public interface ISomeType
+{
+}
+
+public interface ISomeOtherType
+{
+}

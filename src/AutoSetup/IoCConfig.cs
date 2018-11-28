@@ -1,38 +1,31 @@
 ﻿using AutoSetup.CodeAnalyzers;
 using AutoSetup.CodeGenerators;
-using SimpleInjector;
 
 namespace AutoSetup
 {
     public class IoCConfig
     {
-        private Container _container;
-        public Container Container => _container ?? (_container = Configure());
-
-        private Container Configure()
+        public IXUnitSetupGenerator GetInstance()
         {
-            var container = new Container();
-            container.Options.AllowOverridingRegistrations = true;
+            var classUnderTestFinder = new ClassUnderTestFinder();
+            return GetInstance(classUnderTestFinder);
+        }
 
-            // CodeAnalyzers
-            container.RegisterSingleton<IClassUnderTestFinder, ClassUnderTestFinder>();
-            container.RegisterSingleton<IClassUnderTestNameFinder, ClassUnderTestNameFinder>();
-            container.RegisterSingleton<IConstructorParametersExtractor, ConstructorParametersExtractor>();
-            container.Register<IFieldFinder, FieldFinder>();
-            container.RegisterSingleton<IMemberFinder, MemberFinder>();
+        public IXUnitSetupGenerator GetInstance(IClassUnderTestFinder classUnderTestFinder)
+        {
+            var classUnderTestNameFinder = new ClassUnderTestNameFinder();
+            var constructorParametersExtractor = new ConstructorParametersExtractor();
+            var fieldFinder = new FieldFinder();
+            var memberFinder = new MemberFinder();
+            var constructorGenerator = new ConstructorGenerator();
+            var expressionStatementGenerator = new ExpressionStatementGenerator();
+            var fieldNameGenerator = new FieldNameGenerator();
+            var fieldDeclarationGenerator = new FieldDeclarationGenerator(fieldNameGenerator);
+            var methodGenerator = new MethodGenerator();
+            var usingDirectivesGenerator = new UsingDirectivesGenerator();
 
-            // CodeGenerators
-            container.RegisterSingleton<IConstructorGenerator, ConstructorGenerator>();
-            container.RegisterSingleton<IExpressionStatementGenerator, ExpressionStatementGenerator>();
-            container.RegisterSingleton<IFieldDeclarationGenerator, FieldDeclarationGenerator>();
-            container.RegisterSingleton<IFieldNameGenerator, FieldNameGenerator>();
-            container.RegisterSingleton<IMethodGenerator, MethodGenerator>();
-            container.RegisterSingleton<IUsingDirectivesGenerator, UsingDirectivesGenerator>();
-            
-            container.Register<ISetupMethodBodyBuilder, SetupMethodBodyBuilder>();
-            container.Register<IXUnitSetupGenerator, XUnitSetupGenerator>();
-
-            return container;
+            var setupMethodBodyBuilder = new SetupMethodBodyBuilder(constructorParametersExtractor, expressionStatementGenerator, fieldNameGenerator);
+            return new XUnitSetupGenerator(classUnderTestNameFinder, classUnderTestFinder, constructorParametersExtractor, fieldDeclarationGenerator, setupMethodBodyBuilder, constructorGenerator, usingDirectivesGenerator, memberFinder, fieldFinder);
         }
     }
 }

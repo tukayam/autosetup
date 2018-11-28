@@ -4,13 +4,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoSetup.CodeAnalyzers;
-using AutoSetup.UnitTests.Helpers.RoslynStubProviders;
+using AutoSetup.IntegrationTests.Helpers.RoslynStubProviders;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace AutoSetup.UnitTests.DocumentBuilderTests
+namespace AutoSetup.IntegrationTests.DocumentBuilderTests
 {
     public class DocumentBuilderTests_WithSetupMethodAndFields
     {

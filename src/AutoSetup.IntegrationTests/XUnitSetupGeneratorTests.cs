@@ -2,16 +2,16 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoSetup.CodeAnalyzers;
+using AutoSetup.IntegrationTests.Helpers.ExtensionMethods;
+using AutoSetup.IntegrationTests.Helpers.RoslynStubProviders;
 using AutoSetup.Models;
-using AutoSetup.UnitTests.Helpers.ExtensionMethods;
-using AutoSetup.UnitTests.Helpers.RoslynStubProviders;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Moq;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace AutoSetup.UnitTests
+namespace AutoSetup.IntegrationTests
 {
     public class XUnitSetupGeneratorTests
     {
@@ -24,12 +24,7 @@ namespace AutoSetup.UnitTests
             _testOutput = testOutput;
 
             _classUnderTestFinder = new Mock<IClassUnderTestFinder>();
-
-            var iocConfig = new IoCConfig();
-            var container = iocConfig.Container;
-            container.RegisterInstance(_classUnderTestFinder.Object);
-
-            _target = iocConfig.Container.GetInstance<IXUnitSetupGenerator>();
+            _target = new IoCConfig().GetInstance(_classUnderTestFinder.Object);
         }
 
         [Theory]

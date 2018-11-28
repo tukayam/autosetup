@@ -16,6 +16,9 @@ build_script:
   - dotnet build src\autosetup\autosetup.csproj -c Release
   - dotnet pack src\autosetup\autosetup.csproj -o ..\..\AppOutput -c Release
   - dotnet publish src\autosetup.vsix\autosetup.vsix.csproj --framework netcoreapp2.1  -o ..\..\AppOutput\autosetup.vsix -c Release
+test:
+  assemblies:
+    - '**\*Tests.dll'
 artifacts:
   - path: AppOutput\*.nupkg
     name: autosetupnugetpackage
