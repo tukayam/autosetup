@@ -1,4 +1,4 @@
-﻿public class TestClass
+﻿public class ClassUnderTestTests
 {
 	private readonly Mock<ISomeType> _someTypeWithDifferentName;
 	private readonly Mock<ISomeOtherType> _someOtherType;

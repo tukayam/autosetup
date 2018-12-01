@@ -22,6 +22,7 @@ namespace AutoSetup.IntegrationTests.DocumentBuilderTests
         private const string TestClassWithEmptyConstructor = "DocumentBuilderTests.files.TestClassWithEmptyConstructor.txt";
         private const string TestClassWithConstructor = "DocumentBuilderTests.files.TestClassWithConstructor.txt";
         private const string TestClassWithConstructorAndSomeFields = "DocumentBuilderTests.files.TestClassWithConstructorAndSomeFields.txt";
+        private const string TestClassWithEverything = "DocumentBuilderTests.files.TestClassWithEverything.txt";
 
         private const string TestClassWithConstructorAndFields = "DocumentBuilderTests.files.TestClassWithAllFields.txt";
 
@@ -43,6 +44,7 @@ namespace AutoSetup.IntegrationTests.DocumentBuilderTests
         [InlineData(TestClassWithEmptyConstructor)]
         [InlineData(TestClassWithConstructor)]
         [InlineData(TestClassWithConstructorAndSomeFields)]
+        [InlineData(TestClassWithEverything)]
         public async Task SetsConstructorAndFields(string testClassFilePath)
         {
             // Arrange
@@ -56,16 +58,17 @@ namespace AutoSetup.IntegrationTests.DocumentBuilderTests
                 SyntaxNodeProvider.GetAllSyntaxNodesFromFile<FieldDeclarationSyntax>(FieldDeclarations).ToList();
 
             var expectedFieldDeclarations =
-                SyntaxNodeProvider.GetAllSyntaxNodesFromFile<FieldDeclarationSyntax>(TestClassWithConstructorAndFields).ToList();
+                SyntaxNodeProvider.GetAllSyntaxNodesFromFile<FieldDeclarationSyntax>(TestClassWithConstructorAndFields)
+                    .ToList();
             var expectedFields = GetCollectionTextAsString(expectedFieldDeclarations);
 
             var newSetupMethod =
-                SyntaxNodeProvider.GetSyntaxNodeFromFile<ConstructorDeclarationSyntax>(Constructor, "TestClass");
+                SyntaxNodeProvider.GetSyntaxNodeFromFile<ConstructorDeclarationSyntax>(Constructor, "ClassUnderTestTests");
 
             // Act
             var actual = await _target.WithSetupMethod(newSetupMethod)
-                                        .WithFields(newFieldDeclarations)
-                                        .BuildAsync(new CancellationToken());
+                .WithFields(newFieldDeclarations)
+                .BuildAsync(new CancellationToken());
 
             // Assert
             var actualRoot = await actual.GetSyntaxRootAsync();
@@ -75,7 +78,7 @@ namespace AutoSetup.IntegrationTests.DocumentBuilderTests
             Assert.Equal(expectedFields, actualFields);
 
             var actualMethods = actualRoot.DescendantNodes().OfType<ConstructorDeclarationSyntax>().ToList();
-            Assert.Single((IEnumerable) actualMethods);
+            Assert.Single((IEnumerable)actualMethods);
             Assert.Equal(newSetupMethod.GetText().ToString(), actualMethods.First().GetText().ToString());
         }
 

@@ -8,7 +8,7 @@
 
   <PropertyGroup>
     <PackageId>AutoSetup</PackageId>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.0.1</PackageVersion>
     <Authors>Tuba Kaya</Authors>
     <Product>AutoSetup</Product>
     <Description>Generates fields and setup method for class under test.</Description>
@@ -19,7 +19,7 @@
     <RepositoryType>GitHub</RepositoryType>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes>Generates fields with Moq and constructor for XUnit.</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed bug replacing existing fields</PackageReleaseNotes>
     <PackageTags>AutoSetup, autosetup, analyzers</PackageTags>
   </PropertyGroup>
 
