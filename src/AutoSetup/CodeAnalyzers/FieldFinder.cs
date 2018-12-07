@@ -26,8 +26,7 @@ namespace AutoSetup.CodeAnalyzers
 
         private string GetFieldType(FieldDeclarationSyntax node)
         {
-            return node.ChildNodes().OfType<VariableDeclarationSyntax>().First()
-                .ChildNodes().First().GetText().ToString().Trim(' ');
+            return node.Declaration.Type.ToString();
         }
     }
 }
