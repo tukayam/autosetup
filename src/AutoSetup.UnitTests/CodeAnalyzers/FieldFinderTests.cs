@@ -7,6 +7,10 @@ namespace AutoSetup.UnitTests.CodeAnalyzers
 {
     public class FieldFinderTests
     {
+        private const string FieldNameToUse = "_someType";
+        private const string FileContainingFieldToUse = "CodeAnalyzers.files.Class_WithSampleField.txt";
+        private const string ClassNameToUse = "TestClass";
+
         private readonly FieldFinder _target;
 
         public FieldFinderTests()
@@ -15,16 +19,31 @@ namespace AutoSetup.UnitTests.CodeAnalyzers
         }
 
         [Theory]
-        [InlineData("CodeAnalyzers.files.Class_WithSampleField.txt", "CodeAnalyzers.files.Class_WithSampleMethod.txt", "_someType", false)]
-        [InlineData("CodeAnalyzers.files.Class_WithSampleField.txt", "CodeAnalyzers.files.Class_WithSampleField.txt", "_someType", true)]
-        public void Returns_SimilarFieldSyntaxNode_IfExists(string filePath, string filePathCompared, string fieldName, bool expected)
+        [InlineData("CodeAnalyzers.files.Class_WithSampleMethod.txt")]
+        [InlineData("CodeAnalyzers.files.Class_WithSampleMethodWithLines.txt")]
+        public void CannotFindSimilarField_When_NoFieldExistsWithSameType(string searchInFile)
         {
-            var fieldSyntax = FieldDeclarationProvider.GetFieldDeclarationFromFile(filePath, fieldName);
-            var classSyntax = SyntaxNodeProvider.GetSyntaxNodeFromFile<ClassDeclarationSyntax>(filePathCompared, "TestClass");
+            var fieldSyntax = FieldDeclarationProvider.GetFieldDeclarationFromFile(FileContainingFieldToUse, FieldNameToUse);
+            var classSyntax = SyntaxNodeProvider.GetSyntaxNodeFromFile<ClassDeclarationSyntax>(searchInFile, ClassNameToUse);
 
             var actual = _target.FindSimilarNode(classSyntax.Members, fieldSyntax);
 
-            Assert.Equal(expected, actual != null);
+            Assert.Null(actual);
+        }
+
+        [Theory]
+        [InlineData("CodeAnalyzers.files.Class_WithSampleField.txt")]
+        [InlineData("CodeAnalyzers.files.Class_WithPublicSampleField.txt")]
+        [InlineData("CodeAnalyzers.files.Class_WithNotReadonlySampleField.txt")]
+        [InlineData("CodeAnalyzers.files.Class_WithSampleFieldDifferentName.txt")]
+        public void CanFindSimilarField_When_FieldExistsWithSameType(string searchInFile)
+        {
+            var fieldSyntax = FieldDeclarationProvider.GetFieldDeclarationFromFile(FileContainingFieldToUse, FieldNameToUse);
+            var classSyntax = SyntaxNodeProvider.GetSyntaxNodeFromFile<ClassDeclarationSyntax>(searchInFile, ClassNameToUse);
+
+            var actual = _target.FindSimilarNode(classSyntax.Members, fieldSyntax);
+
+            Assert.NotNull(actual);
         }
     }
 }

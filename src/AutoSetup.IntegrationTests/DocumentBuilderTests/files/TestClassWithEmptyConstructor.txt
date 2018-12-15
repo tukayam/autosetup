@@ -1,6 +1,6 @@
-﻿public class TestClass
+﻿public class ClassUnderTestTests
 {
-	public TestClass()
+	public ClassUnderTestTests()
 	{
 	}
 }

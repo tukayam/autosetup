@@ -37,7 +37,7 @@ namespace AutoSetup.IntegrationTests.DocumentBuilderTests
             _target = new DocumentBuilder(_memberFinder.Object, _fieldFinder.Object, document, testClass);
 
             var newSetupMethod =
-                SyntaxNodeProvider.GetSyntaxNodeFromFile<ConstructorDeclarationSyntax>(Constructor, "TestClass");
+                SyntaxNodeProvider.GetSyntaxNodeFromFile<ConstructorDeclarationSyntax>(Constructor, "ClassUnderTestTests");
 
             _memberFinder.Setup(_ =>
                     _.FindSimilarNode(It.IsAny<SyntaxList<MemberDeclarationSyntax>>(),
@@ -62,7 +62,7 @@ namespace AutoSetup.IntegrationTests.DocumentBuilderTests
             _target = new DocumentBuilder(_memberFinder.Object, _fieldFinder.Object, document, testClass);
 
             var newSetupMethod =
-                SyntaxNodeProvider.GetSyntaxNodeFromFile<ConstructorDeclarationSyntax>(Constructor, "TestClass");
+                SyntaxNodeProvider.GetSyntaxNodeFromFile<ConstructorDeclarationSyntax>(Constructor, "ClassUnderTestTests");
 
             var existingSetupMethod = root.DescendantNodes().OfType<ConstructorDeclarationSyntax>().First();
             _memberFinder.Setup(_ =>
