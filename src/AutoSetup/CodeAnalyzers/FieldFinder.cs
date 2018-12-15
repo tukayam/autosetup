@@ -26,7 +26,7 @@ namespace AutoSetup.CodeAnalyzers
 
         private string GetFieldType(FieldDeclarationSyntax node)
         {
-            return node.Declaration.Type.ToString();
+            return node.Declaration.Type.GetText().ToString();
         }
     }
 }
