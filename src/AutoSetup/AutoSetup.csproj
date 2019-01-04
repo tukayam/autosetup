@@ -8,7 +8,7 @@
 
   <PropertyGroup>
     <PackageId>AutoSetup</PackageId>
-    <PackageVersion>1.0.5-alpha-new-icon</PackageVersion>
+    <PackageVersion>1.0.2</PackageVersion>
     <Authors>Tuba Kaya</Authors>
     <Product>AutoSetup</Product>
     <Description>Generates fields and setup method for class under test.</Description>
@@ -20,7 +20,7 @@
     <RepositoryType>GitHub</RepositoryType>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes>Fixed bug replacing existing fields</PackageReleaseNotes>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <PackageTags>AutoSetup, autosetup, analyzers</PackageTags>
   </PropertyGroup>
 
