@@ -1,6 +1,5 @@
 assembly-versioning-scheme: MajorMinorPatchTag
-assembly-file-versioning-scheme: MajorMinorPatchTag
-assembly-file-versioning-format: '{Major}.{Minor}.{Patch}.{env:APPVEYOR_BUILD_NUMBER ?? fallback_string}'
+assembly-versioning-format: '{Major}.{Minor}.{Patch}.{env:APPVEYOR_BUILD_NUMBER ?? fallback_string}'
 mode: ContinuousDeployment
 tag-prefix: '[vV]'
 continuous-delivery-fallback-tag: ''
