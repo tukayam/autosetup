@@ -1,7 +1,6 @@
 version: 1.0.{build}
 image: Visual Studio 2017
 configuration: Release
-shallow_clone: true
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
