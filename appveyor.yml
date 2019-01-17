@@ -11,11 +11,19 @@ assembly_info:
 nuget:
   account_feed: true
   project_feed: true
-build_script:
+
+install:
+  - choco install gitversion.portable -pre -y
+
+before_build:
   - nuget restore src\
+  - ps: gitversion /l console /output buildserver /updateAssemblyInfo
+  
+build_script:
   - dotnet build src\autosetup\autosetup.csproj -c Release
   - dotnet pack src\autosetup\autosetup.csproj -o ..\..\AppOutput -c Release
   - dotnet publish src\autosetup.vsix\autosetup.vsix.csproj --framework netcoreapp2.1  -o ..\..\AppOutput\autosetup.vsix -c Release
+  
 test:
   assemblies:
     - '**\*Tests.dll'
