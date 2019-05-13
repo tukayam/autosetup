@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoSetup", "AutoSetup\AutoSetup.csproj", "{8CE6A731-F52E-4408-8698-974983B71B45}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoSetup.UnitTests", "AutoSetup.UnitTests\AutoSetup.UnitTests.csproj", "{CEF214CA-D828-44F8-9131-B42D74D5687B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoSetup.IntegrationTests", "AutoSetup.IntegrationTests\AutoSetup.IntegrationTests.csproj", "{24E8C50D-B3FC-4EC3-A3D6-F10C6487E36B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoSetup.UnitTests1", "AutoSetup.UnitTests1\AutoSetup.UnitTests1.csproj", "{49618088-1EF1-4BA7-8963-A0244282204E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{24E8C50D-B3FC-4EC3-A3D6-F10C6487E36B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24E8C50D-B3FC-4EC3-A3D6-F10C6487E36B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24E8C50D-B3FC-4EC3-A3D6-F10C6487E36B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49618088-1EF1-4BA7-8963-A0244282204E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49618088-1EF1-4BA7-8963-A0244282204E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49618088-1EF1-4BA7-8963-A0244282204E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49618088-1EF1-4BA7-8963-A0244282204E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

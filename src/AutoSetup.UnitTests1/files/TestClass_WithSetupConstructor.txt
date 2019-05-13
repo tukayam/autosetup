@@ -1,0 +1,7 @@
+﻿public class ClassUnderTestTests
+{
+	public ClassUnderTestTests()
+	{
+		var x="";
+	}
+}

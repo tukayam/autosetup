@@ -1,0 +1,13 @@
+﻿public class TestClass
+{
+	public TestClass(ISomeType someType)
+	{
+	}
+}
+
+namespace someNamespace
+{
+	public interface ISomeType
+	{
+	}
+}

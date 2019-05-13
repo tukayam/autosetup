@@ -1,0 +1,16 @@
+﻿public class TestClass
+{
+	public void SampleMethod(ISomeType someType, ISomeOtherType someOtherType)
+	{
+		// will not compile
+		x = "something";
+	}
+}
+
+public interface ISomeType
+{
+}
+
+public interface ISomeOtherType
+{
+}

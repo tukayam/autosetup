@@ -8,7 +8,7 @@
 
   <PropertyGroup>
     <PackageId>AutoSetup</PackageId>
-    <PackageVersion>1.0.3</PackageVersion>
+    <PackageVersion>1.1.0-usings-01</PackageVersion>
     <Authors>Tuba Kaya</Authors>
     <Product>AutoSetup</Product>
     <Description>Generates fields and setup method for class under test.</Description>
