@@ -80,26 +80,26 @@ namespace AutoSetup
 
             if (_newUsingDirectives != null)
             {
-                //newRoot = AddUsingDirectives(newRoot);
+                newRoot = AddUsingDirectives(newRoot);
             }
 
             var newDocument = _document.WithSyntaxRoot(newRoot);
             return newDocument;
         }
 
-        private SyntaxNode AddUsingDirectives(SyntaxNode newRoot)
+        private SyntaxNode AddUsingDirectives(SyntaxNode root)
         {
-            var existingUsingDirectives = newRoot.DescendantNodes().OfType<UsingDirectiveSyntax>().ToList();
-
-            var firstUsingDirectiveInFile = existingUsingDirectives.FirstOrDefault();
+            var existingUsingDirectives = root.DescendantNodes().OfType<UsingDirectiveSyntax>().ToList();
 
             var usingsToAdd = _newUsingDirectives.Where(_ => existingUsingDirectives.All(u => u.Name != _.Name));
 
-            if (firstUsingDirectiveInFile != null)
+            var compilationUnitSyntax = (CompilationUnitSyntax)(root);
+            if (compilationUnitSyntax != null)
             {
-                newRoot = newRoot.InsertNodesAfter(firstUsingDirectiveInFile, usingsToAdd);
+                compilationUnitSyntax = compilationUnitSyntax
+                    .AddUsings(usingsToAdd.ToArray());
             }
-            return newRoot;
+            return compilationUnitSyntax;
         }
     }
 }

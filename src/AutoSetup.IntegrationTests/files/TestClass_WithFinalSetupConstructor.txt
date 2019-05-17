@@ -1,4 +1,5 @@
-﻿public class ClassUnderTestTests
+﻿using Moq;
+public class ClassUnderTestTests
 {
 	private readonly Mock<ISomeType> _someType;
 	private readonly Mock<ISomeOtherType> _someOtherType;
