@@ -1,6 +1,6 @@
 ﻿public class TestClass
 {
-	public ISomeType _someType;
+	public Mock<ISomeType> _someType;
 
 	public void SampleMethod(ISomeType someType, ISomeOtherType someOtherType)
 	{

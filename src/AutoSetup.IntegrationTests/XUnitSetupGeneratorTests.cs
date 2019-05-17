@@ -31,18 +31,28 @@ namespace AutoSetup.IntegrationTests
         [InlineData("files.TestClass_WithSetupConstructor.txt")]
         [InlineData("files.TestClass_DifferentConstructor.txt")]
         [InlineData("files.TestClass_NoConstructor.txt")]
-        [InlineData("files.TestClass_WithExistingField.txt", Skip = "Works in unit tests but not here for some reason. Must check the whole integration test setup.")]
+        [InlineData("files.TestClass_WithExistingField.txt")]
         public async Task RewritesDefaultConstructor(string filePath)
         {
-            var document = DocumentProvider.CreateDocumentFromFile(filePath);
-            var root = await document.GetSyntaxRootAsync();
+            // Arrange
+            var filePathClassUnderTest = "files.ClassUnderTest.txt";
+            var filePaths = new[] { filePath, filePathClassUnderTest };
+            var documents = DocumentProvider.CreateCompilationAndReturnDocuments(filePaths);
+
+            var documentWithTestClass = documents[filePath];
+            var root = await documentWithTestClass.GetSyntaxRootAsync();
             var testClass = root.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>().First();
 
-            var classUnderTest = SyntaxNodeProvider.GetSyntaxNodeFromFile<ClassDeclarationSyntax>("files.ClassUnderTest.txt", "ClassUnderTest");
+            var documentWithClassUnderTest = documents[filePathClassUnderTest];
+            var classUnderTest = SyntaxNodeProvider.GetSyntaxNodeFromDocument<ClassDeclarationSyntax>(documentWithClassUnderTest, "ClassUnderTest");
+            var semanticModel = await documentWithClassUnderTest.GetSemanticModelAsync();
             _classUnderTestFinder.Setup(_ => _.GetAsync(It.IsAny<Solution>(), It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync(new ClassUnderTest(classUnderTest, null));
+                .ReturnsAsync(new ClassUnderTest(classUnderTest, semanticModel));
 
-            var actual = await _target.RegenerateSetup(document, testClass, new CancellationToken());
+            // Act
+            var actual = await _target.RegenerateSetup(documentWithTestClass, testClass, new CancellationToken());
+
+            // Assert
             var actualText = await actual.GetTextAsync();
             _testOutput.WriteLine(actualText.ToString().Replace(";", ";\n"));
 

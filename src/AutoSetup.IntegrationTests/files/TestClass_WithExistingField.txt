@@ -5,6 +5,6 @@
 
 	public ClassUnderTestTests()
 	{
-		_someType = (new Mock<ISomeType>());
+		_someType = new Mock<ISomeType>();
 	}
 }

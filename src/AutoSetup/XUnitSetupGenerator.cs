@@ -73,7 +73,7 @@ namespace AutoSetup
 
                 var namespaceForMoq = "Moq";
                 var semanticModel = await document.GetSemanticModelAsync();
-                var usings = _usingDirectivesGenerator.UsingDirectives(semanticModel, constructorParameters, new[] { namespaceForMoq }, generator);
+                var usings = _usingDirectivesGenerator.UsingDirectives(semanticModel.Compilation, constructorParameters, new[] { namespaceForMoq }, generator);
 
                 var newDocument = await new DocumentBuilder(_memberFinder, _fieldFinder, document, testClass)
                                     .WithSetupMethod(newConstructor)

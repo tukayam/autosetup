@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using System.Linq;
-using AutoSetup.IntegrationTests.Helpers.IO;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -21,9 +20,7 @@ namespace AutoSetup.IntegrationTests.Helpers.RoslynStubProviders
             var key = filePath + syntaxIdentifier;
             if (!_cacheSyntaxNodeFromFile.ContainsKey(key))
             {
-
-                var source = TextFileReader.ReadFile(filePath);
-                var document = DocumentProvider.CreateDocument(source);
+                var document = DocumentProvider.CreateDocumentFromFile(filePath);
 
                 var root = document.GetSyntaxRootAsync().Result;
                 var node = root.DescendantNodesAndSelf().OfType<FieldDeclarationSyntax>()

@@ -1,6 +1,6 @@
 ﻿public class TestClass
 {
-	private readonly ISomeType _someType;
+	private readonly Mock<ISomeType> _someType;
 
 	public void SampleMethod(ISomeType someType, ISomeOtherType someOtherType)
 	{

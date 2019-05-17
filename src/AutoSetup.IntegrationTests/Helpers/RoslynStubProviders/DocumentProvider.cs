@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AutoSetup.IntegrationTests.Helpers.IO;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -6,7 +7,7 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace AutoSetup.IntegrationTests.Helpers.RoslynStubProviders
 {
-   static class DocumentProvider
+    static class DocumentProvider
     {
         private static readonly MetadataReference CorlibReference = MetadataReference.CreateFromFile(typeof(object).Assembly.Location);
         private static readonly MetadataReference SystemCoreReference = MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location);
@@ -27,19 +28,7 @@ namespace AutoSetup.IntegrationTests.Helpers.RoslynStubProviders
         /// <returns>A Document created from the source string</returns>
         public static Document CreateDocumentFromFile(string filePath, string language = LanguageNames.CSharp)
         {
-            var source = TextFileReader.ReadFile(filePath);
-            return CreateDocument(source, language);
-        }
-
-        /// <summary>
-        /// Create a Document from a string through creating a project that contains it.
-        /// </summary>
-        /// <param name="source">Classes in the form of a string</param>
-        /// <param name="language">The language the source code is in</param>
-        /// <returns>A Document created from the source string</returns>
-        public static Document CreateDocument(string source, string language = LanguageNames.CSharp)
-        {
-            return CreateProject(new[] { source }, language).Documents.First();
+            return CreateCompilationAndReturnDocuments(new[] { filePath }, language).First().Value;
         }
 
         /// <summary>
@@ -48,7 +37,7 @@ namespace AutoSetup.IntegrationTests.Helpers.RoslynStubProviders
         /// <param name="sources">Classes in the form of strings</param>
         /// <param name="language">The language the source code is in</param>
         /// <returns>A Project created out of the Documents created from the source strings</returns>
-        private static Project CreateProject(string[] sources, string language = LanguageNames.CSharp)
+        public static Dictionary<string, Document> CreateCompilationAndReturnDocuments(IEnumerable<string> filePaths, string language = LanguageNames.CSharp)
         {
             string fileNamePrefix = DefaultFilePathPrefix;
             string fileExt = language == LanguageNames.CSharp ? CSharpDefaultFileExt : VisualBasicDefaultExt;
@@ -63,15 +52,20 @@ namespace AutoSetup.IntegrationTests.Helpers.RoslynStubProviders
                 .AddMetadataReference(projectId, CSharpSymbolsReference)
                 .AddMetadataReference(projectId, CodeAnalysisReference);
 
+            var documents = new Dictionary<string, Document>();
             int count = 0;
-            foreach (var source in sources)
+
+            foreach (var filePath in filePaths)
             {
+
                 var newFileName = fileNamePrefix + count + "." + fileExt;
                 var documentId = DocumentId.CreateNewId(projectId, debugName: newFileName);
+                var source = TextFileReader.ReadFile(filePath);
                 solution = solution.AddDocument(documentId, newFileName, SourceText.From(source));
                 count++;
+                documents.Add(filePath, solution.GetDocument(documentId));
             }
-            return solution.GetProject(projectId);
+            return documents;
         }
     }
 }

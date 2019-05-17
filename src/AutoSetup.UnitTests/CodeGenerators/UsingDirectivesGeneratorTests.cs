@@ -25,7 +25,7 @@ namespace AutoSetup.UnitTests.CodeGenerators
 
             var rhinoMocksUsing = "rhino.mocks";
 
-            var usingDirectives = _target.UsingDirectives(new List<string> { rhinoMocksUsing }, syntaxGenerator);
+            var usingDirectives = _target.TestingFrameworkUsingDirectives(new List<string> { rhinoMocksUsing }, syntaxGenerator);
             Assert.Equal("rhino.mocks", usingDirectives.First().Name.ToString());
         }
 
@@ -44,7 +44,7 @@ namespace AutoSetup.UnitTests.CodeGenerators
 
             var semanticModel = await document.GetSemanticModelAsync();
 
-            var usingDirectives = _target.UsingDirectives(semanticModel, new[] { parameterSyntax }, new List<string>(), syntaxGenerator);
+            var usingDirectives = _target.UsingDirectives(semanticModel.Compilation, new[] { parameterSyntax }, new List<string>(), syntaxGenerator);
 
             Assert.Equal(expectedNamespaces, usingDirectives.First().Name.ToString());
         }

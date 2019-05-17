@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using AutoSetup.IntegrationTests.Helpers.IO;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -22,8 +21,7 @@ namespace AutoSetup.IntegrationTests.Helpers.RoslynStubProviders
         {
             if (!_cacheAllSyntaxNodesFromFile.ContainsKey(filePath))
             {
-                var source = TextFileReader.ReadFile(filePath);
-                var document = DocumentProvider.CreateDocument(source);
+                var document = DocumentProvider.CreateDocumentFromFile(filePath);
 
                 var root = document.GetSyntaxRootAsync().Result;
                 var nodes = root.DescendantNodes().OfType<T>().ToList();
@@ -38,9 +36,7 @@ namespace AutoSetup.IntegrationTests.Helpers.RoslynStubProviders
             var key = filePath + syntaxIdentifier;
             if (!_cacheSyntaxNodeFromFile.ContainsKey(key))
             {
-
-                var source = TextFileReader.ReadFile(filePath);
-                var document = DocumentProvider.CreateDocument(source);
+                var document = DocumentProvider.CreateDocumentFromFile(filePath);
 
                 var root = document.GetSyntaxRootAsync().Result;
                 var node = root.DescendantNodesAndSelf().OfType<T>().First(_ => _.ChildTokens().Any(t => t.IsKind(SyntaxKind.IdentifierToken) && t.Text == syntaxIdentifier));
@@ -49,6 +45,12 @@ namespace AutoSetup.IntegrationTests.Helpers.RoslynStubProviders
             }
 
             return _cacheSyntaxNodeFromFile[key] as T;
+        }
+
+        public static T GetSyntaxNodeFromDocument<T>(Document document, string syntaxIdentifier) where T : SyntaxNode
+        {
+            var root = document.GetSyntaxRootAsync().Result;
+            return root.DescendantNodesAndSelf().OfType<T>().First(_ => _.ChildTokens().Any(t => t.IsKind(SyntaxKind.IdentifierToken) && t.Text == syntaxIdentifier));
         }
     }
 }

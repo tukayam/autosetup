@@ -8,14 +8,14 @@ namespace AutoSetup.CodeGenerators
 {
     public interface IUsingDirectivesGenerator
     {
-        List<UsingDirectiveSyntax> UsingDirectives(SemanticModel model, IEnumerable<ParameterSyntax> parameters, IEnumerable<string> namespacesForTestingFrameworks, SyntaxGenerator generator);
+        List<UsingDirectiveSyntax> UsingDirectives(Compilation compilation, IEnumerable<ParameterSyntax> parameters, IEnumerable<string> namespacesForTestingFrameworks, SyntaxGenerator generator);
 
-        List<UsingDirectiveSyntax> UsingDirectives(IEnumerable<string> namespacesForTestingFrameworks, SyntaxGenerator generator);
+        List<UsingDirectiveSyntax> TestingFrameworkUsingDirectives(IEnumerable<string> namespacesForTestingFrameworks, SyntaxGenerator generator);
     }
 
     public class UsingDirectivesGenerator : IUsingDirectivesGenerator
     {
-        public List<UsingDirectiveSyntax> UsingDirectives(IEnumerable<string> namespacesForTestingFrameworks, SyntaxGenerator generator)
+        public List<UsingDirectiveSyntax> TestingFrameworkUsingDirectives(IEnumerable<string> namespacesForTestingFrameworks, SyntaxGenerator generator)
         {
             //todo: add other usings for class under test
             var usingDirectives = new List<UsingDirectiveSyntax>();
@@ -27,13 +27,13 @@ namespace AutoSetup.CodeGenerators
             return usingDirectives;
         }
 
-        public List<UsingDirectiveSyntax> UsingDirectives(SemanticModel model, IEnumerable<ParameterSyntax> parameters, IEnumerable<string> namespacesForTestingFrameworks, SyntaxGenerator generator)
+        public List<UsingDirectiveSyntax> UsingDirectives(Compilation compilation, IEnumerable<ParameterSyntax> parameters, IEnumerable<string> namespacesForTestingFrameworks, SyntaxGenerator generator)
         {
-            var usingDirectives = UsingDirectives(namespacesForTestingFrameworks, generator);
+            var usingDirectives = TestingFrameworkUsingDirectives(namespacesForTestingFrameworks, generator);
             foreach (var parameter in parameters)
             {
-                var type = model.GetTypeInfo(parameter.Type).Type;
-                var symbols = model.Compilation.GetSymbolsWithName(s => s == type.Name);
+                var type = parameter.DescendantTokens().First(t => t.IsKind(Microsoft.CodeAnalysis.CSharp.SyntaxKind.IdentifierToken));
+                var symbols = compilation.GetSymbolsWithName(s => s == type.Text);
                 if (symbols.Any())
                 {
                     var ns = symbols.First().ContainingNamespace.Name;

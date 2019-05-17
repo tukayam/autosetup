@@ -65,9 +65,10 @@ namespace AutoSetup
             {
                 foreach (var newField in _newFields)
                 {
-                    if (_fieldFinder.FindSimilarNode(members, newField) is MemberDeclarationSyntax existingField)
+                    var existingFieldWithSameType = _fieldFinder.FindSimilarNode(members, newField);
+                    if (existingFieldWithSameType != null)
                     {
-                        members = members.Remove(existingField);
+                        members = members.Remove(existingFieldWithSameType);
                     }
                 }
 
