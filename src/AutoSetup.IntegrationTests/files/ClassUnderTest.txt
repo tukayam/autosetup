@@ -10,8 +10,11 @@
 	}
 }
 
-public interface ISomeType
+namespace someNamespace
 {
+	public interface ISomeType
+	{
+	}
 }
 
 public interface ISomeOtherType

@@ -37,7 +37,10 @@ namespace AutoSetup.CodeGenerators
                 if (symbols.Any())
                 {
                     var ns = symbols.First().ContainingNamespace.Name;
-                    usingDirectives.Add(generator.NamespaceImportDeclaration(ns) as UsingDirectiveSyntax);
+                    if (!string.IsNullOrWhiteSpace(ns))
+                    {
+                        usingDirectives.Add(generator.NamespaceImportDeclaration(ns) as UsingDirectiveSyntax);
+                    }                    
                 }
             }
 

@@ -89,9 +89,8 @@ namespace AutoSetup
 
         private SyntaxNode AddUsingDirectives(SyntaxNode root)
         {
-            var existingUsingDirectives = root.DescendantNodes().OfType<UsingDirectiveSyntax>().ToList();
-
-            var usingsToAdd = _newUsingDirectives.Where(_ => existingUsingDirectives.All(u => u.Name != _.Name));
+            var existingUsingDirectives = root.DescendantNodes().OfType<UsingDirectiveSyntax>().Select(u => ((IdentifierNameSyntax)u.Name).Identifier.Text).ToList();
+            var usingsToAdd = _newUsingDirectives.Where(newUsing => !existingUsingDirectives.Any(u => u == ((IdentifierNameSyntax)newUsing.Name).Identifier.Text));
 
             var compilationUnitSyntax = (CompilationUnitSyntax)(root);
             if (compilationUnitSyntax != null)

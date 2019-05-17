@@ -30,6 +30,7 @@
     <None Remove="files\TestClass_DifferentConstructor_WithMoreClasses.txt" />
     <None Remove="files\TestClass_NoConstructor.txt" />
     <None Remove="files\TestClass_WithExistingField.txt" />
+    <None Remove="files\TestClass_WithExistingUsing.txt" />
     <None Remove="files\TestClass_WithFinalSetupConstructor.txt" />
     <None Remove="files\TestClass_WithSetupConstructor.txt" />
   </ItemGroup>
@@ -57,6 +58,7 @@
     <EmbeddedResource Include="files\TestClass_DifferentConstructor.txt" />
     <EmbeddedResource Include="files\TestClass_DifferentConstructor_WithMoreClasses.txt" />
     <EmbeddedResource Include="files\TestClass_NoConstructor.txt" />
+    <EmbeddedResource Include="files\TestClass_WithExistingUsing.txt" />
     <EmbeddedResource Include="files\TestClass_WithExistingField.txt" />
     <EmbeddedResource Include="files\TestClass_WithFinalSetupConstructor.txt" />
     <EmbeddedResource Include="files\TestClass_WithSetupConstructor.txt" />

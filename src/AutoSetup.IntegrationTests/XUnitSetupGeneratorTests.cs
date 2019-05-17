@@ -32,6 +32,7 @@ namespace AutoSetup.IntegrationTests
         [InlineData("files.TestClass_DifferentConstructor.txt")]
         [InlineData("files.TestClass_NoConstructor.txt")]
         [InlineData("files.TestClass_WithExistingField.txt")]
+        [InlineData("files.TestClass_WithExistingUsing.txt")]
         public async Task RewritesDefaultConstructor(string filePath)
         {
             // Arrange

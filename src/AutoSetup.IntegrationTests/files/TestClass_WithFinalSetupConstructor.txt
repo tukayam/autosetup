@@ -1,4 +1,6 @@
 ﻿using Moq;
+using someNamespace;
+
 public class ClassUnderTestTests
 {
 	private readonly Mock<ISomeType> _someType;
