@@ -19,7 +19,7 @@ namespace AutoSetup.UnitTests.CodeGenerators
         }
 
         [Fact]
-        public void Adds_AllNecessaryUsings()
+        public void Adds_Using_For_MockingFramework()
         {
             var syntaxGenerator = new SyntaxGeneratorProvider().GetSyntaxGenerator();
 
@@ -30,18 +30,21 @@ namespace AutoSetup.UnitTests.CodeGenerators
         }
 
         [Theory]
-        [InlineData("Class_WithConstructorWithOneParameterUnderNamespace.txt", "someType", "someNamespace")]
-        public async Task  Adds_Usings_For_All_Parameters(string filePath, string parameterName, string expectedNamespaces)
+        [InlineData("files.Class_WithConstructorWithOneParameterUnderNamespace.txt", "someType", "someNamespace")]
+        [InlineData("files.Class_WithConstructorWithOneParameterUnderAnotherNamespace.txt", "someType", "someNamespace")]
+        [InlineData("files.Class_WithConstructorWithMultipleParametersUnderNamespaces.txt", "someType", "someNamespace")]
+        [InlineData("files.Class_WithConstructorWithMultipleParametersUnderNamespaces.txt", "anotherType", "anotherNamespace")]
+        public async Task Adds_Usings_For_All_Parameters(string filePath, string parameterName, string expectedNamespaces)
         {
             var source = TextFileReader.ReadFile(filePath);
             var document = DocumentProvider.CreateDocument(source);
 
-            var parameterSyntax = SyntaxNodeProvider.GetSyntaxNodeFromFile<ParameterSyntax>(filePath, parameterName);
+            var parameterSyntax = SyntaxNodeProvider.GetSyntaxNodeFromDocument<ParameterSyntax>(document, parameterName);
             var syntaxGenerator = new SyntaxGeneratorProvider().GetSyntaxGenerator();
 
             var semanticModel = await document.GetSemanticModelAsync();
 
-            var usingDirectives = _target.UsingDirectives(semanticModel,new[] { parameterSyntax}, new List<string>(), syntaxGenerator);
+            var usingDirectives = _target.UsingDirectives(semanticModel, new[] { parameterSyntax }, new List<string>(), syntaxGenerator);
 
             Assert.Equal(expectedNamespaces, usingDirectives.First().Name.ToString());
         }

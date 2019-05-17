@@ -72,7 +72,8 @@ namespace AutoSetup
                 fieldDeclarations.Add(_fieldDeclarationGenerator.GetTargetFieldDeclaration(classUnderTestName, generator));
 
                 var namespaceForMoq = "Moq";
-                var usings = _usingDirectivesGenerator.UsingDirectives(new[] { namespaceForMoq }, generator);
+                var semanticModel = await document.GetSemanticModelAsync();
+                var usings = _usingDirectivesGenerator.UsingDirectives(semanticModel, constructorParameters, new[] { namespaceForMoq }, generator);
 
                 var newDocument = await new DocumentBuilder(_memberFinder, _fieldFinder, document, testClass)
                                     .WithSetupMethod(newConstructor)
