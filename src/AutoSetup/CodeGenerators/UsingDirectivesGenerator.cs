@@ -36,11 +36,15 @@ namespace AutoSetup.CodeGenerators
                 var symbols = compilation.GetSymbolsWithName(s => s == type.Text);
                 if (symbols.Any())
                 {
-                    var ns = symbols.First().ContainingNamespace.Name;
-                    if (!string.IsNullOrWhiteSpace(ns))
+                    var containingNamespace = symbols.First().ContainingNamespace;
+                    if (!containingNamespace.IsGlobalNamespace)
                     {
-                        usingDirectives.Add(generator.NamespaceImportDeclaration(ns) as UsingDirectiveSyntax);
-                    }                    
+                        var ns = containingNamespace.ToString();
+                        if (!string.IsNullOrWhiteSpace(ns))
+                        {
+                            usingDirectives.Add(generator.NamespaceImportDeclaration(ns) as UsingDirectiveSyntax);
+                        }
+                    }
                 }
             }
 
