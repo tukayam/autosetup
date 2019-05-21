@@ -20,8 +20,8 @@ Package manager command:
 3. See lightbulb "(Re-)Generate SetUp"
 
 Please note:
-* Class under test is detected based on naming convention. For a test class with name "CalculatorTests", class under test is assumed to have the name "Calculator". Class under test with name "Calculator" will be detected from within the solution. For each parameter in class under test's constructor, mocks will be generated.
-* Locate the cursor on test class name to see option to "(Re-)Generate Setup"
+* Class under test is detected based on naming convention. For a test class with name "CalculatorTests", class under test is assumed to have the name "Calculator".
+* Locate the cursor on test class name to see "(Re-)Generate Setup" option.
 
 ## License
 
