@@ -4,9 +4,11 @@
 
 # AutoSetup
 
-**AutoSetup** generates mocks for a class under test based on its dependencies (currently supports XUnit and Moq only).
+**AutoSetup** is a code analyzer that automates instantiating mocks for a class under test (using [Moq](https://github.com/moq/moq) & [XUnit](https://github.com/xunit/xunit)).
 
-Instantiating mocks for each depedency for a class under test is a time consuming task. AutoSetup saves you time by automating these steps. Just install the nuget package in your test project and generate the code for instantiating mocks with a button click.
+While writing unit tests, instantiating mocks for a class under test is a time consuming task. AutoSetup saves you time by automatically detecting class under test, its dependencies and generating code to instantiate mocks. 
+
+Just install the nuget package in your test project and generate the code for instantiating mocks with click of a button.
 
 AutoSetup can find class under test based on naming conventions (e.g for CalculatorTests the class name is expected to be Calculator). Class under test should be anywhere within the currently open solution in Visual Studio for AutoSetup to be able to find it.
 
