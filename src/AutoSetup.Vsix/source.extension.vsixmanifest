@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="AutoSetup.8CF6E3D6-1719-4D54-8074-2B17BE9942CA" Version="1.1.1" Language="en-US" Publisher="Tuba Kaya"/>
+        <Identity Id="AutoSetup.8CF6E3D6-1719-4D54-8074-2B17BE9942CA" Version="1.2.0" Language="en-US" Publisher="Tuba Kaya"/>
         <DisplayName>AutoSetup</DisplayName>
         <Description xml:space="preserve">Generates setup method for class under test.Generates setup method for </Description>
     </Metadata>
