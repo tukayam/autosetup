@@ -1,0 +1,57 @@
+variables: 
+  Major: 1
+  Minor: 2
+  Patch: 0
+  Version: $(Major).$(Minor).$(Patch)
+  Revision: $[counter(variables['Build.SourceBranchName'], 1)]
+  ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
+    VersionSuffix: ''
+  ${{ if ne( variables['Build.SourceBranchName'], 'master') }}:
+    VersionSuffix: -${{ variables['Build.SourceBranchName'] }}-$(Revision)
+  PackageVersion: ${{ variables.Version }}${{ variables.VersionSuffix }}
+
+name: ${{ variables.PackageVersion }}
+
+pool:
+  name: Azure Pipelines
+  vmImage: 'windows-latest'
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - '*'
+pr: none
+
+stages:
+- stage: build 
+  displayName: "Build & Deploy"
+  jobs:
+  - job: build
+    
+    steps:
+    - task: NuGetToolInstaller@1
+      displayName: 'Use NuGet '
+
+    - bash: |
+       nuget restore
+      displayName: 'nuget restore'       
+
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet pack'
+      inputs:
+        command: pack
+        packagesToPack: src\autosetup\autosetup.csproj
+        configuration: Release
+        versioningScheme: byEnvVar
+        versionEnvVar: PackageVersion
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+
+    - task: NuGetCommand@2
+      inputs:
+        command: 'push'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+        nuGetFeedType: 'internal'
+        publishVstsFeed: 'c823d460-b474-4667-8d06-ebae9075738e'
