@@ -57,8 +57,18 @@ stages:
       displayName: 'Publish Artifact: drop'
 
     - task: NuGetCommand@2
+      displayName: 'Publish Artifact to Azure Devops Feed'
       inputs:
         command: 'push'
         packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
         nuGetFeedType: 'internal'
         publishVstsFeed: 'c823d460-b474-4667-8d06-ebae9075738e'
+    
+    - task: NuGetCommand@2
+      displayName: 'Publish Artifact to nuget when master'
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      inputs:
+        command: 'push'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+        nuGetFeedType: 'external'
+        publishFeedCredentials: 'tubakayanuget'
