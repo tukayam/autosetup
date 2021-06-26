@@ -62,7 +62,7 @@ stages:
         command: 'push'
         packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
         nuGetFeedType: 'internal'
-        publishVstsFeed: 'c823d460-b474-4667-8d06-ebae9075738e'
+        publishVstsFeed: '4b9195ef-37f9-45f1-a5e7-3f1aaa98d7fb/de1f63f3-ab39-43e4-bf25-5a7f2b4eb87e'
     
     - task: NuGetCommand@2
       displayName: 'Publish Artifact to nuget when master'
