@@ -38,8 +38,8 @@ stages:
       displayName: 'nuget restore'
       workingDirectory: 'src'
 
-    - script: 'dotnet build src\autosetup.sln -c Release'
-      displayName: 'Build Solution'
+    - script: 'dotnet build src\autosetup\autosetup.csproj -c Release'
+      displayName: 'Build autosetup'
 
     - script: 'dotnet test src\AutoSetup.UnitTests\AutoSetup.UnitTests.csproj'
       displayName: 'Run unit tests'
