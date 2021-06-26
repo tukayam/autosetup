@@ -35,7 +35,8 @@ stages:
 
     - bash: |
        nuget restore
-      displayName: 'nuget restore'       
+      displayName: 'nuget restore'
+      workingDirectory: 'src'
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet pack'
